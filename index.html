@@ -325,9 +325,9 @@ tr.saida:hover td { background: var(--red-dim); }
   <div id="admin-panel" class="admin-panel hidden">
     <h3>Configuração GitHub</h3>
     <p class="admin-desc">
-      Preencha os dados do seu repositório GitHub. O token é salvo <strong>apenas no seu navegador</strong> (localStorage) e nunca é enviado para nenhum servidor — apenas para a API do GitHub.
+      O token é necessário <strong>apenas para fazer upload</strong> de novas planilhas. Qualquer pessoa já consegue visualizar os dados sem precisar configurar nada. O token fica salvo somente neste navegador.
       <br>
-      <strong>Como gerar o token:</strong>
+      <strong>Como gerar o token (só quem vai fazer upload precisa):</strong>
     </p>
     <div class="steps">
       <div class="step"><div class="step-num">1</div><span>Acesse <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a></span></div>
@@ -336,19 +336,11 @@ tr.saida:hover td { background: var(--red-dim); }
       <div class="step"><div class="step-num">4</div><span>Marque a permissão <code>repo</code> (primeira opção)</span></div>
       <div class="step"><div class="step-num">5</div><span>Clique em <em>Generate token</em> e cole o valor abaixo</span></div>
     </div>
-    <div class="field-grid" style="margin-top:1rem">
-      <div class="field"><label>Usuário GitHub</label><input type="text" id="cfg-owner" placeholder="seu-usuario"></div>
-      <div class="field"><label>Repositório</label><input type="text" id="cfg-repo" placeholder="nome-do-repo"></div>
-    </div>
-    <div class="field-grid">
-      <div class="field"><label>Branch</label><input type="text" id="cfg-branch" value="main"></div>
-      <div class="field"><label>Caminho do arquivo de dados</label><input type="text" id="cfg-path" value="data/dados.json"></div>
-    </div>
-    <div class="field-grid full">
+    <div class="field-grid full" style="margin-top:1rem">
       <div class="field"><label>Personal Access Token (ghp_...)</label><input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off"></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-blue" onclick="saveConfig()">💾 Salvar configuração</button>
+      <button class="btn btn-blue" onclick="saveConfig()">💾 Salvar token</button>
       <button class="btn btn-ghost" onclick="testConn()">🔌 Testar conexão</button>
       <span id="cfg-result"></span>
     </div>
@@ -358,9 +350,9 @@ tr.saida:hover td { background: var(--red-dim); }
   <div class="notice" id="notice-cfg">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <p>
-      <strong>Configure o repositório para habilitar o upload.</strong>
-      Clique em <a onclick="toggleAdmin()">⚙ configurações</a> no canto superior direito e preencha os dados do GitHub.
-      Após configurar, você poderá subir a planilha e todos que acessarem o site verão os dados atualizados.
+      <strong>Para habilitar o upload de planilhas, informe seu token.</strong>
+      Clique em <a onclick="toggleAdmin()">⚙ configurações</a> e insira o Personal Access Token do GitHub.
+      Visitantes comuns <strong>não precisam configurar nada</strong> — os dados carregam automaticamente.
     </p>
   </div>
 
@@ -500,27 +492,34 @@ tr.saida:hover td { background: var(--red-dim); }
 <script>
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 let data = { entradas:[], saidas:[], atualizadoEm:null };
-let cfg  = { owner:'', repo:'', branch:'main', path:'data/dados.json', token:'' };
+
+// ── Repositório fixo (leitura pública, sem token) ──
+const REPO = {
+  owner:  'ddhgrupoaguia',
+  repo:   'entradas-saidas',
+  branch: 'main',
+  path:   'data/dados.json'
+};
+
+// cfg guarda apenas o token (necessário só para upload)
+let cfg = { token: '' };
 
 // ── CONFIG ────────────────────────────────────────────
 function loadCfg(){
-  try{ cfg = Object.assign({owner:'',repo:'',branch:'main',path:'data/dados.json',token:''},
-    JSON.parse(localStorage.getItem('aguia_cfg_v2')||'{}')); }catch(e){}
+  try{ const saved = JSON.parse(localStorage.getItem('aguia_cfg_v2')||'{}');
+    cfg.token = saved.token || ''; }catch(e){}
 }
 function saveConfig(){
-  cfg.owner=gv('cfg-owner'); cfg.repo=gv('cfg-repo');
-  cfg.branch=gv('cfg-branch')||'main'; cfg.path=gv('cfg-path')||'data/dados.json';
-  cfg.token=gv('cfg-token');
-  localStorage.setItem('aguia_cfg_v2', JSON.stringify(cfg));
-  toast('Configuração salva!','ok');
+  cfg.token = gv('cfg-token');
+  localStorage.setItem('aguia_cfg_v2', JSON.stringify({token: cfg.token}));
+  toast('Token salvo!','ok');
   updateUI();
-  if(cfgOk()) pull();
 }
 function populateCfgForm(){
-  sv('cfg-owner',cfg.owner); sv('cfg-repo',cfg.repo);
-  sv('cfg-branch',cfg.branch); sv('cfg-path',cfg.path); sv('cfg-token',cfg.token);
+  sv('cfg-token', cfg.token);
 }
-function cfgOk(){ return !!(cfg.owner && cfg.repo && cfg.token); }
+// Token necessário apenas para upload
+function cfgOk(){ return !!cfg.token; }
 
 // ── UI STATE ──────────────────────────────────────────
 function updateUI(){
@@ -528,6 +527,8 @@ function updateUI(){
   document.getElementById('notice-cfg').classList.toggle('hidden', ok);
   document.getElementById('upload-section').classList.toggle('hidden', !ok);
 }
+// Leitura pública — sempre disponível, independe de token
+function repoReady(){ return !!(REPO.owner && REPO.repo); }
 
 // ── DRAG AND DROP ─────────────────────────────────────
 function ev(e, cls){
@@ -543,10 +544,11 @@ function handleDrop(e){
 
 // ── GITHUB ────────────────────────────────────────────
 function ghH(){ return {'Authorization':'token '+cfg.token,'Content-Type':'application/json','Accept':'application/vnd.github+json'}; }
+function ghHpub(){ return {'Accept':'application/vnd.github+json'}; }
 
 async function getSha(){
   try{
-    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+    const r=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}?ref=${REPO.branch}`,{headers:ghH()});
     if(!r.ok) return null;
     return (await r.json()).sha||null;
   }catch(e){return null;}
@@ -557,9 +559,9 @@ async function push(payload){
   try{
     const sha=await getSha();
     const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
-    const body={message:'update dados '+new Date().toISOString().slice(0,10),content,branch:cfg.branch};
+    const body={message:'update dados '+new Date().toISOString().slice(0,10),content,branch:REPO.branch};
     if(sha) body.sha=sha;
-    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`,
+    const r=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}`,
       {method:'PUT',headers:ghH(),body:JSON.stringify(body)});
     if(!r.ok){const e=await r.json();setErr('Erro');toast('GitHub: '+(e.message||r.status),'err');return false;}
     setOk('Sincronizado'); return true;
@@ -567,11 +569,11 @@ async function push(payload){
 }
 
 async function pull(){
-  if(!cfgOk()) return;
+  if(!repoReady()) return;
   setSpin('Carregando...');
   try{
-    // Lê via raw para evitar cache do GitHub
-    const rawUrl = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}/${cfg.path}`;
+    // Leitura pública via raw — não exige token
+    const rawUrl = `https://raw.githubusercontent.com/${REPO.owner}/${REPO.repo}/${REPO.branch}/${REPO.path}`;
     const r = await fetch(rawUrl + '?t=' + Date.now());
     if(r.status===404){ setOk('Pronto'); return; }
     if(!r.ok){ setErr('Erro '+r.status); return; }
@@ -580,24 +582,24 @@ async function pull(){
       data=json; buildFilters(); applyFilters(); showLastUpdate(); setOk('Atualizado');
     }
   }catch(e){
-    // fallback: tenta via API
+    // fallback via API pública
     try{
-      const r2=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+      const r2=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}?ref=${REPO.branch}`,{headers:ghHpub()});
       if(r2.status===404){setOk('Pronto');return;}
       if(!r2.ok){setErr('Erro '+r2.status);return;}
       const file=await r2.json();
       const json=JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
       if(json.entradas!==undefined){ data=json; buildFilters(); applyFilters(); showLastUpdate(); setOk('Atualizado'); }
-    }catch(e2){setErr('Erro');}
+    }catch(e2){setErr('Erro ao carregar dados');}
   }
 }
 
 async function testConn(){
   const el=document.getElementById('cfg-result');
   el.textContent='Testando...'; el.style.color='var(--text3)';
-  if(!cfg.owner||!cfg.repo||!cfg.token){el.textContent='Preencha todos os campos.';return;}
+  if(!cfg.token){el.textContent='Informe o token.';return;}
   try{
-    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:ghH()});
+    const r=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}`,{headers:ghH()});
     if(r.ok){const d=await r.json();el.textContent='✓ '+d.full_name;el.style.color='var(--green)';}
     else{el.textContent='✕ Erro '+r.status;el.style.color='var(--red)';}
   }catch(e){el.textContent='✕ Erro de rede';el.style.color='var(--red)';}
@@ -853,8 +855,9 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 // ── INIT ──────────────────────────────────────────────
 loadCfg();
 updateUI();
-if(cfgOk()) pull();
-else document.getElementById('sync-label').textContent='Não configurado';
+// Leitura pública — sempre carrega ao abrir, em qualquer computador
+pull();
+if(!cfgOk()) document.getElementById('sync-label').textContent='Somente leitura';
 </script>
 </body>
 </html>
