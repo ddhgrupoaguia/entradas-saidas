@@ -3,984 +3,918 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão de Colaboradores — RH</title>
+<title>Movimentações de Pessoal — Grupo Águia</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --primary:#1a2744;--accent:#3d7fff;--accent-h:#2d6aee;
-  --success:#16a34a;--success-bg:#dcfce7;
-  --warning:#d97706;--warning-bg:#fef3c7;
-  --danger:#dc2626;--danger-bg:#fee2e2;
-  --info:#0369a1;--info-bg:#e0f2fe;
-  --surface:#fff;--surface-2:#f8f9fc;--surface-3:#f1f3f8;
-  --border:#e2e6f0;--border-s:#c5cde3;
-  --text-1:#111827;--text-2:#4b5563;--text-3:#9ca3af;
-  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 16px rgba(0,0,0,.10);
+:root {
+  --bg: #0d0f14;
+  --bg2: #13161e;
+  --bg3: #1a1e2a;
+  --bg4: #222736;
+  --border: rgba(255,255,255,.07);
+  --border2: rgba(255,255,255,.12);
+  --text1: #f0f2f8;
+  --text2: #8b92a8;
+  --text3: #4f566b;
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,.12);
+  --green-mid: rgba(34,197,94,.25);
+  --red: #f43f5e;
+  --red-dim: rgba(244,63,94,.12);
+  --red-mid: rgba(244,63,94,.25);
+  --blue: #3b82f6;
+  --amber: #f59e0b;
+  --radius: 14px;
+  --radius-sm: 8px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--surface-2);color:var(--text-1);min-height:100vh;font-size:14px}
-.app-header{background:var(--primary);color:#fff;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
-.header-brand{display:flex;align-items:center;gap:10px}
-.header-brand h1{font-size:16px;font-weight:600}
-.header-brand span{font-size:12px;opacity:.55;margin-left:6px}
-#sync-status{font-size:12px;background:rgba(255,255,255,.12);border-radius:20px;padding:3px 12px;display:flex;align-items:center;gap:6px}
-#sync-dot{width:7px;height:7px;border-radius:50%;background:#9ca3af}
-#sync-dot.ok{background:#4ade80}
-#sync-dot.err{background:#f87171}
-#sync-dot.loading{background:#fbbf24;animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.app-body{display:grid;grid-template-columns:250px 1fr;min-height:calc(100vh - 60px)}
-.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0}
-.sidebar-label{font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;padding:0 1.2rem;margin-bottom:.4rem;margin-top:1rem}
-.nav-item{display:flex;align-items:center;gap:10px;padding:8px 1.2rem;cursor:pointer;font-size:14px;color:var(--text-2);transition:all .15s;border-left:3px solid transparent}
-.nav-item:hover{background:var(--surface-3);color:var(--text-1)}
-.nav-item.active{background:#eef2ff;color:var(--accent);border-left-color:var(--accent);font-weight:500}
-.nav-badge{margin-left:auto;font-size:11px;background:var(--surface-3);border-radius:20px;padding:1px 7px;color:var(--text-2)}
-.nav-badge.red{background:var(--danger-bg);color:var(--danger)}
-.main{padding:2rem;overflow:auto}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.card-header{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
-.card-title{font-size:14px;font-weight:600;color:var(--text-1);display:flex;align-items:center;gap:8px}
-.card-body{padding:1.4rem}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;box-shadow:var(--shadow)}
-.stat-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:6px}
-.stat-value{font-size:28px;font-weight:600;line-height:1;font-family:'DM Mono',monospace}
-.stat-sub{font-size:12px;color:var(--text-3);margin-top:4px}
-.stat-card.blue .stat-value{color:var(--accent)}
-.stat-card.green .stat-value{color:var(--success)}
-.stat-card.red .stat-value{color:var(--danger)}
-.stat-card.amber .stat-value{color:var(--warning)}
-.upload-zone{border:2px dashed var(--border-s);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface-2)}
-.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:#f0f4ff}
-.upload-zone h3{font-size:15px;font-weight:500;margin-bottom:4px}
-.upload-zone p{font-size:13px;color:var(--text-3)}
-#file-input{display:none}
-.config-panel{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1.2rem}
-label{display:block;font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:4px}
-input[type=text],input[type=password]{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text-1);outline:none}
-input:focus{border-color:var(--accent)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.field-row.full{grid-template-columns:1fr}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:var(--accent-h)}
-.btn-outline{background:transparent;border-color:var(--border-s);color:var(--text-2)}
-.btn-outline:hover{background:var(--surface-3)}
-.btn-sm{padding:4px 10px;font-size:12px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;background:var(--surface-2);border-bottom:1px solid var(--border);position:sticky;top:0;white-space:nowrap}
-td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:middle}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface-2)}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.badge-green{background:var(--success-bg);color:var(--success)}
-.badge-red{background:var(--danger-bg);color:var(--danger)}
-.badge-amber{background:var(--warning-bg);color:var(--warning)}
-.badge-blue{background:var(--info-bg);color:var(--info)}
-.badge-gray{background:var(--surface-3);color:var(--text-2)}
-.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.filter-bar input,.filter-bar select{padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text-1);outline:none}
-.filter-bar input:focus,.filter-bar select:focus{border-color:var(--accent)}
-.filter-bar input{min-width:200px}
-.progress-bar{height:4px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:8px}
-.progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s ease}
-#toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--text-1);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);animation:slideIn .3s ease;max-width:360px}
-.toast.success{background:var(--success)}
-.toast.error{background:var(--danger)}
-.toast.info{background:var(--info)}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-.tabs{display:flex;border-bottom:1px solid var(--border);gap:0}
-.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab:hover:not(.active){color:var(--text-2)}
-.empty-state{text-align:center;padding:2.5rem;color:var(--text-3)}
-.empty-state p{font-size:14px}
-.history-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
-.history-item:last-child{border-bottom:none}
-.history-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.history-meta{flex:1}
-.history-meta strong{font-size:13px;font-weight:500}
-.history-meta p{font-size:12px;color:var(--text-3);margin-top:2px}
-.view{display:none}
-.view.active{display:block}
-tr.row-new td{background:#f0fdf4}
-tr.row-exit td{background:#fff5f5}
-tr.row-changed td{background:#fffbeb}
-.section-title{font-size:20px;font-weight:600;margin-bottom:.3rem}
-.section-sub{font-size:13px;color:var(--text-3);margin-bottom:1.5rem}
-.chip{display:inline-block;background:var(--surface-3);border-radius:20px;padding:2px 8px;font-size:11px;color:var(--text-2)}
-.log-entry{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-2);padding:4px 0;border-bottom:1px solid var(--border)}
-.log-entry:last-child{border-bottom:none}
-.log-entry .ts{color:var(--text-3);margin-right:8px}
-.log-entry.ok .ts{color:var(--success)}
-.log-entry.warn .ts{color:var(--warning)}
-.log-entry.err .ts{color:var(--danger)}
-.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:1rem;display:flex;align-items:flex-start;gap:8px}
-.alert-warning{background:var(--warning-bg);color:#92400e;border:1px solid #fcd34d}
-.alert-info{background:var(--info-bg);color:#075985;border:1px solid #7dd3fc}
-.sep{height:1px;background:var(--border);margin:1rem 0}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text1);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,15,20,.85);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--green) 0%, #16a34a 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-text h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text1);
+  letter-spacing: -0.3px;
+}
+
+.logo-text p {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 400;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sync-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.sync-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--text3);
+  flex-shrink: 0;
+}
+.sync-dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.sync-dot.err { background: var(--red); }
+.sync-dot.spin { background: var(--amber); animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.admin-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text3);
+  padding: 5px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .2s;
+}
+.admin-btn:hover { color: var(--text2); border-color: var(--border2); background: var(--bg3); }
+
+/* ── MAIN ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+/* ── ADMIN PANEL ── */
+.admin-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: fadeIn .2s ease;
+}
+.admin-panel.hidden { display: none; }
+.admin-panel h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text1);
+}
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+.field-grid.full { grid-template-columns: 1fr; }
+.field label { display: block; font-size: 11px; color: var(--text3); margin-bottom: 4px; font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.field input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text1);
+  outline: none;
+  transition: border-color .15s;
+}
+.field input:focus { border-color: var(--blue); }
+.btn-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  border: none; font-family: 'Inter', sans-serif; transition: all .15s;
+}
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-blue:hover { background: #2563eb; }
+.btn-ghost { background: var(--bg3); color: var(--text2); border: 1px solid var(--border2); }
+.btn-ghost:hover { background: var(--bg4); }
+#cfg-result { font-size: 12px; color: var(--text3); }
+
+/* ── UPLOAD BAR ── */
+.upload-bar {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.upload-bar.hidden { display: none; }
+
+.upload-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 18px;
+  background: var(--green);
+  color: #000;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none;
+  font-family: 'Inter', sans-serif;
+  transition: all .2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.upload-btn:hover { background: #16a34a; transform: translateY(-1px); }
+
+.upload-hint { font-size: 12px; color: var(--text3); line-height: 1.6; }
+.upload-hint strong { color: var(--text2); }
+
+#file-input { display: none; }
+
+.prog-wrap { flex: 1; min-width: 180px; display: none; }
+.prog-top { display: flex; justify-content: space-between; font-size: 11px; color: var(--text2); margin-bottom: 5px; }
+.prog-bar { height: 3px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .3s ease; }
+
+/* ── KPI CARDS ── */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+
+.kpi {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .2s;
+}
+.kpi:hover { border-color: var(--border2); }
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+.kpi.green::before { background: linear-gradient(90deg, var(--green), transparent); }
+.kpi.red::before { background: linear-gradient(90deg, var(--red), transparent); }
+.kpi.blue::before { background: linear-gradient(90deg, var(--blue), transparent); }
+.kpi.amber::before { background: linear-gradient(90deg, var(--amber), transparent); }
+
+.kpi-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .06em; font-weight: 500; margin-bottom: 10px; }
+.kpi-value { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+.kpi.green .kpi-value { color: var(--green); }
+.kpi.red .kpi-value { color: var(--red); }
+.kpi.blue .kpi-value { color: var(--blue); }
+.kpi.amber .kpi-value { color: var(--amber); }
+.kpi-sub { font-size: 11px; color: var(--text3); }
+
+.kpi-icon {
+  position: absolute;
+  right: 1.2rem; top: 50%;
+  transform: translateY(-50%);
+  opacity: .06;
+}
+
+/* ── SECTION ── */
+.section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 1.1rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.panel-title .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.panel-count {
+  font-size: 12px;
+  color: var(--text3);
+  background: var(--bg3);
+  border-radius: 20px;
+  padding: 2px 9px;
+}
+
+/* ── FILTERS ── */
+.filters {
+  padding: .8rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filters select {
+  padding: 6px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text1);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .15s;
+  flex: 1;
+  min-width: 120px;
+}
+.filters select:focus { border-color: var(--blue); }
+
+/* ── TABLE ── */
+.table-wrap { max-height: 440px; overflow-y: auto; }
+.table-wrap::-webkit-scrollbar { width: 4px; }
+.table-wrap::-webkit-scrollbar-track { background: transparent; }
+.table-wrap::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 4px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th {
+  text-align: left;
+  padding: 9px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  white-space: nowrap;
+}
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr { transition: background .1s; }
+tr:hover td { background: var(--bg3); }
+
+.name-cell { font-weight: 500; color: var(--text1); }
+.date-cell { font-family: 'Inter', monospace; font-size: 12px; color: var(--text2); }
+.emp-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--bg4);
+  color: var(--text2);
+  white-space: nowrap;
+}
+.motivo-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  background: var(--red-dim);
+  color: var(--red);
+  white-space: nowrap;
+}
+
+/* ── INDICATOR (left strip) ── */
+tr.entrada td:first-child { border-left: 2px solid var(--green); }
+tr.saida td:first-child { border-left: 2px solid var(--red); }
+
+/* ── BAR CHART PANEL ── */
+.bar-panel { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.4rem; margin-bottom: 1.5rem; }
+.bar-panel-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 8px; }
+
+.bars-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+.bars-section h4 { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 12px; font-weight: 600; }
+
+.bar-item { margin-bottom: 10px; }
+.bar-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.bar-label { font-size: 12px; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
+.bar-val { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; }
+.bar-track { height: 5px; background: var(--bg4); border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 5px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+
+/* ── LAST UPDATE ── */
+.last-update {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 1.2rem;
+}
+.last-update strong { color: var(--text2); }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 3rem 1.5rem; color: var(--text3); }
+.empty svg { margin-bottom: 10px; opacity: .3; }
+.empty p { font-size: 13px; }
+
+/* ── TOAST ── */
+#toasts { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text1);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  animation: tin .3s ease;
+  max-width: 340px;
+}
+.toast.ok { border-color: var(--green); }
+.toast.err { border-color: var(--red); }
+@keyframes tin { from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
 
-<header class="app-header">
-  <div class="header-brand">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    <h1>Gestão de Colaboradores <span>PGO · GitHub Sync</span></h1>
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="logo-text">
+      <h1>Movimentações de Pessoal</h1>
+      <p>Grupo Águia · Entradas e Saídas</p>
+    </div>
   </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <span id="sync-status"><span id="sync-dot"></span><span id="sync-label">Não configurado</span></span>
-    <span id="header-info" style="font-size:12px;opacity:.55"></span>
+  <div class="header-right">
+    <div class="sync-pill"><span class="sync-dot" id="sync-dot"></span><span id="sync-label">—</span></div>
+    <button class="admin-btn" onclick="toggleAdmin()">⚙ configurações</button>
   </div>
 </header>
 
-<div class="app-body">
-  <nav class="sidebar">
-    <div class="sidebar-label">Navegação</div>
-    <div class="nav-item active" onclick="showView('dashboard')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      Dashboard
-    </div>
-    <div class="nav-item" onclick="showView('ativos')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-      Colaboradores Ativos
-      <span class="nav-badge" id="nav-ativos">—</span>
-    </div>
-    <div class="nav-item" onclick="showView('saidas')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Desligamentos
-      <span class="nav-badge red" id="nav-saidas">—</span>
-    </div>
-    <div class="nav-item" onclick="showView('movimentacoes')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      Movimentações
-      <span class="nav-badge" id="nav-mov">—</span>
-    </div>
-    <div class="nav-item" onclick="showView('historico')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Histórico de Cargas
-      <span class="nav-badge" id="nav-hist">—</span>
-    </div>
-    <div class="nav-item" onclick="showView('log')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Log do Sistema
-    </div>
-    <div class="sidebar-label">Ações</div>
-    <div class="nav-item" onclick="showView('upload')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-      Nova Planilha
-    </div>
-    <div class="nav-item" onclick="showView('config')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-      Configurar GitHub
-    </div>
-    <div class="nav-item" onclick="exportCSV()">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Exportar CSV
-    </div>
-  </nav>
+<div class="main">
 
-  <main class="main">
+  <!-- ADMIN -->
+  <div id="admin-panel" class="admin-panel hidden">
+    <h3>Configuração GitHub — quem faz upload</h3>
+    <div class="field-grid">
+      <div class="field"><label>Usuário GitHub</label><input type="text" id="cfg-owner" placeholder="ddhgrupoaguia"></div>
+      <div class="field"><label>Repositório</label><input type="text" id="cfg-repo" placeholder="entradas-saidas"></div>
+    </div>
+    <div class="field-grid">
+      <div class="field"><label>Branch</label><input type="text" id="cfg-branch" value="main"></div>
+      <div class="field"><label>Caminho do arquivo</label><input type="text" id="cfg-path" value="data/dados.json"></div>
+    </div>
+    <div class="field-grid full">
+      <div class="field"><label>Personal Access Token</label><input type="password" id="cfg-token" placeholder="ghp_..."></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="saveConfig()">Salvar configuração</button>
+      <button class="btn btn-ghost" onclick="testConn()">Testar conexão</button>
+      <span id="cfg-result"></span>
+    </div>
+  </div>
 
-    <!-- DASHBOARD -->
-    <div class="view active" id="view-dashboard">
-      <div class="section-title">Dashboard</div>
-      <div class="section-sub" id="dash-sub">Carregue uma planilha PGO para começar.</div>
-      <div id="config-alert" class="alert alert-warning" style="display:none">
-        ⚠️ GitHub não configurado — dados visíveis apenas neste navegador. <a href="#" onclick="showView('config');return false" style="color:inherit;font-weight:600">Configurar agora →</a>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-card blue"><div class="stat-label">Ativos</div><div class="stat-value" id="s-ativos">—</div><div class="stat-sub">aba Base</div></div>
-        <div class="stat-card red"><div class="stat-label">Desligados</div><div class="stat-value" id="s-saidas">—</div><div class="stat-sub">aba Saídas</div></div>
-        <div class="stat-card green"><div class="stat-label">Admissões</div><div class="stat-value" id="s-adm">—</div><div class="stat-sub">última carga</div></div>
-        <div class="stat-card amber"><div class="stat-label">Alterações</div><div class="stat-value" id="s-alt">—</div><div class="stat-sub">última carga</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
-        <div class="card">
-          <div class="card-header"><div class="card-title">Colaboradores por Empresa</div></div>
-          <div class="card-body" id="chart-empresa"><div class="empty-state" style="padding:1rem"><p>Sem dados</p></div></div>
-        </div>
-        <div class="card">
-          <div class="card-header"><div class="card-title">Distribuição por Nível</div></div>
-          <div class="card-body" id="chart-nivel"><div class="empty-state" style="padding:1rem"><p>Sem dados</p></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Últimas movimentações detectadas</div><button class="btn btn-outline btn-sm" onclick="showView('movimentacoes')">Ver todas →</button></div>
-        <div class="card-body" id="recent-movs"><div class="empty-state" style="padding:1rem"><p>Nenhuma movimentação.</p></div></div>
+  <!-- UPLOAD -->
+  <div id="upload-bar" class="upload-bar hidden">
+    <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Subir nova planilha
+    </button>
+    <input type="file" id="file-input" accept=".xlsm,.xlsx,.xls" onchange="handleFile(event)">
+    <div class="upload-hint">Arquivo <strong>.xlsm</strong> com abas <strong>Base</strong> e <strong>Saídas</strong>. Após o upload, todos que acessarem o link verão os dados atualizados.</div>
+    <div class="prog-wrap" id="prog-wrap">
+      <div class="prog-top"><span id="prog-label">Processando...</span><span id="prog-pct">0%</span></div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- ÚLTIMA ATUALIZAÇÃO -->
+  <div class="last-update" id="last-update">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    Dados atualizados em: <strong id="last-update-val">—</strong>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi green">
+      <div class="kpi-label">Total de Entradas</div>
+      <div class="kpi-value" id="kpi-entradas">—</div>
+      <div class="kpi-sub" id="kpi-entradas-sub">no filtro atual</div>
+      <div class="kpi-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
       </div>
     </div>
+    <div class="kpi red">
+      <div class="kpi-label">Total de Saídas</div>
+      <div class="kpi-value" id="kpi-saidas">—</div>
+      <div class="kpi-sub" id="kpi-saidas-sub">no filtro atual</div>
+      <div class="kpi-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </div>
+    </div>
+    <div class="kpi blue">
+      <div class="kpi-label">Saldo do Período</div>
+      <div class="kpi-value" id="kpi-saldo">—</div>
+      <div class="kpi-sub">entradas − saídas</div>
+      <div class="kpi-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+      </div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Empresas Envolvidas</div>
+      <div class="kpi-value" id="kpi-empresas">—</div>
+      <div class="kpi-sub">no filtro atual</div>
+      <div class="kpi-icon">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      </div>
+    </div>
+  </div>
 
-    <!-- ATIVOS -->
-    <div class="view" id="view-ativos">
-      <div class="section-title">Colaboradores Ativos</div>
-      <div class="section-sub">Aba "Base" da planilha PGO — colaboradores com vínculo ativo.</div>
-      <div class="card">
-        <div class="card-header">
-          <div class="filter-bar">
-            <input type="text" id="search-ativos" placeholder="Buscar por nome, empresa, cargo..." oninput="filterAtivos()">
-            <select id="filter-empresa" onchange="filterAtivos()"><option value="">Todas as empresas</option></select>
-            <select id="filter-base" onchange="filterAtivos()"><option value="">Todos os níveis</option></select>
-            <select id="filter-regime" onchange="filterAtivos()"><option value="">CLT / PJ</option></select>
-          </div>
-          <span style="font-size:12px;color:var(--text-3)" id="count-ativos"></span>
+  <!-- BARRAS POR EMPRESA -->
+  <div class="bar-panel" id="bar-panel">
+    <div class="bar-panel-title">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+      Distribuição por Empresa
+    </div>
+    <div class="bars-grid">
+      <div>
+        <h4>● Entradas</h4>
+        <div id="bars-entradas"></div>
+      </div>
+      <div>
+        <h4>● Saídas</h4>
+        <div id="bars-saidas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELAS LADO A LADO -->
+  <div class="section-grid">
+
+    <!-- ENTRADAS -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="dot" style="background:var(--green);box-shadow:0 0 6px var(--green)"></span>
+          Entradas
         </div>
-        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
-          <table><thead><tr>
-            <th>Nome</th><th>Empresa</th><th>Base</th><th>Especificação</th>
-            <th>Abrangência</th><th>Nível</th><th>Regime</th><th>Local</th>
-            <th>Admissão</th><th>Superior Imediato</th><th>Líder?</th>
-          </tr></thead>
-          <tbody id="tbody-ativos"><tr><td colspan="11"><div class="empty-state">Nenhum dado.</div></td></tr></tbody></table>
-        </div>
+        <span class="panel-count" id="count-e">—</span>
+      </div>
+      <div class="filters">
+        <select id="f-mes-e" onchange="applyFilters()"><option value="">Todos os meses</option></select>
+        <select id="f-emp-e" onchange="applyFilters()"><option value="">Todas as empresas</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Empresa</th><th>Admissão</th></tr></thead>
+          <tbody id="tbody-e">
+            <tr><td colspan="3"><div class="empty">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <p>Nenhum dado ainda</p>
+            </div></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- SAÍDAS -->
-    <div class="view" id="view-saidas">
-      <div class="section-title">Desligamentos</div>
-      <div class="section-sub">Aba "Saídas" da planilha PGO — histórico completo de desligamentos.</div>
-      <div class="card">
-        <div class="card-header">
-          <div class="filter-bar">
-            <input type="text" id="search-saidas" placeholder="Buscar por nome ou empresa..." oninput="filterSaidas()">
-            <select id="filter-empresa-saidas" onchange="filterSaidas()"><option value="">Todas as empresas</option></select>
-            <select id="filter-motivo" onchange="filterSaidas()"><option value="">Todos os motivos</option></select>
-          </div>
-          <span style="font-size:12px;color:var(--text-3)" id="count-saidas"></span>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span class="dot" style="background:var(--red);box-shadow:0 0 6px var(--red)"></span>
+          Saídas
         </div>
-        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
-          <table><thead><tr>
-            <th>Nome</th><th>Empresa</th><th>Admissão</th>
-            <th>Desligamento</th><th>Motivo</th>
-          </tr></thead>
-          <tbody id="tbody-saidas"><tr><td colspan="5"><div class="empty-state">Nenhum dado.</div></td></tr></tbody></table>
-        </div>
+        <span class="panel-count" id="count-s">—</span>
+      </div>
+      <div class="filters">
+        <select id="f-mes-s" onchange="applyFilters()"><option value="">Todos os meses</option></select>
+        <select id="f-emp-s" onchange="applyFilters()"><option value="">Todas as empresas</option></select>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Empresa</th><th>Desligamento</th><th>Motivo</th></tr></thead>
+          <tbody id="tbody-s">
+            <tr><td colspan="4"><div class="empty">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <p>Nenhum dado ainda</p>
+            </div></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    <!-- MOVIMENTAÇÕES -->
-    <div class="view" id="view-movimentacoes">
-      <div class="section-title">Movimentações</div>
-      <div class="section-sub">Admissões, desligamentos e alterações detectados automaticamente entre cargas do PGO.</div>
-      <div class="card">
-        <div class="card-header">
-          <div class="tabs" style="border:none;margin:0">
-            <div class="tab active" onclick="showMovTab('all',this)">Todas</div>
-            <div class="tab" onclick="showMovTab('new',this)">Admissões</div>
-            <div class="tab" onclick="showMovTab('exit',this)">Desligamentos</div>
-            <div class="tab" onclick="showMovTab('changed',this)">Alterações</div>
-          </div>
-        </div>
-        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
-          <table><thead><tr>
-            <th>Tipo</th><th>Nome</th><th>Empresa</th><th>Base</th>
-            <th>Nível</th><th>Observação</th><th>Detectado em</th>
-          </tr></thead>
-          <tbody id="tbody-movs"><tr><td colspan="7"><div class="empty-state">Nenhuma movimentação.</div></td></tr></tbody></table>
-        </div>
-      </div>
-    </div>
-
-    <!-- HISTÓRICO -->
-    <div class="view" id="view-historico">
-      <div class="section-title">Histórico de Cargas</div>
-      <div class="section-sub">Registro de cada planilha PGO processada.</div>
-      <div class="card"><div class="card-body" id="historico-list"><div class="empty-state"><p>Nenhuma carga.</p></div></div></div>
-    </div>
-
-    <!-- LOG -->
-    <div class="view" id="view-log">
-      <div class="section-title">Log do Sistema</div>
-      <div class="section-sub">Registro detalhado de todas as operações.</div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">Eventos</div><button class="btn btn-outline btn-sm" onclick="clearLog()">Limpar</button></div>
-        <div class="card-body" id="log-container" style="max-height:500px;overflow-y:auto"></div>
-      </div>
-    </div>
-
-    <!-- UPLOAD -->
-    <div class="view" id="view-upload">
-      <div class="section-title">Nova Planilha PGO</div>
-      <div class="section-sub">Carregue o arquivo <strong>PGO_2026_VF.xlsm</strong> (ou versão mais recente). O sistema lê as abas <strong>Base</strong> e <strong>Saídas</strong> automaticamente.</div>
-      <div id="upload-config-warn" class="alert alert-warning" style="display:none">
-        ⚠️ GitHub não configurado — os dados serão salvos apenas neste navegador. <a href="#" onclick="showView('config');return false" style="color:inherit;font-weight:600">Configurar agora</a>
-      </div>
-      <div class="card" style="margin-bottom:1rem">
-        <div class="card-header"><div class="card-title">Upload do arquivo</div></div>
-        <div class="card-body">
-          <div class="upload-zone" id="upload-zone"
-            onclick="document.getElementById('file-input').click()"
-            ondragover="event.preventDefault();this.classList.add('drag')"
-            ondragleave="this.classList.remove('drag')"
-            ondrop="handleDrop(event)">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 12px;display:block;color:var(--text-3)">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            <h3>Arraste ou clique para selecionar</h3>
-            <p>Arquivo .xlsm ou .xlsx com abas "Base" e "Saídas"</p>
-          </div>
-          <input type="file" id="file-input" accept=".xlsm,.xlsx,.xls" onchange="handleFileSelect(event)">
-          <div id="upload-progress" style="display:none;margin-top:1rem">
-            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);margin-bottom:4px">
-              <span id="progress-label">Processando...</span><span id="progress-pct">0%</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">O que o sistema faz ao receber a planilha</div></div>
-        <div class="card-body" style="font-size:13px;color:var(--text-2)">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
-            <div>
-              <p style="font-weight:500;color:var(--text-1);margin-bottom:6px">📋 Aba "Base" (ativos)</p>
-              <ul style="list-style:none;padding-left:12px;display:flex;flex-direction:column;gap:4px">
-                <li>→ Lê todos os colaboradores ativos</li>
-                <li>→ Detecta novos nomes (admissões)</li>
-                <li>→ Detecta alterações de cargo, empresa, nível</li>
-                <li>→ Detecta nomes que saíram da aba (desligamentos)</li>
-                <li>→ Chave de identificação: <strong>Nome completo</strong></li>
-              </ul>
-            </div>
-            <div>
-              <p style="font-weight:500;color:var(--text-1);margin-bottom:6px">🚪 Aba "Saídas" (desligamentos)</p>
-              <ul style="list-style:none;padding-left:12px;display:flex;flex-direction:column;gap:4px">
-                <li>→ Lê o histórico completo de saídas</li>
-                <li>→ Registra empresa, data de admissão e desligamento</li>
-                <li>→ Registra o motivo do desligamento</li>
-                <li>→ Detecta novos desligamentos na carga</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CONFIG -->
-    <div class="view" id="view-config">
-      <div class="section-title">Configurar GitHub</div>
-      <div class="section-sub">Configure uma vez. Os dados ficam no repositório e todos os usuários veem sempre a versão mais recente.</div>
-      <div class="alert alert-info" style="margin-bottom:1.2rem">
-        ℹ️ Esta configuração fica salva neste navegador. Usuários que só consultam os dados não precisam configurar nada.
-      </div>
-      <div class="card" style="margin-bottom:1rem">
-        <div class="card-header"><div class="card-title">Dados do repositório</div></div>
-        <div class="card-body">
-          <div class="field-row">
-            <div><label>Usuário ou organização GitHub</label><input type="text" id="cfg-owner" placeholder="ex: grupo-aguia"></div>
-            <div><label>Nome do repositório</label><input type="text" id="cfg-repo" placeholder="ex: rh-pgo"></div>
-          </div>
-          <div class="field-row">
-            <div><label>Branch</label><input type="text" id="cfg-branch" placeholder="main" value="main"></div>
-            <div><label>Caminho do arquivo de dados</label><input type="text" id="cfg-path" placeholder="data/pgo.json" value="data/pgo.json"></div>
-          </div>
-          <div class="field-row full" style="margin-top:4px">
-            <div><label>GitHub Personal Access Token</label><input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div>
-          </div>
-          <div class="alert alert-warning" style="margin-top:10px;font-size:12px">
-            ⚠️ O token fica salvo apenas neste navegador. Use escopo mínimo: apenas <code>repo</code>.
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;align-items:center">
-        <button class="btn btn-primary" onclick="saveConfig()">💾 Salvar configuração</button>
-        <button class="btn btn-outline" onclick="testConnection()">🔌 Testar conexão</button>
-        <span id="test-result" style="font-size:13px;color:var(--text-3)"></span>
-      </div>
-    </div>
-
-  </main>
+  </div>
 </div>
 
-<div id="toast-container"></div>
+<div id="toasts"></div>
 
 <script>
 // ══════════════════════════════════════════════════════
-// ESTADO
-// ══════════════════════════════════════════════════════
-const LS = { ATIVOS:'pgo_ativos_v1', SAIDAS:'pgo_saidas_v1', MOVS:'pgo_movs_v1', HIST:'pgo_hist_v1', LOGS:'pgo_logs_v1', CFG:'pgo_cfg_v1' };
+const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 
-let state = { ativos:[], saidas:[], movimentacoes:[], historico:[], logs:[] };
-let cfg = { owner:'', repo:'', branch:'main', path:'data/pgo.json', token:'' };
-let currentMovFilter = 'all';
+let data = { entradas:[], saidas:[], atualizadoEm:null };
+let cfg  = { owner:'', repo:'', branch:'main', path:'data/dados.json', token:'' };
 
-// ══════════════════════════════════════════════════════
-// PERSISTÊNCIA LOCAL
-// ══════════════════════════════════════════════════════
-function saveLocal() {
-  try {
-    localStorage.setItem(LS.ATIVOS, JSON.stringify(state.ativos));
-    localStorage.setItem(LS.SAIDAS, JSON.stringify(state.saidas));
-    localStorage.setItem(LS.MOVS, JSON.stringify(state.movimentacoes));
-    localStorage.setItem(LS.HIST, JSON.stringify(state.historico));
-    localStorage.setItem(LS.LOGS, JSON.stringify(state.logs.slice(-300)));
-  } catch(e) { addLog('err','Erro localStorage: '+e.message); }
+// ── CONFIG ────────────────────────────────────────────
+function loadCfg(){
+  try{ cfg = Object.assign({owner:'',repo:'',branch:'main',path:'data/dados.json',token:''},
+    JSON.parse(localStorage.getItem('aguia_cfg_v2')||'{}')); }catch(e){}
+}
+function saveConfig(){
+  cfg.owner=gv('cfg-owner'); cfg.repo=gv('cfg-repo');
+  cfg.branch=gv('cfg-branch')||'main'; cfg.path=gv('cfg-path')||'data/dados.json';
+  cfg.token=gv('cfg-token');
+  localStorage.setItem('aguia_cfg_v2', JSON.stringify(cfg));
+  toast('Configuração salva!','ok');
+  updateUploadVis();
+}
+function populateCfgForm(){
+  sv('cfg-owner',cfg.owner); sv('cfg-repo',cfg.repo);
+  sv('cfg-branch',cfg.branch); sv('cfg-path',cfg.path); sv('cfg-token',cfg.token);
+}
+function cfgOk(){ return !!(cfg.owner && cfg.repo && cfg.token); }
+
+// ── GITHUB ────────────────────────────────────────────
+function ghH(){ return {'Authorization':'token '+cfg.token,'Content-Type':'application/json','Accept':'application/vnd.github+json'}; }
+
+async function getSha(){
+  try{
+    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+    if(!r.ok) return null;
+    return (await r.json()).sha||null;
+  }catch(e){return null;}
 }
 
-function loadLocal() {
-  try {
-    state.ativos = JSON.parse(localStorage.getItem(LS.ATIVOS)||'[]');
-    state.saidas = JSON.parse(localStorage.getItem(LS.SAIDAS)||'[]');
-    state.movimentacoes = JSON.parse(localStorage.getItem(LS.MOVS)||'[]');
-    state.historico = JSON.parse(localStorage.getItem(LS.HIST)||'[]');
-    state.logs = JSON.parse(localStorage.getItem(LS.LOGS)||'[]');
-    const c = JSON.parse(localStorage.getItem(LS.CFG)||'{}');
-    cfg = Object.assign({owner:'',repo:'',branch:'main',path:'data/pgo.json',token:''},c);
-  } catch(e) { console.warn(e); }
+async function push(payload){
+  setSpin('Salvando...');
+  try{
+    const sha=await getSha();
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const body={message:'update '+new Date().toISOString().slice(0,10),content,branch:cfg.branch};
+    if(sha) body.sha=sha;
+    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`,
+      {method:'PUT',headers:ghH(),body:JSON.stringify(body)});
+    if(!r.ok){const e=await r.json();setErr('Erro');toast('GitHub: '+(e.message||r.status),'err');return false;}
+    setOk('Sincronizado'); return true;
+  }catch(e){setErr('Erro rede');return false;}
 }
 
-// ══════════════════════════════════════════════════════
-// GITHUB API
-// ══════════════════════════════════════════════════════
-function githubConfigured() { return !!(cfg.owner && cfg.repo && cfg.token); }
-
-async function ghHeaders() {
-  return { 'Authorization':'token '+cfg.token, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' };
-}
-
-async function getFileSha() {
-  try {
-    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`, { headers: await ghHeaders() });
-    if (!r.ok) return null;
-    return (await r.json()).sha || null;
-  } catch(e) { return null; }
-}
-
-async function pushToGitHub(payload) {
-  if (!githubConfigured()) { addLog('warn','GitHub não configurado. Salvo apenas localmente.'); return false; }
-  setSyncLoading('Sincronizando...');
-  try {
-    const sha = await getFileSha();
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
-    const body = { message:`chore: atualizar PGO ${new Date().toISOString().slice(0,10)}`, content, branch: cfg.branch };
-    if (sha) body.sha = sha;
-    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`,
-      { method:'PUT', headers: await ghHeaders(), body: JSON.stringify(body) });
-    if (!r.ok) {
-      const err = await r.json();
-      addLog('err','GitHub push falhou: '+(err.message||r.status));
-      setSyncError('Falha'); toast('Falha ao sincronizar: '+(err.message||r.status),'error'); return false;
+async function pull(){
+  if(!cfgOk()) return;
+  setSpin('Carregando...');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`,{headers:ghH()});
+    if(r.status===404){setOk('Pronto');return;}
+    if(!r.ok){setErr('Erro '+r.status);return;}
+    const file=await r.json();
+    const json=JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
+    if(json.entradas!==undefined){
+      data=json; buildFilters(); applyFilters(); showLastUpdate(); setOk('Atualizado');
     }
-    addLog('ok','GitHub sincronizado com sucesso.');
-    setSyncOk('Sincronizado'); return true;
-  } catch(e) { addLog('err','Erro GitHub: '+e.message); setSyncError('Erro de rede'); return false; }
+  }catch(e){setErr('Erro');}
 }
 
-async function pullFromGitHub() {
-  if (!githubConfigured()) return;
-  setSyncLoading('Buscando dados...');
-  addLog('ok','Buscando dados do GitHub...');
-  try {
-    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`, { headers: await ghHeaders() });
-    if (r.status === 404) { addLog('warn','Arquivo não encontrado no GitHub. Aguardando primeira carga.'); setSyncOk('Pronto'); return; }
-    if (!r.ok) { addLog('err','Erro ao buscar: '+r.status); setSyncError('Erro'); return; }
-    const file = await r.json();
-    const json = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
-    if (json.ativos !== undefined) {
-      state.ativos = json.ativos || [];
-      state.saidas = json.saidas || [];
-      state.movimentacoes = json.movimentacoes || [];
-      state.historico = json.historico || [];
-      saveLocal(); refreshAll();
-      addLog('ok',`Dados carregados do GitHub: ${state.ativos.length} ativos, ${state.saidas.length} saídas.`);
-      setSyncOk('Sincronizado');
-      toast('Dados atualizados do GitHub!','success');
-    }
-  } catch(e) { addLog('err','Falha ao buscar dados: '+e.message); setSyncError('Erro'); }
+async function testConn(){
+  const el=document.getElementById('cfg-result');
+  el.textContent='Testando...';el.style.color='var(--text3)';
+  if(!cfg.owner||!cfg.repo||!cfg.token){el.textContent='Preencha todos os campos.';return;}
+  try{
+    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:ghH()});
+    if(r.ok){const d=await r.json();el.textContent='✓ '+d.full_name;el.style.color='var(--green)';}
+    else{el.textContent='✕ Erro '+r.status;el.style.color='var(--red)';}
+  }catch(e){el.textContent='✕ Erro de rede';el.style.color='var(--red)';}
 }
 
-async function testConnection() {
-  const el = document.getElementById('test-result');
-  el.textContent='Testando...'; el.style.color='var(--warning)';
-  if (!cfg.owner||!cfg.repo||!cfg.token){el.textContent='✕ Preencha todos os campos.';el.style.color='var(--danger)';return;}
-  try {
-    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:await ghHeaders()});
-    if(r.ok){const d=await r.json();el.textContent='✓ Conectado: '+d.full_name;el.style.color='var(--success)';addLog('ok','Conexão OK: '+d.full_name);}
-    else{el.textContent='✕ Erro '+r.status;el.style.color='var(--danger)';}
-  } catch(e){el.textContent='✕ Erro de rede';el.style.color='var(--danger)';}
+// ── PROCESSAMENTO ─────────────────────────────────────
+function handleFile(e){if(e.target.files[0])processFile(e.target.files[0]);document.getElementById('file-input').value='';}
+
+function setP(pct,label){
+  document.getElementById('prog-wrap').style.display='block';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-label').textContent=label;
 }
 
-function saveConfig() {
-  cfg.owner=document.getElementById('cfg-owner').value.trim();
-  cfg.repo=document.getElementById('cfg-repo').value.trim();
-  cfg.branch=document.getElementById('cfg-branch').value.trim()||'main';
-  cfg.path=document.getElementById('cfg-path').value.trim()||'data/pgo.json';
-  cfg.token=document.getElementById('cfg-token').value.trim();
-  localStorage.setItem(LS.CFG, JSON.stringify(cfg));
-  toast('Configuração salva!','success');
-  addLog('ok','Configuração GitHub salva: '+cfg.owner+'/'+cfg.repo);
-  updateSyncStatus(); showView('dashboard');
-}
-
-function setSyncOk(m){document.getElementById('sync-dot').className='ok';document.getElementById('sync-label').textContent=m;}
-function setSyncError(m){document.getElementById('sync-dot').className='err';document.getElementById('sync-label').textContent=m;}
-function setSyncLoading(m){document.getElementById('sync-dot').className='loading';document.getElementById('sync-label').textContent=m;}
-function updateSyncStatus(){
-  if(!githubConfigured()){
-    document.getElementById('sync-dot').className='';
-    document.getElementById('sync-label').textContent='Não configurado';
-    document.getElementById('config-alert').style.display='flex';
-    document.getElementById('upload-config-warn').style.display='flex';
-  } else {
-    setSyncOk('Configurado');
-    document.getElementById('config-alert').style.display='none';
-    document.getElementById('upload-config-warn').style.display='none';
-  }
-}
-
-// ══════════════════════════════════════════════════════
-// NAVEGAÇÃO
-// ══════════════════════════════════════════════════════
-function showView(id) {
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('view-'+id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>{
-    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active');
-  });
-  if(id==='config') populateConfigForm();
-}
-
-function populateConfigForm(){
-  document.getElementById('cfg-owner').value=cfg.owner||'';
-  document.getElementById('cfg-repo').value=cfg.repo||'';
-  document.getElementById('cfg-branch').value=cfg.branch||'main';
-  document.getElementById('cfg-path').value=cfg.path||'data/pgo.json';
-  document.getElementById('cfg-token').value=cfg.token||'';
-}
-
-// ══════════════════════════════════════════════════════
-// LOG E TOAST
-// ══════════════════════════════════════════════════════
-function addLog(type,msg){
-  state.logs.push({type,msg,ts:new Date().toLocaleTimeString('pt-BR')});
-  renderLog();
-}
-function renderLog(){
-  const c=document.getElementById('log-container');
-  if(!state.logs.length){c.innerHTML='<div class="empty-state"><p>Nenhum evento.</p></div>';return;}
-  c.innerHTML=[...state.logs].reverse().map(l=>`<div class="log-entry ${l.type}"><span class="ts">[${l.ts}]</span>${esc(l.msg)}</div>`).join('');
-}
-function clearLog(){state.logs=[];saveLocal();renderLog();}
-function toast(msg,type='info',dur=4000){
-  const el=document.createElement('div');
-  el.className='toast '+type;
-  el.innerHTML=(type==='success'?'✓ ':type==='error'?'✕ ':'ℹ ')+esc(msg);
-  document.getElementById('toast-container').appendChild(el);
-  setTimeout(()=>el.remove(),dur);
-}
-
-// ══════════════════════════════════════════════════════
-// PROCESSAMENTO DA PLANILHA PGO
-// ══════════════════════════════════════════════════════
-function handleDrop(e){
-  e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');
-  if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
-}
-function handleFileSelect(e){if(e.target.files[0]) processFile(e.target.files[0]);}
-
-function setProgress(pct,label){
-  document.getElementById('upload-progress').style.display='block';
-  document.getElementById('progress-fill').style.width=pct+'%';
-  document.getElementById('progress-pct').textContent=pct+'%';
-  document.getElementById('progress-label').textContent=label;
-}
-
-// Encontra a linha de header na aba (procura por texto conhecido)
-function findHeaderRow(rawRows, knownValue) {
-  for(let i=0;i<Math.min(rawRows.length,15);i++){
-    if(rawRows[i].some(c=>String(c).trim()===knownValue)) return i;
-  }
+function findHRow(rows,kw){
+  for(let i=0;i<Math.min(rows.length,15);i++)
+    if(rows[i].some(c=>String(c).trim()===kw)) return i;
   return -1;
 }
 
-async function processFile(file) {
-  if(!file.name.match(/\.(xlsm|xlsx|xls)$/i)){toast('Formato inválido. Use .xlsm ou .xlsx','error');return;}
-  addLog('ok','Iniciando processamento: '+file.name);
-  setProgress(10,'Lendo arquivo...');
+function parseDate(val){
+  if(!val) return null;
+  if(val instanceof Date) return val;
+  const s=String(val).trim();
+  const m1=s.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+  if(m1) return new Date(+m1[3],+m1[2]-1,+m1[1]);
+  const m2=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m2) return new Date(+m2[1],+m2[2]-1,+m2[3]);
+  return null;
+}
+
+function fmtDate(d){ if(!d) return '—'; return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear(); }
+function mKey(d){ return d?String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear():null; }
+function mLabel(k){ const [m,y]=k.split('/'); return MESES[+m-1]+' '+y; }
+
+async function processFile(file){
+  if(!file.name.match(/\.(xlsm|xlsx|xls)$/i)){toast('Use .xlsm ou .xlsx','err');return;}
+  setP(10,'Lendo arquivo...');
   const reader=new FileReader();
   reader.onload=async function(e){
     try{
-      setProgress(25,'Parseando planilha...');
+      setP(30,'Parseando...');
       const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:true});
+      const names=wb.SheetNames;
 
-      // ── Verificar abas obrigatórias ──
-      const sheetNames = wb.SheetNames.map(s=>s.trim());
-      const baseSheetName = sheetNames.find(s=>s==='Base')||sheetNames.find(s=>s.toLowerCase()==='base');
-      const saidasSheetName = sheetNames.find(s=>s==='Saídas')||sheetNames.find(s=>s.toLowerCase().includes('sa'+'ída'));
-      if(!baseSheetName){toast('Aba "Base" não encontrada na planilha.','error');addLog('err','Aba Base não encontrada. Abas: '+sheetNames.join(', '));return;}
-      if(!saidasSheetName){toast('Aba "Saídas" não encontrada na planilha.','error');addLog('err','Aba Saídas não encontrada.');return;}
-
-      setProgress(40,'Lendo aba Base...');
-
-      // ── ABA BASE ──
-      const wsBase=wb.Sheets[baseSheetName];
-      const rawBase=XLSX.utils.sheet_to_json(wsBase,{header:1,defval:''});
-      const hRowBase=findHeaderRow(rawBase,'Nome');
-      if(hRowBase<0){toast('Coluna "Nome" não encontrada na aba Base.','error');return;}
-      const hdBase=rawBase[hRowBase].map(h=>String(h).trim());
-      const dataBase=rawBase.slice(hRowBase+1).filter(r=>r.some(c=>c!==''));
-
-      const iNome=hdBase.indexOf('Nome');
-      const iBase=hdBase.indexOf('Base');
-      const iEspec=hdBase.indexOf('Especificação');
-      const iAbrang=hdBase.indexOf('Abrangência');
-      const iEmp=hdBase.indexOf('Empresa');
-      const iCRD=hdBase.indexOf('CRD');
-      const iAdm=hdBase.indexOf('Admissão');
-      const iRegime=hdBase.findIndex(h=>h.startsWith('Regime'));
-      const iTipo=hdBase.indexOf('Tipo de Contrato');
-      const iLocal=hdBase.indexOf('Local');
-      const iNivel=hdBase.indexOf('Nivel');
-      const iFaixa=hdBase.indexOf('Faixa');
-      const iSalario=hdBase.indexOf('Salário Atual');
-      const iSuperior=hdBase.indexOf('Superior Imediato');
-      const iLider=hdBase.indexOf('Líder?');
-
-      if(iNome<0){toast('Coluna "Nome" não encontrada.','error');return;}
-
-      const novoAtivos=[];
-      const seenNomes=new Set();
-      let dups=0;
-
-      dataBase.forEach(row=>{
-        const nome=String(row[iNome]||'').trim();
-        if(!nome) return;
-        if(seenNomes.has(nome)){dups++;addLog('warn','Nome duplicado ignorado: '+nome);return;}
-        seenNomes.add(nome);
-        const admRaw=row[iAdm];
-        let admissao='';
-        if(admRaw instanceof Date) admissao=admRaw.toLocaleDateString('pt-BR');
-        else if(admRaw) admissao=String(admRaw).slice(0,10);
-        novoAtivos.push({
-          nome, empresa:String(row[iEmp]||'').trim(),
-          base:String(row[iBase]||'').trim(), especificacao:String(row[iEspec]||'').trim(),
-          abrangencia:String(row[iAbrang]||'').trim(), crd:String(row[iCRD]||'').trim(),
-          admissao, regime:String(row[iRegime]||'').trim(), tipo:String(row[iTipo]||'').trim(),
-          local:String(row[iLocal]||'').trim(), nivel:String(row[iNivel]||'').trim(),
-          faixa:String(row[iFaixa]||'').trim(), salario:row[iSalario]||'',
-          superior:String(row[iSuperior]||'').trim(), lider:String(row[iLider]||'').trim(),
-        });
+      // BASE → entradas
+      const bName=names.find(n=>n.trim()==='Base')||names.find(n=>n.toLowerCase()==='base');
+      if(!bName){toast('Aba "Base" não encontrada','err');return;}
+      const rawB=XLSX.utils.sheet_to_json(wb.Sheets[bName],{header:1,defval:''});
+      const hB=findHRow(rawB,'Nome');
+      if(hB<0){toast('Coluna "Nome" não encontrada','err');return;}
+      const hdB=rawB[hB].map(h=>String(h).trim());
+      const iN=hdB.indexOf('Nome'),iE=hdB.indexOf('Empresa'),iA=hdB.indexOf('Admissão');
+      const entradas=[];
+      rawB.slice(hB+1).forEach(row=>{
+        const nome=String(row[iN]||'').trim();if(!nome)return;
+        const d=parseDate(row[iA]);
+        entradas.push({nome,empresa:String(row[iE]||'').trim(),admissao:d?fmtDate(d):'',_ts:d?d.getTime():0});
       });
 
-      setProgress(60,'Lendo aba Saídas...');
-
-      // ── ABA SAÍDAS ──
-      const wsSaidas=wb.Sheets[saidasSheetName];
-      const rawSaidas=XLSX.utils.sheet_to_json(wsSaidas,{header:1,defval:''});
-      const hRowSaidas=findHeaderRow(rawSaidas,'Nome completo');
-      const novoSaidas=[];
-      if(hRowSaidas>=0){
-        const hdS=rawSaidas[hRowSaidas].map(h=>String(h).trim());
-        const dataSaidas=rawSaidas.slice(hRowSaidas+1).filter(r=>r.some(c=>c!==''));
-        const iSNome=hdS.indexOf('Nome completo');
-        const iSEmp=hdS.indexOf('Empresa');
-        const iSAdm=hdS.indexOf('Data de admissão');
-        const iSDesl=hdS.indexOf('Data de desligamento');
-        const iSMot=hdS.indexOf('Motivo');
-        dataSaidas.forEach(row=>{
-          const nome=String(row[iSNome]||'').trim();
-          if(!nome) return;
-          novoSaidas.push({
-            nome, empresa:String(row[iSEmp]||'').trim(),
-            admissao:String(row[iSAdm]||'').trim(),
-            desligamento:String(row[iSDesl]||'').trim(),
-            motivo:String(row[iSMot]||'').trim(),
+      setP(60,'Lendo saídas...');
+      const sName=names.find(n=>n.trim()==='Saídas')||names.find(n=>/sa.da/i.test(n));
+      const saidas=[];
+      if(sName){
+        const rawS=XLSX.utils.sheet_to_json(wb.Sheets[sName],{header:1,defval:''});
+        const hS=findHRow(rawS,'Nome completo');
+        if(hS>=0){
+          const hdS=rawS[hS].map(h=>String(h).trim());
+          const iSN=hdS.indexOf('Nome completo'),iSE=hdS.indexOf('Empresa');
+          const iSD=hdS.indexOf('Data de desligamento'),iSM=hdS.indexOf('Motivo');
+          rawS.slice(hS+1).forEach(row=>{
+            const nome=String(row[iSN]||'').trim();if(!nome)return;
+            const d=parseDate(row[iSD]);
+            saidas.push({nome,empresa:String(row[iSE]||'').trim(),desligamento:d?fmtDate(d):'',motivo:String(row[iSM]||'').trim(),_ts:d?d.getTime():0});
           });
-        });
-        addLog('ok','Aba Saídas: '+novoSaidas.length+' registros lidos.');
-      } else {
-        addLog('warn','Header da aba Saídas não encontrado.');
+        }
       }
 
-      setProgress(75,'Detectando movimentações...');
-
-      // ── DETECÇÃO DE MOVIMENTAÇÕES ──
-      const oldAtivoMap={};
-      state.ativos.forEach(c=>{oldAtivoMap[c.nome]=c;});
-      const oldSaidasSet=new Set(state.saidas.map(s=>s.nome+'|'+s.desligamento));
+      setP(80,'Salvando no GitHub...');
       const now=new Date().toLocaleString('pt-BR');
-      const newMovs=[];
-
-      // Admissões: nomes novos na Base
-      novoAtivos.forEach(c=>{
-        if(!oldAtivoMap[c.nome]){
-          newMovs.push({tipo:'new',nome:c.nome,empresa:c.empresa,base:c.base,nivel:c.nivel,obs:'Novo na aba Base',detectadoEm:now});
-          addLog('ok','Admissão detectada: '+c.nome);
-        } else {
-          const old=oldAtivoMap[c.nome];
-          const mudancas=[];
-          if(old.base!==c.base) mudancas.push('Cargo: '+old.base+'→'+c.base);
-          if(old.empresa!==c.empresa) mudancas.push('Empresa: '+old.empresa+'→'+c.empresa);
-          if(old.nivel!==c.nivel) mudancas.push('Nível: '+old.nivel+'→'+c.nivel);
-          if(old.regime!==c.regime) mudancas.push('Regime: '+old.regime+'→'+c.regime);
-          if(mudancas.length>0){
-            newMovs.push({tipo:'changed',nome:c.nome,empresa:c.empresa,base:c.base,nivel:c.nivel,obs:mudancas.join(' | '),detectadoEm:now});
-            addLog('ok','Alteração: '+c.nome+' — '+mudancas.join('; '));
-          }
-        }
-      });
-
-      // Saídas da Base (estava ativo, sumiu)
-      const novoAtivoSet=new Set(novoAtivos.map(c=>c.nome));
-      Object.keys(oldAtivoMap).forEach(nome=>{
-        if(!novoAtivoSet.has(nome)){
-          newMovs.push({tipo:'exit',nome,empresa:oldAtivoMap[nome].empresa,base:oldAtivoMap[nome].base,nivel:oldAtivoMap[nome].nivel,obs:'Saiu da aba Base',detectadoEm:now});
-          addLog('warn','Saída da Base: '+nome);
-        }
-      });
-
-      // Novos registros em Saídas
-      novoSaidas.forEach(s=>{
-        const key=s.nome+'|'+s.desligamento;
-        if(!oldSaidasSet.has(key)){
-          newMovs.push({tipo:'exit',nome:s.nome,empresa:s.empresa,base:'—',nivel:'—',obs:'Desligamento em '+s.desligamento+(s.motivo?' ('+s.motivo+')':''),detectadoEm:now});
-          if(novoAtivoSet.has(s.nome)) addLog('warn','Na aba Saídas mas ainda na Base: '+s.nome);
-          else addLog('warn','Novo desligamento: '+s.nome+' em '+s.desligamento);
-        }
-      });
-
-      setProgress(88,'Salvando...');
-      state.ativos=novoAtivos;
-      state.saidas=novoSaidas;
-      state.movimentacoes=[...newMovs,...state.movimentacoes];
-
-      const hist={
-        arquivo:file.name, data:now,
-        totalAtivos:novoAtivos.length, totalSaidas:novoSaidas.length,
-        admissoes:newMovs.filter(m=>m.tipo==='new').length,
-        desligamentos:newMovs.filter(m=>m.tipo==='exit').length,
-        alteracoes:newMovs.filter(m=>m.tipo==='changed').length,
-        duplicatas:dups
-      };
-      state.historico.unshift(hist);
-      saveLocal();
-
-      setProgress(93,'Sincronizando com GitHub...');
-      const payload={ativos:state.ativos,saidas:state.saidas,movimentacoes:state.movimentacoes,historico:state.historico,ultimaAtualizacao:now};
-      const synced=await pushToGitHub(payload);
-
-      setProgress(100,'Concluído!');
-      setTimeout(()=>document.getElementById('upload-progress').style.display='none',2500);
-      addLog('ok',`Carga concluída: ${novoAtivos.length} ativos | ${novoSaidas.length} saídas | ${hist.admissoes} adm. | ${hist.desligamentos} desl. | ${hist.alteracoes} alt.`);
-      toast(`Processado! ${newMovs.length} movimentação(ões).${synced?' Salvo no GitHub.':' Apenas local.'}`, synced?'success':'info');
-      refreshAll();
-      showView('dashboard');
-    } catch(err){
-      addLog('err','Erro no processamento: '+err.message+' | '+err.stack);
-      toast('Erro ao processar: '+err.message,'error');
-      document.getElementById('upload-progress').style.display='none';
-    }
+      const payload={entradas,saidas,atualizadoEm:now};
+      const ok=await push(payload);
+      data=payload;
+      buildFilters(); applyFilters(); showLastUpdate();
+      setP(100,'Concluído!');
+      setTimeout(()=>document.getElementById('prog-wrap').style.display='none',2500);
+      toast(`${entradas.length} entradas · ${saidas.length} saídas.${ok?' Salvo no GitHub.':' Apenas local.'}`,ok?'ok':'');
+    }catch(err){toast('Erro: '+err.message,'err');document.getElementById('prog-wrap').style.display='none';}
   };
   reader.readAsArrayBuffer(file);
-  document.getElementById('file-input').value='';
 }
 
-// ══════════════════════════════════════════════════════
-// RENDER
-// ══════════════════════════════════════════════════════
-function refreshAll(){
-  renderStats(); renderAtivos(); renderSaidas(); renderMovTable(); renderHistorico(); renderLog(); renderCharts(); updateNav(); updateHeader();
+// ── FILTROS ───────────────────────────────────────────
+function buildFilters(){
+  const mE={},empE=new Set();
+  data.entradas.forEach(r=>{
+    const d=parseDate(r.admissao);if(!d)return;
+    const k=mKey(d);if(k)mE[k]=mLabel(k);
+    if(r.empresa)empE.add(r.empresa);
+  });
+  const mS={},empS=new Set();
+  data.saidas.forEach(r=>{
+    const d=parseDate(r.desligamento);if(!d)return;
+    const k=mKey(d);if(k)mS[k]=mLabel(k);
+    if(r.empresa)empS.add(r.empresa);
+  });
+  fillMSel('f-mes-e',mE); fillSel('f-emp-e',empE,'Todas as empresas');
+  fillMSel('f-mes-s',mS); fillSel('f-emp-s',empS,'Todas as empresas');
 }
 
-function updateHeader(){
-  const h=state.historico[0];
-  document.getElementById('header-info').textContent=state.ativos.length?state.ativos.length+' ativos · '+state.saidas.length+' desligados':'';
-  document.getElementById('dash-sub').textContent=h?`Atualizado em ${h.data} — ${h.arquivo}`:'Carregue o arquivo PGO para começar.';
+function fillMSel(id,map){
+  const s=document.getElementById(id);const ov=s.value;
+  const sorted=Object.entries(map).sort((a,b)=>b[0].localeCompare(a[0]));
+  s.innerHTML='<option value="">Todos os meses</option>'+sorted.map(([k,l])=>`<option value="${k}">${l}</option>`).join('');
+  if(ov)s.value=ov;
+}
+function fillSel(id,vals,ph){
+  const s=document.getElementById(id);const ov=s.value;
+  s.innerHTML=`<option value="">${ph}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+  if(ov)s.value=ov;
 }
 
-function updateNav(){
-  document.getElementById('nav-ativos').textContent=state.ativos.length||'—';
-  document.getElementById('nav-saidas').textContent=state.saidas.length||'—';
-  document.getElementById('nav-mov').textContent=state.movimentacoes.length||'—';
-  document.getElementById('nav-hist').textContent=state.historico.length||'—';
+// ── RENDER ────────────────────────────────────────────
+function applyFilters(){
+  const mesE=gv('f-mes-e'),empE=gv('f-emp-e');
+  const mesS=gv('f-mes-s'),empS=gv('f-emp-s');
+
+  const rowsE=data.entradas.filter(r=>{
+    if(empE&&r.empresa!==empE)return false;
+    if(mesE){const d=parseDate(r.admissao);if(!d||mKey(d)!==mesE)return false;}
+    return true;
+  }).sort((a,b)=>b._ts-a._ts);
+
+  const rowsS=data.saidas.filter(r=>{
+    if(empS&&r.empresa!==empS)return false;
+    if(mesS){const d=parseDate(r.desligamento);if(!d||mKey(d)!==mesS)return false;}
+    return true;
+  }).sort((a,b)=>b._ts-a._ts);
+
+  // KPIs
+  const allEmps=new Set([...rowsE.map(r=>r.empresa),...rowsS.map(r=>r.empresa)].filter(Boolean));
+  const saldo=rowsE.length-rowsS.length;
+  document.getElementById('kpi-entradas').textContent=rowsE.length;
+  document.getElementById('kpi-saidas').textContent=rowsS.length;
+  document.getElementById('kpi-saldo').textContent=(saldo>0?'+':'')+saldo;
+  document.getElementById('kpi-saldo').style.color=saldo>0?'var(--green)':saldo<0?'var(--red)':'var(--blue)';
+  document.getElementById('kpi-empresas').textContent=allEmps.size;
+  document.getElementById('count-e').textContent=rowsE.length+' resultado'+(rowsE.length!==1?'s':'');
+  document.getElementById('count-s').textContent=rowsS.length+' resultado'+(rowsS.length!==1?'s':'');
+
+  // Tabela entradas
+  const tbE=document.getElementById('tbody-e');
+  tbE.innerHTML=rowsE.length?rowsE.map(r=>`<tr class="entrada">
+    <td class="name-cell">${esc(r.nome)}</td>
+    <td><span class="emp-chip">${esc(r.empresa||'—')}</span></td>
+    <td class="date-cell">${esc(r.admissao||'—')}</td>
+  </tr>`).join(''):`<tr><td colspan="3"><div class="empty">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+    <p>Nenhuma entrada encontrada</p></div></td></tr>`;
+
+  // Tabela saídas
+  const tbS=document.getElementById('tbody-s');
+  tbS.innerHTML=rowsS.length?rowsS.map(r=>`<tr class="saida">
+    <td class="name-cell">${esc(r.nome)}</td>
+    <td><span class="emp-chip">${esc(r.empresa||'—')}</span></td>
+    <td class="date-cell">${esc(r.desligamento||'—')}</td>
+    <td>${r.motivo?`<span class="motivo-chip">${esc(r.motivo)}</span>`:'<span style="color:var(--text3)">—</span>'}</td>
+  </tr>`).join(''):`<tr><td colspan="4"><div class="empty">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    <p>Nenhuma saída encontrada</p></div></td></tr>`;
+
+  // Barras por empresa — baseadas nos dados filtrados
+  renderBars(rowsE, rowsS);
 }
 
-function renderStats(){
-  const h=state.historico[0];
-  document.getElementById('s-ativos').textContent=state.ativos.length||'—';
-  document.getElementById('s-saidas').textContent=state.saidas.length||'—';
-  document.getElementById('s-adm').textContent=h?h.admissoes:'—';
-  document.getElementById('s-alt').textContent=h?h.alteracoes:'—';
-}
-
-function renderCharts(){
-  if(!state.ativos.length) return;
-  // Por empresa
-  const empMap={};state.ativos.forEach(c=>{if(c.empresa)empMap[c.empresa]=(empMap[c.empresa]||0)+1;});
-  const topEmp=Object.entries(empMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const maxE=topEmp[0]?.[1]||1;
-  document.getElementById('chart-empresa').innerHTML=topEmp.map(([emp,n])=>`
-    <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
-    <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px">${esc(emp)}</span>
-    <span style="font-family:'DM Mono',monospace;font-weight:500">${n}</span></div>
-    <div style="height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden">
-    <div style="width:${Math.round(n/maxE*100)}%;height:100%;background:#3d7fff;border-radius:4px"></div></div></div>`).join('');
-  // Por nível
-  const nivMap={};state.ativos.forEach(c=>{if(c.nivel)nivMap[c.nivel]=(nivMap[c.nivel]||0)+1;});
-  const niveis=Object.entries(nivMap).sort((a,b)=>a[0].localeCompare(b[0]));
-  const maxN=niveis[0]?.[1]||1;
-  const colors=['#3d7fff','#16a34a','#d97706','#dc2626','#9333ea','#0891b2'];
-  document.getElementById('chart-nivel').innerHTML=niveis.map(([nv,n],i)=>`
-    <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
-    <span>Nível ${esc(nv)}</span><span style="font-family:'DM Mono',monospace;font-weight:500">${n}</span></div>
-    <div style="height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden">
-    <div style="width:${Math.round(n/maxN*100)}%;height:100%;background:${colors[i%colors.length]};border-radius:4px"></div></div></div>`).join('');
-  // Últimas movimentações
-  const rm=state.movimentacoes.slice(0,6);
-  document.getElementById('recent-movs').innerHTML=rm.length?rm.map(m=>`
-    <div class="history-item">
-    <div class="history-dot" style="background:${m.tipo==='new'?'#16a34a':m.tipo==='exit'?'#dc2626':'#d97706'}"></div>
-    <div class="history-meta"><strong>${esc(m.nome)}</strong><p>${movLabel(m.tipo)} · ${esc(m.empresa||'—')} · ${esc(m.obs||'—')}</p></div>
-    <span class="badge ${m.tipo==='new'?'badge-green':m.tipo==='exit'?'badge-red':'badge-amber'}">${movLabel(m.tipo)}</span></div>`).join('')
-    :'<div class="empty-state" style="padding:1rem"><p>Nenhuma movimentação.</p></div>';
-}
-
-function renderAtivos(){
-  const emps=new Set(state.ativos.map(c=>c.empresa).filter(Boolean));
-  const bases=new Set(state.ativos.map(c=>c.nivel).filter(Boolean));
-  const regimes=new Set(state.ativos.map(c=>c.regime).filter(Boolean));
-  const popSel=(id,vals,prefix)=>{
-    const s=document.getElementById(id);const ov=s.value;
-    s.innerHTML=`<option value="">${prefix}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-    if(ov)s.value=ov;
+function renderBars(rowsE, rowsS){
+  const countBy=(rows,key)=>{
+    const m={};rows.forEach(r=>{if(r[key])m[r[key]]=(m[r[key]]||0)+1;});
+    return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,8);
   };
-  popSel('filter-empresa',emps,'Todas as empresas');
-  popSel('filter-base',bases,'Todos os níveis');
-  popSel('filter-regime',regimes,'CLT / PJ');
-  filterAtivos();
-}
+  const topE=countBy(rowsE,'empresa');
+  const topS=countBy(rowsS,'empresa');
+  const maxE=topE[0]?.[1]||1;
+  const maxS=topS[0]?.[1]||1;
 
-function filterAtivos(){
-  const q=(document.getElementById('search-ativos').value||'').toLowerCase();
-  const emp=document.getElementById('filter-empresa').value;
-  const base=document.getElementById('filter-base').value;
-  const reg=document.getElementById('filter-regime').value;
-  const rows=state.ativos.filter(c=>
-    (!q||c.nome.toLowerCase().includes(q)||c.empresa.toLowerCase().includes(q)||(c.base||'').toLowerCase().includes(q)||(c.especificacao||'').toLowerCase().includes(q))&&
-    (!emp||c.empresa===emp)&&(!base||c.nivel===base)&&(!reg||c.regime===reg));
-  document.getElementById('count-ativos').textContent=rows.length+' de '+state.ativos.length;
-  const tb=document.getElementById('tbody-ativos');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><p>Nenhum resultado.</p></div></td></tr>';return;}
-  tb.innerHTML=rows.map(c=>`<tr>
-    <td style="font-weight:500">${esc(c.nome)}</td>
-    <td><span class="chip">${esc(c.empresa)}</span></td>
-    <td>${esc(c.base)}</td>
-    <td style="color:var(--text-2)">${esc(c.especificacao)}</td>
-    <td><span class="chip">${esc(c.abrangencia)}</span></td>
-    <td><span class="badge badge-blue">Nível ${esc(c.nivel)}</span></td>
-    <td><span class="badge ${c.regime==='CLT'?'badge-green':'badge-gray'}">${esc(c.regime)}</span></td>
-    <td>${esc(c.local)}</td>
-    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(c.admissao)}</td>
-    <td style="font-size:12px;color:var(--text-2)">${esc(c.superior)}</td>
-    <td><span class="badge ${c.lider==='Líder'?'badge-amber':'badge-gray'}">${esc(c.lider)}</span></td>
-  </tr>`).join('');
-}
-
-function renderSaidas(){
-  const emps=new Set(state.saidas.map(s=>s.empresa).filter(Boolean));
-  const motivos=new Set(state.saidas.map(s=>s.motivo).filter(Boolean));
-  const popSel=(id,vals,prefix)=>{
-    const s=document.getElementById(id);const ov=s.value;
-    s.innerHTML=`<option value="">${prefix}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
-    if(ov)s.value=ov;
-  };
-  popSel('filter-empresa-saidas',emps,'Todas as empresas');
-  popSel('filter-motivo',motivos,'Todos os motivos');
-  filterSaidas();
-}
-
-function filterSaidas(){
-  const q=(document.getElementById('search-saidas').value||'').toLowerCase();
-  const emp=document.getElementById('filter-empresa-saidas').value;
-  const mot=document.getElementById('filter-motivo').value;
-  const rows=state.saidas.filter(s=>
-    (!q||s.nome.toLowerCase().includes(q)||s.empresa.toLowerCase().includes(q))&&
-    (!emp||s.empresa===emp)&&(!mot||s.motivo===mot));
-  document.getElementById('count-saidas').textContent=rows.length+' de '+state.saidas.length;
-  const tb=document.getElementById('tbody-saidas');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="5"><div class="empty-state"><p>Nenhum resultado.</p></div></td></tr>';return;}
-  tb.innerHTML=rows.map(s=>`<tr>
-    <td style="font-weight:500">${esc(s.nome)}</td>
-    <td><span class="chip">${esc(s.empresa)}</span></td>
-    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(s.admissao)}</td>
-    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(s.desligamento)}</td>
-    <td>${s.motivo?`<span class="badge badge-red">${esc(s.motivo)}</span>`:'<span style="color:var(--text-3)">—</span>'}</td>
-  </tr>`).join('');
-}
-
-function renderMovTable(){
-  const rows=currentMovFilter==='all'?state.movimentacoes:state.movimentacoes.filter(m=>m.tipo===currentMovFilter);
-  const tb=document.getElementById('tbody-movs');
-  if(!rows.length){tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><p>Nenhuma movimentação.</p></div></td></tr>';return;}
-  tb.innerHTML=rows.map(m=>`<tr class="row-${m.tipo}">
-    <td><span class="badge ${m.tipo==='new'?'badge-green':m.tipo==='exit'?'badge-red':'badge-amber'}">${movLabel(m.tipo)}</span></td>
-    <td style="font-weight:500">${esc(m.nome)}</td>
-    <td><span class="chip">${esc(m.empresa||'—')}</span></td>
-    <td>${esc(m.base||'—')}</td>
-    <td>${m.nivel&&m.nivel!=='—'?`<span class="badge badge-blue">Nível ${esc(m.nivel)}</span>`:'—'}</td>
-    <td style="font-size:12px;color:var(--text-2)">${esc(m.obs||'—')}</td>
-    <td style="font-size:12px;color:var(--text-3)">${esc(m.detectadoEm||'—')}</td>
-  </tr>`).join('');
-}
-
-function showMovTab(f,el){
-  currentMovFilter=f;
-  document.querySelectorAll('#view-movimentacoes .tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  renderMovTable();
-}
-
-function renderHistorico(){
-  const c=document.getElementById('historico-list');
-  if(!state.historico.length){c.innerHTML='<div class="empty-state"><p>Nenhuma carga.</p></div>';return;}
-  c.innerHTML=state.historico.map((h,i)=>`
-    <div class="history-item">
-      <div class="history-dot" style="background:${i===0?'#3d7fff':'#9ca3af'}"></div>
-      <div class="history-meta">
-        <strong>${esc(h.arquivo)}</strong>
-        <p>${h.data} · <span style="color:var(--success)">${h.admissoes} adm.</span> · <span style="color:var(--danger)">${h.desligamentos} desl.</span> · <span style="color:var(--warning)">${h.alteracoes} alt.</span>${h.duplicatas?` · <span style="color:var(--text-3)">${h.duplicatas} dups</span>`:''}</p>
+  document.getElementById('bars-entradas').innerHTML=topE.length?topE.map(([emp,n])=>`
+    <div class="bar-item">
+      <div class="bar-top">
+        <span class="bar-label">${esc(emp)}</span>
+        <span class="bar-val" style="color:var(--green)">${n}</span>
       </div>
-      <div style="text-align:right;flex-shrink:0">
-        <div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace">${h.totalAtivos} ativos</div>
-        <div style="font-size:11px;color:var(--text-3)">${h.totalSaidas} desligados</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(n/maxE*100)}%;background:var(--green)"></div></div>
+    </div>`).join(''):'<div style="color:var(--text3);font-size:12px;padding:.5rem 0">Nenhum dado</div>';
+
+  document.getElementById('bars-saidas').innerHTML=topS.length?topS.map(([emp,n])=>`
+    <div class="bar-item">
+      <div class="bar-top">
+        <span class="bar-label">${esc(emp)}</span>
+        <span class="bar-val" style="color:var(--red)">${n}</span>
       </div>
-    </div>`).join('');
+      <div class="bar-track"><div class="bar-fill" style="width:${Math.round(n/maxS*100)}%;background:var(--red)"></div></div>
+    </div>`).join(''):'<div style="color:var(--text3);font-size:12px;padding:.5rem 0">Nenhum dado</div>';
 }
 
-// ══════════════════════════════════════════════════════
-// EXPORTAR CSV
-// ══════════════════════════════════════════════════════
-function exportCSV(){
-  if(!state.ativos.length){toast('Sem dados para exportar','error');return;}
-  const h=['Nome','Empresa','Base','Especificação','Abrangência','Nível','Faixa','Regime','Local','Admissão','Superior Imediato','Líder?'];
-  const rows=state.ativos.map(c=>[c.nome,c.empresa,c.base,c.especificacao,c.abrangencia,c.nivel,c.faixa,c.regime,c.local,c.admissao,c.superior,c.lider]);
-  const csv=[h,...rows].map(r=>r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
-  a.download='pgo_ativos_'+new Date().toISOString().slice(0,10)+'.csv';
-  a.click();toast('CSV exportado!','success');
+// ── UI ────────────────────────────────────────────────
+function toggleAdmin(){
+  const p=document.getElementById('admin-panel');
+  p.classList.toggle('hidden');
+  if(!p.classList.contains('hidden')) populateCfgForm();
 }
 
-// ══════════════════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════════════════
+function updateUploadVis(){
+  document.getElementById('upload-bar').classList.toggle('hidden',!cfgOk());
+}
+
+function showLastUpdate(){
+  if(data.atualizadoEm){
+    document.getElementById('last-update').style.display='flex';
+    document.getElementById('last-update-val').textContent=data.atualizadoEm;
+  }
+}
+
+function setOk(m){sd('ok');document.getElementById('sync-label').textContent=m;}
+function setErr(m){sd('err');document.getElementById('sync-label').textContent=m;}
+function setSpin(m){sd('spin');document.getElementById('sync-label').textContent=m;}
+function sd(cls){document.getElementById('sync-dot').className='sync-dot '+cls;}
+
+function toast(msg,type='',dur=4500){
+  const el=document.createElement('div');
+  el.className='toast'+(type?' '+type:'');
+  el.textContent=msg;
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>el.remove(),dur);
+}
+
+function gv(id){return document.getElementById(id).value;}
+function sv(id,v){document.getElementById(id).value=v||'';}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function movLabel(t){return t==='new'?'Admissão':t==='exit'?'Desligamento':'Alteração';}
 
-// ══════════════════════════════════════════════════════
-// INIT
-// ══════════════════════════════════════════════════════
-loadLocal();
-refreshAll();
-updateSyncStatus();
-if(githubConfigured()) pullFromGitHub();
-else addLog('warn','GitHub não configurado. Acesse "Configurar GitHub" para ativar a sincronização.');
+// ── INIT ──────────────────────────────────────────────
+loadCfg();
+updateUploadVis();
+if(cfgOk()) pull();
+else document.getElementById('sync-label').textContent='Não configurado';
 </script>
 </body>
 </html>
