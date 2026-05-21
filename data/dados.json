@@ -927,81 +927,11 @@
   ],
   "saidas": [
     {
-      "nome": "ADHARA CORREIA PAES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ADRIANA AMORIM CUNHA MARIANI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "ADRIANA FERREIRA DA SILVA",
       "empresa": "4BTS",
       "desligamento": "31/12/2024",
       "motivo": "",
       "_ts": 1735614000000
-    },
-    {
-      "nome": "AIDE ALVES CELIO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ALESSANDRA APARECIDA DE ALMEIDA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ALESSANDRA BERTELLI MARTINES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "02/10/2024",
-      "motivo": "",
-      "_ts": 1727838000000
-    },
-    {
-      "nome": "ALESSANDRO PALUMBO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ALEXANDRA MORELATO DE CARVALHO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ALEXANDRE CARLOS DE ALEXANDRIA PEREIRA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "ALEXANDRO DE CAMPOS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "15/08/2024",
-      "motivo": "",
-      "_ts": 1723690800000
-    },
-    {
-      "nome": "ALINE BENEDETTE GRECCO LOURENCO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "AMANDA DA SILVA NUNES",
@@ -1011,67 +941,11 @@
       "_ts": 1771470000000
     },
     {
-      "nome": "AMANDA GOMES FELIX",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "AMIR HENRIQUE ZEIN LOPES DA SILVA",
       "empresa": "4BTS",
       "desligamento": "16/08/2024",
       "motivo": "PEDIDO DE DEMISSÃO",
       "_ts": 1723777200000
-    },
-    {
-      "nome": "ANA GOMEZ BASAS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ANA MARIA GOMES DA SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ANA PAULA FERREIRA DE ALMEIDA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ANDREA CRISTINA LESSA PANSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "13/08/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1755054000000
-    },
-    {
-      "nome": "ANDREA GOMES FERREIRA",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "ANDREA SILVEIRA DE SOUSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ANDREIA PASSOS MACEDO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "ANTONIA LUCIANA RODRIGUES DE SOUSA",
@@ -1081,67 +955,11 @@
       "_ts": 1753153200000
     },
     {
-      "nome": "APARECIDA TORRES CARDOSO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "ARTHUR DEFENDI E BORGHI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "BARBARA ARAGONI MORAES MARCHESANI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "BARBARA DA SILVA ANTONINO",
       "empresa": "PALLAS",
       "desligamento": "13/03/2025",
       "motivo": "Pedido de Demissão sem aviso prévio",
       "_ts": 1741834800000
-    },
-    {
-      "nome": "BEATRIZ CRISTINA ARNAO VALIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "BIANCA MOTTA ROSENTHAL",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "BRUNO ALVES BAPTISTA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "BRUNO GUIMARAES VIEIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "12/05/2025",
-      "motivo": "",
-      "_ts": 1747018800000
-    },
-    {
-      "nome": "BRUNO MALTA BARRETO VIANNA E SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
     },
     {
       "nome": "BRUNO MARTIN ALVES DA SILVA",
@@ -1165,46 +983,11 @@
       "_ts": 1736132400000
     },
     {
-      "nome": "CAMILA QUEIROZ DE SOUZA MORAES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "CAMILA SANTOS DE FARIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "CAROLINA MARIA PEREZ BEHREND",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "CAROLINA RODRIGUES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "CAUA FROES DA CRUZ GOMES",
       "empresa": "CSC",
       "desligamento": "06/02/2025",
       "motivo": "",
       "_ts": 1738810800000
-    },
-    {
-      "nome": "CECILIA LOPES DE OLIVEIRA CARDENAS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "CECÍLIA SANTOS NOGUEIRA",
@@ -1214,25 +997,11 @@
       "_ts": 1740538800000
     },
     {
-      "nome": "CELSO ANTONIO BARRETO VIANNA E SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
       "nome": "CELSO BARROZO DA SILVA",
       "empresa": "POPTUR",
       "desligamento": "19/02/2026",
       "motivo": "Desligamento sem justa causa",
       "_ts": 1771470000000
-    },
-    {
-      "nome": "CESAR BARRETO VIANNA E SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
     },
     {
       "nome": "CÉSAR EUSTÁQUIO TEIXEIRA",
@@ -1242,39 +1011,11 @@
       "_ts": 1739242800000
     },
     {
-      "nome": "CLAUDIA ABRAHAO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "CLAUDIA TRIVELLI SALMAZI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "CLAUDIA YNGAUNIS KOCH",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "CRISTIANE SIMOES GARRETT BURLAMAQUI",
       "empresa": "4BTS",
       "desligamento": "07/08/2024",
       "motivo": "",
       "_ts": 1722999600000
-    },
-    {
-      "nome": "DAFNEY KARLINE MINDERS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "DANIEL FERNANDES PINTO",
@@ -1284,46 +1025,11 @@
       "_ts": 1775012400000
     },
     {
-      "nome": "DANIELA MARCOUIZOS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "19/09/2025",
-      "motivo": "",
-      "_ts": 1758250800000
-    },
-    {
-      "nome": "DANIELLE RIBEIRO ALVES DA ROCHA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "DAVI MARINHO DE JESUS",
       "empresa": "PALLAS",
       "desligamento": "03/11/2025",
       "motivo": "",
       "_ts": 1762138800000
-    },
-    {
-      "nome": "DAYANE DA SILVA VIEIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "DEBORA CARVALHO PIGATTO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "DENISE FERRARI PIMENTEL",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "DIEGO PANIZA BURACK",
@@ -1333,32 +1039,11 @@
       "_ts": 1756263600000
     },
     {
-      "nome": "DIOGO LAGO OBADIA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
       "nome": "EDCLEITON ROCHA MONTEIRO DE AZEVEDO",
       "empresa": "PALLAS",
       "desligamento": "09/12/2024",
       "motivo": "",
       "_ts": 1733713200000
-    },
-    {
-      "nome": "EDILSON AUGUSTO DA SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "EDIVALDO PAULO SANTOS SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "30/05/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1748574000000
     },
     {
       "nome": "EDUARDO PATRICIO ADAO",
@@ -1368,74 +1053,11 @@
       "_ts": 1770346800000
     },
     {
-      "nome": "ERICA PINHEIRO ESTEVES AZEVEDO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "ERIK XAVIER DOS SANTOS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "FABIANA CANDELORO GAIOLLI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "FABIANO NASCIMENTO BARBOSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "FABIANO RODRIGO MARTINS BONIFACIO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
       "nome": "FELIPE NUNES OLIVEIRA",
       "empresa": "PALLAS",
       "desligamento": "18/06/2025",
       "motivo": "Pedido de Demissão com aviso prévio",
       "_ts": 1750215600000
-    },
-    {
-      "nome": "FELIPE PASCHOAL LEMES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "05/06/2025",
-      "motivo": "",
-      "_ts": 1749092400000
-    },
-    {
-      "nome": "FERNANDA DE ANDRADE RAMO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "30/05/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1748574000000
-    },
-    {
-      "nome": "FERNANDA WANESSA MESSIAS DE OLIVEIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "FILIPPO SIMÕES FERRARI",
-      "empresa": "GROWTH",
-      "desligamento": "09/07/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1752030000000
     },
     {
       "nome": "FLAVIO MENEZES ANDRADE",
@@ -1459,53 +1081,11 @@
       "_ts": 1759287600000
     },
     {
-      "nome": "GABRIELA ABRAHÃO BARBOSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "GABRIELA NASCIMENTO TEIXEIRA",
       "empresa": "PALLAS",
       "desligamento": "30/12/1969",
       "motivo": "",
       "_ts": -162000000
-    },
-    {
-      "nome": "GEORGIOS PETINERIS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "GEOVANE LUCCA COLLETTI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "GILMAR LUIS DOS SANTOS SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "GIOVANA JABUR ABRAHÃO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "GIOVANNA FERREIRA MALDONADO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
     },
     {
       "nome": "GISLEI DA SILVA CRUZ",
@@ -1515,39 +1095,11 @@
       "_ts": 1735786800000
     },
     {
-      "nome": "GIZELDA VINA NASCIMENTO SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "09/06/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1749438000000
-    },
-    {
       "nome": "GUILHERME AUGUSTO PESSOA RIBEIRO",
       "empresa": "4BTS",
       "desligamento": "28/02/2025",
       "motivo": "Pedido de Demissão sem aviso prévio",
       "_ts": 1740711600000
-    },
-    {
-      "nome": "GUILHERME BENTO SILVA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "GUILHERME SILVA MELO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "GUSTAVO ABRAHAO BARBOSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "HUGO DOS SANTOS PEREIRA",
@@ -1564,41 +1116,6 @@
       "_ts": 1764558000000
     },
     {
-      "nome": "ISABEL CRISTINA MENESES FONSECA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ISABEL CRISTINA SANCHES BERZIN",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "ISRAEL EMERENCIANO TAVARES",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "JACQUELINE DE ALMEIDA MARQUES MENDES",
-      "empresa": "MOMÊ",
-      "desligamento": "16/01/2025",
-      "motivo": "",
-      "_ts": 1736996400000
-    },
-    {
-      "nome": "JAKELINE LIMA DA PAZ",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "JANSER STODUTO SARDINHA SOARES",
       "empresa": "NEST TRAVEL",
       "desligamento": "22/09/2025",
@@ -1613,39 +1130,11 @@
       "_ts": 1729479600000
     },
     {
-      "nome": "JOAO JULIO FERREIRA DE ALMEIDA",
-      "empresa": "GROWTH",
-      "desligamento": "09/07/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1752030000000
-    },
-    {
-      "nome": "JORGE LUCIANO FROES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "JOSE BIZERRA LINS",
       "empresa": "POPTUR",
       "desligamento": "31/08/2025",
       "motivo": "Desligamento sem justa causa",
       "_ts": 1756609200000
-    },
-    {
-      "nome": "JULIA COELHO VITAL DE AZEVEDO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "31/07/2024",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1722394800000
-    },
-    {
-      "nome": "JULIA RUGGERI RIBEIRO DA COSTA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "JULIO CEZAR JUNIOR",
@@ -1655,39 +1144,11 @@
       "_ts": 1748746800000
     },
     {
-      "nome": "KARINA AGUIAR BASAGLIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "KARINA LUCIA DOS SANTOS MONTANARI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "22/09/2025",
-      "motivo": "",
-      "_ts": 1758510000000
-    },
-    {
-      "nome": "KAROLINA POMARO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "KATHLEEN NEVES SANTOS",
       "empresa": "STELLA BARROS",
       "desligamento": "17/07/2024",
       "motivo": "",
       "_ts": 1721185200000
-    },
-    {
-      "nome": "KELLY DOS SANTOS MOREIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "LAERCIO MATHEUS OLSEN",
@@ -1711,20 +1172,6 @@
       "_ts": 1752548400000
     },
     {
-      "nome": "LEONARD DOS SANTOS DO VALE",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "LEONARDO FAVERO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "LIDIANE NASCIMENTO DOS SANTOS",
       "empresa": "CSC",
       "desligamento": "07/06/2025",
@@ -1732,32 +1179,11 @@
       "_ts": 1749265200000
     },
     {
-      "nome": "LIGIA MIURA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "LILIANE FERNANDES MOREIRA",
       "empresa": "TORCIDA BRASIL",
       "desligamento": "15/10/2025",
       "motivo": "",
       "_ts": 1760497200000
-    },
-    {
-      "nome": "LORELLA TORRES HENRIQUES",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "LUANA AMORIM DUARTE",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "LUCA SILVA DA ROCHA CORREA",
@@ -1781,13 +1207,6 @@
       "_ts": 1744081200000
     },
     {
-      "nome": "LUCIANA ASSUNÇÃO DE FREITAS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "LUIGI TREVISAN",
       "empresa": "PALLAS",
       "desligamento": "01/07/2025",
@@ -1795,39 +1214,11 @@
       "_ts": 1751338800000
     },
     {
-      "nome": "LUIS ABRAHÃO NETO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "LUISA JABUR ABRAHAO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "LUIZ ALBERTO COLIMERIO",
       "empresa": "PALLAS",
       "desligamento": "31/12/1969",
       "motivo": "",
       "_ts": -75600000
-    },
-    {
-      "nome": "MARCELLO ARION LASSEN CORDEIRO",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "MARCELO HIROSHI YAMAKI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "MARCELO PACHECO DE MELLO",
@@ -1844,74 +1235,11 @@
       "_ts": 1722394800000
     },
     {
-      "nome": "MARIA ALICE CABRAL MAIA",
-      "empresa": "Growth",
-      "desligamento": "31/03/2025",
-      "motivo": "",
-      "_ts": 1743390000000
-    },
-    {
-      "nome": "MARIA CLARA FARIAS DE OLIVEIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "MARIA DA PENHA ALVES",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "MARIA IZABEL LEAL DE BARROS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "MARIANA ALVES BANOV",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "MARIANA DE CASTRO SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "MARIANA PINTO RIBEIRO",
       "empresa": "4BTS",
       "desligamento": "28/02/2026",
       "motivo": "Desligamento sem justa causa",
       "_ts": 1772247600000
-    },
-    {
-      "nome": "MARILIA DE OLIVEIRA FARIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "MARISA DE SOUZA ARAUJO TEIXEIRA",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "MATEUS HENRIQUE CARDOSO COSTA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "MATHEUS VILLELA DE MACEDO MUNCH",
@@ -1921,13 +1249,6 @@
       "_ts": 1742180400000
     },
     {
-      "nome": "MAX EUGENIO PEREIRA MARQUES",
-      "empresa": "TOP SERVICE",
-      "desligamento": "14/02/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1739502000000
-    },
-    {
       "nome": "MAYRA MARTINS ALVES",
       "empresa": "4BTS",
       "desligamento": "10/12/2025",
@@ -1935,88 +1256,11 @@
       "_ts": 1765335600000
     },
     {
-      "nome": "MICHAEL RAMOS DE SANTANA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "MONICA RODRIGUES SANTOS LIMA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "NATALIA BORGHI EGERLAND",
-      "empresa": "TOP SERVICE",
-      "desligamento": "30/04/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1745982000000
-    },
-    {
-      "nome": "NATHALIA KODATO VELOSO E SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "NATHALIA MENDES DA SILVA",
       "empresa": "4BTS",
       "desligamento": "18/11/2025",
       "motivo": "",
       "_ts": 1763434800000
-    },
-    {
-      "nome": "NICHOLAS DE SOUZA CAMPAGNOLI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "08/10/2025",
-      "motivo": "",
-      "_ts": 1759892400000
-    },
-    {
-      "nome": "NUBIA OLIVEIRA DA SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "PAOLA CAROLINA DE MARTINO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "PATRICIA DA CONCEIÇÃO LEONARDO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "21/02/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1740106800000
-    },
-    {
-      "nome": "PAULA AMORIM DA SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "PAULA CRISTINA TONI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "PAULA KATE KANNO NERY",
-      "empresa": "TOP SERVICE",
-      "desligamento": "31/07/2024",
-      "motivo": "Pedido de demissão",
-      "_ts": 1722394800000
     },
     {
       "nome": "PAULA LIMA FERREIRA DA SILVA",
@@ -2040,27 +1284,6 @@
       "_ts": 1756522800000
     },
     {
-      "nome": "PAULO ROBERTO GOMES MOREIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "08/10/2025",
-      "motivo": "",
-      "_ts": 1759892400000
-    },
-    {
-      "nome": "PEDRO HENRIQUE SILVA DA PAIXÃO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "RAFAEL ARAUJO DA SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "RAFAEL ARRUDA DA SILVA SEIXAS",
       "empresa": "PALLAS",
       "desligamento": "05/02/2026",
@@ -2073,13 +1296,6 @@
       "desligamento": "05/02/2026",
       "motivo": "",
       "_ts": 1770260400000
-    },
-    {
-      "nome": "RAFAEL CARVALHO",
-      "empresa": "CLUBE DE FÉRIAS",
-      "desligamento": "20/08/2025",
-      "motivo": "",
-      "_ts": 1755658800000
     },
     {
       "nome": "RAFAEL DUARTE BERNARDI",
@@ -2087,20 +1303,6 @@
       "desligamento": "30/04/2025",
       "motivo": "Desligamento sem justa causa",
       "_ts": 1745982000000
-    },
-    {
-      "nome": "RAFAEL GOMES MINGONI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "RAFAEL GUIMARAES ANEAS",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "RAFAELA PEREIRA LEMOS",
@@ -2117,60 +1319,11 @@
       "_ts": 1753930800000
     },
     {
-      "nome": "RAQUEL DE MAGALHAES MONTEIRO",
-      "empresa": "GROWTH",
-      "desligamento": "09/07/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1752030000000
-    },
-    {
       "nome": "RENAN PERES GUERRA",
       "empresa": "4BTS",
       "desligamento": "19/02/2026",
       "motivo": "Desligamento sem justa causa",
       "_ts": 1771470000000
-    },
-    {
-      "nome": "RENATA BARROS LEUZINGER CARDOSO DA SILVA",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "RENATA DE SOUZA LIMA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "RENE GUIMARAES CAMARGO",
-      "empresa": "MOMÊ",
-      "desligamento": "31/12/2024",
-      "motivo": "",
-      "_ts": 1735614000000
-    },
-    {
-      "nome": "RICARDO SILVA AFFONSO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "ROBERTA GRIECO MOTTA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "11/06/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1749610800000
-    },
-    {
-      "nome": "RODRIGO ABRAHÃO BARBOSA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "RODRIGO COSTA REAIS DE SOUSA",
@@ -2194,20 +1347,6 @@
       "_ts": 1735700400000
     },
     {
-      "nome": "ROSANI DA SILVA CARAMURU",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "ROSEMARIE FELIX SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "SAVIO RIAN DE OLIVEIRA SOUZA",
       "empresa": "CSC",
       "desligamento": "30/04/2026",
@@ -2215,74 +1354,11 @@
       "_ts": 1777518000000
     },
     {
-      "nome": "SHEILA RODRIGUES MAGGIONI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "SHEILA VALERIA ALVES DE ARRUDA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "SILVIA BEATRIZ DEL REY",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "SIMONE ALVES NAUE",
       "empresa": "PALLAS",
       "desligamento": "05/03/2026",
       "motivo": "",
       "_ts": 1772679600000
-    },
-    {
-      "nome": "SOLAMITE DE LA SALETE ANSELMO TABORDA DE ARAUJO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "15/05/2025",
-      "motivo": "Desligamento sem justa causa",
-      "_ts": 1747278000000
-    },
-    {
-      "nome": "STELA HAENEL VILLELA ROSA LEAL",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "TAISA DOS SANTOS LIMA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "10/02/2025",
-      "motivo": "",
-      "_ts": 1739156400000
-    },
-    {
-      "nome": "TATIANA DA SILVA GARCIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "15/05/2025",
-      "motivo": "Pedido de Demissão sem aviso prévio",
-      "_ts": 1747278000000
-    },
-    {
-      "nome": "TAYLAN DE ARAUJO MERNICK",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "THAILA CAROLINE DE ARAUJO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "THAIRA OLIVEIRA DA COSTA",
@@ -2306,46 +1382,11 @@
       "_ts": 1742958000000
     },
     {
-      "nome": "THAIS CRISTINE ARJONAS PARAÍSO",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "THAIS DIEGUES MENDONÇA SAPIA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
-      "nome": "THAIS FELIX SILVA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "TIAGO SILVA DE LIMA",
       "empresa": "PALLAS",
       "desligamento": "26/11/2024",
       "motivo": "",
       "_ts": 1732590000000
-    },
-    {
-      "nome": "VANESSA MARTINS DE CARVALHO",
-      "empresa": "GRAY LINE",
-      "desligamento": "01/12/2025",
-      "motivo": "",
-      "_ts": 1764558000000
-    },
-    {
-      "nome": "VANESSA SALVADOR FERREIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
     },
     {
       "nome": "VANIA REBECHI",
@@ -2362,13 +1403,6 @@
       "_ts": 1759806000000
     },
     {
-      "nome": "WILLIAM RAFAEL MARCONI",
-      "empresa": "TOP SERVICE",
-      "desligamento": "01/01/2026",
-      "motivo": "",
-      "_ts": 1767236400000
-    },
-    {
       "nome": "WILLIAN DA SILVA LIMA",
       "empresa": "4BTS",
       "desligamento": "08/04/2025",
@@ -2381,14 +1415,7 @@
       "desligamento": "14/05/2026",
       "motivo": "",
       "_ts": 1778727600000
-    },
-    {
-      "nome": "YASMIN ALVES DE LIMA FERREIRA",
-      "empresa": "TOP SERVICE",
-      "desligamento": "07/01/2025",
-      "motivo": "",
-      "_ts": 1736218800000
     }
   ],
-  "atualizadoEm": "21/05/2026, 16:07:37"
+  "atualizadoEm": "21/05/2026, 17:01:05"
 }
