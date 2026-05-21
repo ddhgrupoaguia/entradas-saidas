@@ -227,7 +227,7 @@ body {
 .filters select {
   padding: 6px 10px; background: var(--bg3); border: 1px solid var(--border);
   border-radius: var(--radius-sm); font-size: 12px; font-family: 'Inter', sans-serif;
-  color: var(--text1); outline: none; cursor: pointer; transition: border-color .15s; flex: 1; min-width: 120px;
+  color: var(--text1); outline: none; cursor: pointer; transition: border-color .15s; flex: 1; min-width: 90px;
 }
 .filters select:focus { border-color: var(--blue); }
 
@@ -450,6 +450,7 @@ tr.saida:hover td { background: var(--red-dim); }
       </div>
       <div class="filters">
         <select id="f-mes-e" onchange="applyFilters()"><option value="">Todos os meses</option></select>
+        <select id="f-ano-e" onchange="applyFilters()"><option value="">Todos os anos</option></select>
         <select id="f-emp-e" onchange="applyFilters()"><option value="">Todas as empresas</option></select>
       </div>
       <div class="table-wrap">
@@ -476,6 +477,7 @@ tr.saida:hover td { background: var(--red-dim); }
       </div>
       <div class="filters">
         <select id="f-mes-s" onchange="applyFilters()"><option value="">Todos os meses</option></select>
+        <select id="f-ano-s" onchange="applyFilters()"><option value="">Todos os anos</option></select>
         <select id="f-emp-s" onchange="applyFilters()"><option value="">Todas as empresas</option></select>
       </div>
       <div class="table-wrap">
@@ -699,28 +701,46 @@ async function processFile(file){
 
 // ── FILTROS ───────────────────────────────────────────
 function buildFilters(){
-  const mE={},empE=new Set();
+  const mesE=new Set(), anoE=new Set(), empE=new Set();
   data.entradas.forEach(r=>{
-    const d=parseDate(r.admissao);if(!d)return;
-    const k=mKey(d);if(k)mE[k]=mLabel(k);
-    if(r.empresa)empE.add(r.empresa);
+    const d=parseDate(r.admissao); if(!d)return;
+    mesE.add(String(d.getMonth()+1).padStart(2,'0'));
+    anoE.add(String(d.getFullYear()));
+    if(r.empresa) empE.add(r.empresa);
   });
-  const mS={},empS=new Set();
+  const mesS=new Set(), anoS=new Set(), empS=new Set();
   data.saidas.forEach(r=>{
-    const d=parseDate(r.desligamento);if(!d)return;
-    const k=mKey(d);if(k)mS[k]=mLabel(k);
-    if(r.empresa)empS.add(r.empresa);
+    const d=parseDate(r.desligamento); if(!d)return;
+    mesS.add(String(d.getMonth()+1).padStart(2,'0'));
+    anoS.add(String(d.getFullYear()));
+    if(r.empresa) empS.add(r.empresa);
   });
-  fillMSel('f-mes-e',mE); fillSel('f-emp-e',empE,'Todas as empresas');
-  fillMSel('f-mes-s',mS); fillSel('f-emp-s',empS,'Todas as empresas');
+  fillMesSel('f-mes-e', mesE);
+  fillAnoSel('f-ano-e', anoE);
+  fillSel('f-emp-e', empE, 'Todas as empresas');
+  fillMesSel('f-mes-s', mesS);
+  fillAnoSel('f-ano-s', anoS);
+  fillSel('f-emp-s', empS, 'Todas as empresas');
 }
 
-function fillMSel(id,map){
-  const s=document.getElementById(id);const ov=s.value;
-  const sorted=Object.entries(map).sort((a,b)=>b[0].localeCompare(a[0]));
-  s.innerHTML='<option value="">Todos os meses</option>'+sorted.map(([k,l])=>`<option value="${k}">${l}</option>`).join('');
-  if(ov)s.value=ov;
+const MESES_SHORT = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+
+function fillMesSel(id, vals){
+  const s=document.getElementById(id); const ov=s.value;
+  const sorted=[...vals].sort();
+  s.innerHTML='<option value="">Todos os meses</option>'+
+    sorted.map(m=>`<option value="${m}">${MESES_SHORT[+m-1]}</option>`).join('');
+  if(ov && [...vals].includes(ov)) s.value=ov;
 }
+
+function fillAnoSel(id, vals){
+  const s=document.getElementById(id); const ov=s.value;
+  const sorted=[...vals].sort((a,b)=>b-a);
+  s.innerHTML='<option value="">Todos os anos</option>'+
+    sorted.map(a=>`<option value="${a}">${a}</option>`).join('');
+  if(ov && [...vals].includes(ov)) s.value=ov;
+}
+
 function fillSel(id,vals,ph){
   const s=document.getElementById(id);const ov=s.value;
   s.innerHTML=`<option value="">${ph}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
@@ -729,18 +749,22 @@ function fillSel(id,vals,ph){
 
 // ── RENDER ────────────────────────────────────────────
 function applyFilters(){
-  const mesE=gv('f-mes-e'),empE=gv('f-emp-e');
-  const mesS=gv('f-mes-s'),empS=gv('f-emp-s');
+  const mesE=gv('f-mes-e'), anoE=gv('f-ano-e'), empE=gv('f-emp-e');
+  const mesS=gv('f-mes-s'), anoS=gv('f-ano-s'), empS=gv('f-emp-s');
 
   const rowsE=data.entradas.filter(r=>{
     if(empE&&r.empresa!==empE)return false;
-    if(mesE){const d=parseDate(r.admissao);if(!d||mKey(d)!==mesE)return false;}
+    const d=parseDate(r.admissao);
+    if(mesE){if(!d||String(d.getMonth()+1).padStart(2,'0')!==mesE)return false;}
+    if(anoE){if(!d||String(d.getFullYear())!==anoE)return false;}
     return true;
   }).sort((a,b)=>b._ts-a._ts);
 
   const rowsS=data.saidas.filter(r=>{
     if(empS&&r.empresa!==empS)return false;
-    if(mesS){const d=parseDate(r.desligamento);if(!d||mKey(d)!==mesS)return false;}
+    const d=parseDate(r.desligamento);
+    if(mesS){if(!d||String(d.getMonth()+1).padStart(2,'0')!==mesS)return false;}
+    if(anoS){if(!d||String(d.getFullYear())!==anoS)return false;}
     return true;
   }).sort((a,b)=>b._ts-a._ts);
 
