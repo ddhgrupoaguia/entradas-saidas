@@ -1,0 +1,2394 @@
+{
+  "entradas": [
+    {
+      "nome": "ABEL DA SILVA",
+      "empresa": "Chairman",
+      "admissao": "26/04/2025",
+      "_ts": 1745636428000
+    },
+    {
+      "nome": "ADIR MALAGUETA",
+      "empresa": "4BTS",
+      "admissao": "01/01/1999",
+      "_ts": 915156028000
+    },
+    {
+      "nome": "ADRIANO BRITO DA SILVA",
+      "empresa": "4BTS",
+      "admissao": "04/07/2023",
+      "_ts": 1688439628000
+    },
+    {
+      "nome": "AGATHA ABRAHÃO",
+      "empresa": "Stella Barros",
+      "admissao": "01/07/2004",
+      "_ts": 1088650828000
+    },
+    {
+      "nome": "ALAN MENDONCA NOBREGA",
+      "empresa": "Pallas",
+      "admissao": "19/09/2013",
+      "_ts": 1379559628000
+    },
+    {
+      "nome": "ALAN PEREIRA MODESTO",
+      "empresa": "CSC",
+      "admissao": "01/11/2004",
+      "_ts": 1099278028000
+    },
+    {
+      "nome": "ALESSANDRA MATIAS FRAGA",
+      "empresa": "4BTS",
+      "admissao": "28/03/2022",
+      "_ts": 1648436428000
+    },
+    {
+      "nome": "ALEXANDRE RODRIGUES PARREIRA",
+      "empresa": "Pallas",
+      "admissao": "18/02/2010",
+      "_ts": 1266458428000
+    },
+    {
+      "nome": "ALEXANDRO LOPES DE MELO",
+      "empresa": "Pallas",
+      "admissao": "01/06/1993",
+      "_ts": 738903628000
+    },
+    {
+      "nome": "ALINE CARVALHO MAZZOLI",
+      "empresa": "Pallas",
+      "admissao": "13/05/2024",
+      "_ts": 1715569228000
+    },
+    {
+      "nome": "ALINE PASSOS DOS SANTOS",
+      "empresa": "Pop Tur",
+      "admissao": "14/03/2025",
+      "_ts": 1741921228000
+    },
+    {
+      "nome": "ALLANIS FREITAS MARQUES",
+      "empresa": "Nest Travel",
+      "admissao": "05/02/2024",
+      "_ts": 1707102028000
+    },
+    {
+      "nome": "AMANDA MARINHO DA SILVA",
+      "empresa": "Pallas",
+      "admissao": "12/06/2025",
+      "_ts": 1749697228000
+    },
+    {
+      "nome": "ANA BEATRIZ PEREIRA DA SILVA",
+      "empresa": "Pallas",
+      "admissao": "08/07/2024",
+      "_ts": 1720407628000
+    },
+    {
+      "nome": "ANA CAROLINA CASTELO BRANCO DE CARVALHO",
+      "empresa": "Nest Travel",
+      "admissao": "21/11/2023",
+      "_ts": 1700535628000
+    },
+    {
+      "nome": "ANDRE LUIZ DE ALMEIDA CARVALHO",
+      "empresa": "CSC",
+      "admissao": "01/01/2021",
+      "_ts": 1609470028000
+    },
+    {
+      "nome": "ANDRE MARTINS COSTA",
+      "empresa": "Pallas",
+      "admissao": "03/01/2017",
+      "_ts": 1483408828000
+    },
+    {
+      "nome": "ANDREA MUCKS",
+      "empresa": "CSC",
+      "admissao": "01/08/1992",
+      "_ts": 712638028000
+    },
+    {
+      "nome": "ANDRESSA MEDEIROS DE ALBUQUERQUE",
+      "empresa": "CSC",
+      "admissao": "28/01/2026",
+      "_ts": 1769569228000
+    },
+    {
+      "nome": "BEATRIZ DE SOUZA GOMES",
+      "empresa": "Pallas",
+      "admissao": "05/08/2024",
+      "_ts": 1722826828000
+    },
+    {
+      "nome": "BEATRIZ DOS SANTOS BRUNO",
+      "empresa": "Pallas",
+      "admissao": "18/05/2026",
+      "_ts": 1779073228000
+    },
+    {
+      "nome": "BIANCA DE ABREU BASSO BRANDÃO",
+      "empresa": "Nest Travel",
+      "admissao": "05/02/2024",
+      "_ts": 1707102028000
+    },
+    {
+      "nome": "BIANCA DEZIDERIO",
+      "empresa": "Pallas",
+      "admissao": "11/04/2024",
+      "_ts": 1712804428000
+    },
+    {
+      "nome": "BIANCA FARIA MARQUES TELLES",
+      "empresa": "4BTS",
+      "admissao": "25/04/2022",
+      "_ts": 1650855628000
+    },
+    {
+      "nome": "BRUNO ROCKEMBACH PESSOA",
+      "empresa": "4BTS",
+      "admissao": "05/01/2026",
+      "_ts": 1767582028000
+    },
+    {
+      "nome": "BRUNO SOARES DA SILVA",
+      "empresa": "CSC",
+      "admissao": "04/05/2026",
+      "_ts": 1777863628000
+    },
+    {
+      "nome": "CAMILA DA SILVA LIMA",
+      "empresa": "Pallas",
+      "admissao": "13/01/2025",
+      "_ts": 1736737228000
+    },
+    {
+      "nome": "CARLA AZEVEDO VILA NOVA PEREIRA",
+      "empresa": "CSC",
+      "admissao": "06/02/2023",
+      "_ts": 1675652428000
+    },
+    {
+      "nome": "CARLA HUEB PUTERI CALIL",
+      "empresa": "Stella Barros",
+      "admissao": "16/11/2011",
+      "_ts": 1321408828000
+    },
+    {
+      "nome": "CARLOS EDUARDO POLITO CHINELLI",
+      "empresa": "Pallas",
+      "admissao": "01/10/1992",
+      "_ts": 717908428000
+    },
+    {
+      "nome": "CAROLINA POVOA DE ARAGAO",
+      "empresa": "Pallas",
+      "admissao": "01/07/2008",
+      "_ts": 1214881228000
+    },
+    {
+      "nome": "CHARLENE FREITAS LEMOS",
+      "empresa": "Pallas",
+      "admissao": "22/05/2024",
+      "_ts": 1716346828000
+    },
+    {
+      "nome": "CLARA CASTRO MUNIZ",
+      "empresa": "Pallas",
+      "admissao": "06/01/2025",
+      "_ts": 1736132428000
+    },
+    {
+      "nome": "CLEBER CEZARIO FLORENTINO",
+      "empresa": "Pallas",
+      "admissao": "26/09/2023",
+      "_ts": 1695697228000
+    },
+    {
+      "nome": "CORINA BURJACK DUARTE",
+      "empresa": "Torcida Brasil",
+      "admissao": "23/01/2019",
+      "_ts": 1548208828000
+    },
+    {
+      "nome": "CRISTIANO UCEDA",
+      "empresa": "CSC",
+      "admissao": "01/10/1999",
+      "_ts": 938746828000
+    },
+    {
+      "nome": "DANIEL DOS SANTOS BRANCO FERREIRA",
+      "empresa": "Pallas",
+      "admissao": "19/06/2023",
+      "_ts": 1687143628000
+    },
+    {
+      "nome": "DAYANE ALVES LOPES DA SILVA",
+      "empresa": "Nest Travel",
+      "admissao": "09/03/2026",
+      "_ts": 1773025228000
+    },
+    {
+      "nome": "DEBORAH DA SILVA TAVARES",
+      "empresa": "4BTS",
+      "admissao": "10/07/2013",
+      "_ts": 1373425228000
+    },
+    {
+      "nome": "DIEGO PACHECO GONSALVES",
+      "empresa": "Pallas",
+      "admissao": "16/09/2025",
+      "_ts": 1757991628000
+    },
+    {
+      "nome": "DIOGO MALTA BARRETO VIANNA E SILVA",
+      "empresa": "Pallas",
+      "admissao": "01/01/2005",
+      "_ts": 1104544828000
+    },
+    {
+      "nome": "DOUGLAS PRESTO",
+      "empresa": "4BTS",
+      "admissao": "01/10/2019",
+      "_ts": 1569898828000
+    },
+    {
+      "nome": "EDGAR LEMOS DE SOUZA",
+      "empresa": "Pallas",
+      "admissao": "07/05/2024",
+      "_ts": 1715050828000
+    },
+    {
+      "nome": "EDSON ALEXANDRE GREGORIO DO NASCIMENTO",
+      "empresa": "Pallas",
+      "admissao": "03/01/2022",
+      "_ts": 1641178828000
+    },
+    {
+      "nome": "EDSON FELIX SANTOS CARDOSO",
+      "empresa": "CSC",
+      "admissao": "09/01/2012",
+      "_ts": 1326074428000
+    },
+    {
+      "nome": "EVANDRO DE SOUZA ALMEIDA",
+      "empresa": "4BTS",
+      "admissao": "02/12/2024",
+      "_ts": 1733108428000
+    },
+    {
+      "nome": "FABIOLA LAZOSKI DA FONSECA BORDALLO",
+      "empresa": "4BTS",
+      "admissao": "13/10/2022",
+      "_ts": 1665630028000
+    },
+    {
+      "nome": "FELIPE EMANUEL CADENA DE ALMEIDA",
+      "empresa": "Pallas",
+      "admissao": "03/07/2025",
+      "_ts": 1751511628000
+    },
+    {
+      "nome": "FELIPE MORET NESI",
+      "empresa": "CSC",
+      "admissao": "01/11/2023",
+      "_ts": 1698807628000
+    },
+    {
+      "nome": "FERNANDA CAMPOS COSTA DE ASSIS",
+      "empresa": "CSC",
+      "admissao": "06/10/2025",
+      "_ts": 1759719628000
+    },
+    {
+      "nome": "FLAVIO CARNEIRO DE BARROS",
+      "empresa": "CSC",
+      "admissao": "20/04/2026",
+      "_ts": 1776654028000
+    },
+    {
+      "nome": "FRANKLIN WILLIAN ZAPPELLO",
+      "empresa": "Nest Travel",
+      "admissao": "14/03/2024",
+      "_ts": 1710385228000
+    },
+    {
+      "nome": "GABRIELA NASCIMENTO TEIXEIRA",
+      "empresa": "Pallas",
+      "admissao": "04/07/2023",
+      "_ts": 1688439628000
+    },
+    {
+      "nome": "GIZELE TEREZA LEITE WEBER",
+      "empresa": "CSC",
+      "admissao": "13/05/2024",
+      "_ts": 1715569228000
+    },
+    {
+      "nome": "HELEN CRISTIAN RITA SOUZA HELBOURN",
+      "empresa": "Pallas/4bts",
+      "admissao": "06/05/2024",
+      "_ts": 1714964428000
+    },
+    {
+      "nome": "HELIO CONDE DE SIMONE",
+      "empresa": "Pallas",
+      "admissao": "01/08/1995",
+      "_ts": 807246028000
+    },
+    {
+      "nome": "HELIO FERNANDO VENTURA DA CRUZ",
+      "empresa": "4BTS",
+      "admissao": "01/10/2021",
+      "_ts": 1633057228000
+    },
+    {
+      "nome": "IGOR DE ASCENÇÃO FELIX",
+      "empresa": "4BTS",
+      "admissao": "19/09/2022",
+      "_ts": 1663556428000
+    },
+    {
+      "nome": "ISABELLA CERQUEIRA DA SILVA MATHIAS DE MOURA",
+      "empresa": "Pallas",
+      "admissao": "22/05/2023",
+      "_ts": 1684724428000
+    },
+    {
+      "nome": "JAIRO ANDRADE DE ALMEIDA JUNIOR",
+      "empresa": "Pallas",
+      "admissao": "11/02/2026",
+      "_ts": 1770778828000
+    },
+    {
+      "nome": "JEAN CLAYTON DO VALE LOPES",
+      "empresa": "Pallas",
+      "admissao": "13/06/2022",
+      "_ts": 1655089228000
+    },
+    {
+      "nome": "JEANNE DE SOUZA TEIXEIRA",
+      "empresa": "Pallas",
+      "admissao": "03/07/2023",
+      "_ts": 1688353228000
+    },
+    {
+      "nome": "JESSICA DE ALMEIDA TAVARES",
+      "empresa": "Pallas",
+      "admissao": "14/10/2024",
+      "_ts": 1728874828000
+    },
+    {
+      "nome": "JESSICA SILVA DE BARROS",
+      "empresa": "Pallas",
+      "admissao": "08/09/2020",
+      "_ts": 1599534028000
+    },
+    {
+      "nome": "JOAO PAULO JORGE DIAS SILVA",
+      "empresa": "Torcida Brasil",
+      "admissao": "06/05/2008",
+      "_ts": 1210042828000
+    },
+    {
+      "nome": "JONATAS DOS SANTOS ROCHA",
+      "empresa": "Pallas",
+      "admissao": "19/08/2019",
+      "_ts": 1566183628000
+    },
+    {
+      "nome": "JONATHAS ABRAHAO",
+      "empresa": "4BTS",
+      "admissao": "03/04/2000",
+      "_ts": 954730828000
+    },
+    {
+      "nome": "JORGE JUNIOR MODESTO",
+      "empresa": "CSC",
+      "admissao": "01/07/1994",
+      "_ts": 773031628000
+    },
+    {
+      "nome": "JULIA DA COSTA VITARI",
+      "empresa": "Pallas",
+      "admissao": "02/09/2024",
+      "_ts": 1725246028000
+    },
+    {
+      "nome": "JULIANA DA ROCHA SANTOS",
+      "empresa": "Nest Travel",
+      "admissao": "03/11/2020",
+      "_ts": 1604372428000
+    },
+    {
+      "nome": "JULIANA DA SILVA DUARTE",
+      "empresa": "Pallas",
+      "admissao": "24/04/2024",
+      "_ts": 1713927628000
+    },
+    {
+      "nome": "JULIANA DOS SANTOS MENDES",
+      "empresa": "Stella Barros",
+      "admissao": "02/07/2024",
+      "_ts": 1719889228000
+    },
+    {
+      "nome": "JULIANA LEITE RIBEIRO PARREIRA",
+      "empresa": "CSC",
+      "admissao": "14/04/2026",
+      "_ts": 1776135628000
+    },
+    {
+      "nome": "JULIANA MEDINA BAHIA",
+      "empresa": "Pallas",
+      "admissao": "08/08/2022",
+      "_ts": 1659927628000
+    },
+    {
+      "nome": "KAMILLA MARQUES DA SILVA DOS SANTOS",
+      "empresa": "4BTS",
+      "admissao": "01/02/2022",
+      "_ts": 1643684428000
+    },
+    {
+      "nome": "KARINE OLIVEIRA MACIEL QUINTANILHA",
+      "empresa": "Pallas",
+      "admissao": "02/06/2025",
+      "_ts": 1748833228000
+    },
+    {
+      "nome": "KATIA REGINA MARIN CRUZ CORREIA",
+      "empresa": "Stella Barros",
+      "admissao": "13/11/2024",
+      "_ts": 1731466828000
+    },
+    {
+      "nome": "LAUANE BRUNO DA SILVA",
+      "empresa": "4BTS",
+      "admissao": "12/11/2025",
+      "_ts": 1762916428000
+    },
+    {
+      "nome": "LAURA ALVES FULOP",
+      "empresa": "Pallas",
+      "admissao": "04/05/2026",
+      "_ts": 1777863628000
+    },
+    {
+      "nome": "LEANDRO LUIZ DA COSTA",
+      "empresa": "Pallas",
+      "admissao": "08/09/2020",
+      "_ts": 1599534028000
+    },
+    {
+      "nome": "LEANDRO PEREIRA DE LIMA",
+      "empresa": "Pallas",
+      "admissao": "19/06/2023",
+      "_ts": 1687143628000
+    },
+    {
+      "nome": "LEONARDO DE CASTRO VIANA",
+      "empresa": "Pallas",
+      "admissao": "16/06/2025",
+      "_ts": 1750042828000
+    },
+    {
+      "nome": "LETICIA SEGHETTO EUFRASIO",
+      "empresa": "4BTS",
+      "admissao": "08/01/2024",
+      "_ts": 1704682828000
+    },
+    {
+      "nome": "LETICIA TURQUES RODRIGUES",
+      "empresa": "Pallas",
+      "admissao": "08/05/2024",
+      "_ts": 1715137228000
+    },
+    {
+      "nome": "LINA ANGELICA CALDAS TEIXEIRA",
+      "empresa": "Pallas",
+      "admissao": "27/11/2023",
+      "_ts": 1701054028000
+    },
+    {
+      "nome": "LISA MICHELE DE MELO ROZA",
+      "empresa": "Pallas",
+      "admissao": "20/05/2024",
+      "_ts": 1716174028000
+    },
+    {
+      "nome": "LIVIA DE LIMA E CARVALHO",
+      "empresa": "4BTS",
+      "admissao": "21/05/2025",
+      "_ts": 1747796428000
+    },
+    {
+      "nome": "LUANA CRISTINA ROCHA CHAVES",
+      "empresa": "4BTS",
+      "admissao": "08/07/2024",
+      "_ts": 1720407628000
+    },
+    {
+      "nome": "LUCAS CAETANO PINTO",
+      "empresa": "Pallas",
+      "admissao": "01/05/2026",
+      "_ts": 1777604428000
+    },
+    {
+      "nome": "LUCAS FARIAS WINKLER",
+      "empresa": "4BTS",
+      "admissao": "03/11/2025",
+      "_ts": 1762138828000
+    },
+    {
+      "nome": "LUCAS FERREIRA VERAS DA CUNHA",
+      "empresa": "Pallas",
+      "admissao": "02/06/2025",
+      "_ts": 1748833228000
+    },
+    {
+      "nome": "LUCAS HENRIQUE SANTANA",
+      "empresa": "Pallas",
+      "admissao": "01/07/2025",
+      "_ts": 1751338828000
+    },
+    {
+      "nome": "LUCAS MIGUEL DE OLIVEIRA ARANDA",
+      "empresa": "CSC",
+      "admissao": "05/08/2025",
+      "_ts": 1754362828000
+    },
+    {
+      "nome": "LUCAS MOREIRA DE CARVALHO NOGUEIRA",
+      "empresa": "Nest Travel",
+      "admissao": "01/02/2024",
+      "_ts": 1706756428000
+    },
+    {
+      "nome": "LUCAS RAMOS LIMA",
+      "empresa": "Pallas",
+      "admissao": "",
+      "_ts": 0
+    },
+    {
+      "nome": "LUDMILLA RAYANNE DE SOUZA NUNES",
+      "empresa": "Pallas",
+      "admissao": "19/06/2023",
+      "_ts": 1687143628000
+    },
+    {
+      "nome": "LUIZ ALBERTO COLIMERIO",
+      "empresa": "Pallas",
+      "admissao": "01/07/2009",
+      "_ts": 1246417228000
+    },
+    {
+      "nome": "LUIZ CARLOS PINHEIRO ESTEVES FILHO",
+      "empresa": "CSC",
+      "admissao": "15/09/2025",
+      "_ts": 1757905228000
+    },
+    {
+      "nome": "LUIZA ALMEIDA DE LIMA",
+      "empresa": "Pallas",
+      "admissao": "03/09/2014",
+      "_ts": 1409713228000
+    },
+    {
+      "nome": "MAILA SANTOS TAVARES",
+      "empresa": "Pop Tur",
+      "admissao": "09/01/2012",
+      "_ts": 1326074428000
+    },
+    {
+      "nome": "MARCEL RAMOS FERREIRA",
+      "empresa": "Pallas",
+      "admissao": "26/04/2021",
+      "_ts": 1619406028000
+    },
+    {
+      "nome": "MARCIA VIANA DE AGUIAR",
+      "empresa": "Chairman",
+      "admissao": "27/02/2025",
+      "_ts": 1740625228000
+    },
+    {
+      "nome": "MARCIO ALEXANDRE SILVA DA ROCHA",
+      "empresa": "Pallas",
+      "admissao": "16/05/2018",
+      "_ts": 1526439628000
+    },
+    {
+      "nome": "MARCOS MARTINS FARIAS",
+      "empresa": "CSC",
+      "admissao": "01/02/2012",
+      "_ts": 1328061628000
+    },
+    {
+      "nome": "MARCOS PORTELLA SEABRA",
+      "empresa": "CSC",
+      "admissao": "08/08/2024",
+      "_ts": 1723086028000
+    },
+    {
+      "nome": "MARCUS VINICIUS OLIVEIRA MATHIAS RAPOSO",
+      "empresa": "Pallas",
+      "admissao": "07/05/2019",
+      "_ts": 1557198028000
+    },
+    {
+      "nome": "MARIANA CRISTINA COSTA ESTEVES SILVA",
+      "empresa": "Pallas",
+      "admissao": "24/11/2025",
+      "_ts": 1763953228000
+    },
+    {
+      "nome": "MARIANA PADILHA FROES EYER DE ARAUJO",
+      "empresa": "CSC",
+      "admissao": "01/12/2020",
+      "_ts": 1606791628000
+    },
+    {
+      "nome": "MARINA ALVES CAVALCANTI GUIMARAES",
+      "empresa": "Stella Barros",
+      "admissao": "15/05/2023",
+      "_ts": 1684119628000
+    },
+    {
+      "nome": "MARLON MARQUES DOS SANTOS",
+      "empresa": "4BTS",
+      "admissao": "01/09/2025",
+      "_ts": 1756695628000
+    },
+    {
+      "nome": "MATHEUS MACHADO MARTINS BORGES",
+      "empresa": "Pallas",
+      "admissao": "13/03/2014",
+      "_ts": 1394679628000
+    },
+    {
+      "nome": "MAURICIO OLIVEIRA DA MOTA",
+      "empresa": "Pallas",
+      "admissao": "01/10/1993",
+      "_ts": 749444428000
+    },
+    {
+      "nome": "MAURO SIMPLICIO XAVIER",
+      "empresa": "Pallas",
+      "admissao": "03/05/2010",
+      "_ts": 1272855628000
+    },
+    {
+      "nome": "MAXIMILIANO WILLIAM PAIXAO DE OLIVEIRA MAIA",
+      "empresa": "4BTS",
+      "admissao": "14/07/2025",
+      "_ts": 1752462028000
+    },
+    {
+      "nome": "MICHEL COSTA GIL NICOLAY",
+      "empresa": "4BTS",
+      "admissao": "19/05/2026",
+      "_ts": 1779159628000
+    },
+    {
+      "nome": "MUNIQUE SENNA PYRRHO",
+      "empresa": "Pallas/4bts",
+      "admissao": "01/06/2023",
+      "_ts": 1685588428000
+    },
+    {
+      "nome": "NELLY ERICA NATASHA HERLING",
+      "empresa": "4BTS",
+      "admissao": "08/01/2024",
+      "_ts": 1704682828000
+    },
+    {
+      "nome": "NIVEA MUNIZ DE OLIVEIRA GALVÃO",
+      "empresa": "Pallas",
+      "admissao": "11/05/2026",
+      "_ts": 1778468428000
+    },
+    {
+      "nome": "PATRICIA RIBEIRO VIEGAS",
+      "empresa": "CSC",
+      "admissao": "01/01/2023",
+      "_ts": 1672542028000
+    },
+    {
+      "nome": "PAULO DA SILVA",
+      "empresa": "Chairman",
+      "admissao": "28/08/2013",
+      "_ts": 1377658828000
+    },
+    {
+      "nome": "PAULO ROBERTO LEUENROTH",
+      "empresa": "Stella Barros",
+      "admissao": "03/07/2017",
+      "_ts": 1499050828000
+    },
+    {
+      "nome": "PAULO ROQUE DE MELLO CAPINAM",
+      "empresa": "Pallas",
+      "admissao": "13/02/1998",
+      "_ts": 887335228000
+    },
+    {
+      "nome": "PRISCILA SOUSA DE ALMEIDA",
+      "empresa": "4BTS",
+      "admissao": "24/01/2022",
+      "_ts": 1642993228000
+    },
+    {
+      "nome": "REBECA DA SILVA ALVES",
+      "empresa": "Pallas",
+      "admissao": "19/02/2026",
+      "_ts": 1771470028000
+    },
+    {
+      "nome": "REBECA GUIMARÃES GOMES",
+      "empresa": "CSC",
+      "admissao": "26/08/2013",
+      "_ts": 1377486028000
+    },
+    {
+      "nome": "RENATA DOS SANTOS DE ABREU BRAGA",
+      "empresa": "4BTS",
+      "admissao": "21/05/2025",
+      "_ts": 1747796428000
+    },
+    {
+      "nome": "ROBERTO TEIXEIRA HAVELANGE",
+      "empresa": "4BTS",
+      "admissao": "10/07/2012",
+      "_ts": 1341889228000
+    },
+    {
+      "nome": "RODRIGO DE LIMA TEIXEIRA",
+      "empresa": "Nest Travel",
+      "admissao": "22/04/2026",
+      "_ts": 1776826828000
+    },
+    {
+      "nome": "ROGERIO PEREIRA DE OLIVEIRA",
+      "empresa": "Pallas",
+      "admissao": "15/02/2006",
+      "_ts": 1139968828000
+    },
+    {
+      "nome": "ROMULO DOS SANTOS PINTO",
+      "empresa": "Nest Travel",
+      "admissao": "06/10/2025",
+      "_ts": 1759719628000
+    },
+    {
+      "nome": "SEBASTIÃO FABIO DA SILVA",
+      "empresa": "Pallas",
+      "admissao": "14/01/2013",
+      "_ts": 1358128828000
+    },
+    {
+      "nome": "SEBASTIAO PAULO DA SILVA PEREIRA",
+      "empresa": "Pallas",
+      "admissao": "03/07/2023",
+      "_ts": 1688353228000
+    },
+    {
+      "nome": "SERGIO DAMIANI DE OLIVEIRA ARRABAL",
+      "empresa": "Pallas",
+      "admissao": "01/06/1990",
+      "_ts": 644209228000
+    },
+    {
+      "nome": "SHIRLENE MENDONÇA DA CONCEIÇÃO",
+      "empresa": "4BTS",
+      "admissao": "02/12/2024",
+      "_ts": 1733108428000
+    },
+    {
+      "nome": "TAIANE MASCARENHAS DE ALCANTARA",
+      "empresa": "4BTS",
+      "admissao": "21/08/2024",
+      "_ts": 1724209228000
+    },
+    {
+      "nome": "TAINA DE SOUSA SANTOS",
+      "empresa": "CSC",
+      "admissao": "02/07/2025",
+      "_ts": 1751425228000
+    },
+    {
+      "nome": "THAINA CORREIA PINTO",
+      "empresa": "Pallas",
+      "admissao": "04/06/2025",
+      "_ts": 1749006028000
+    },
+    {
+      "nome": "THAIS CRISTINA HERGESSEL",
+      "empresa": "Nest Travel",
+      "admissao": "01/10/2025",
+      "_ts": 1759287628000
+    },
+    {
+      "nome": "THAIS VIEIRA DE PINHO",
+      "empresa": "Pallas",
+      "admissao": "16/07/2025",
+      "_ts": 1752634828000
+    },
+    {
+      "nome": "THAIZA PEREIRA DOS SANTOS",
+      "empresa": "Pallas",
+      "admissao": "03/07/2023",
+      "_ts": 1688353228000
+    },
+    {
+      "nome": "THAMIRES DA CUNHA DE LIMA",
+      "empresa": "Pallas",
+      "admissao": "20/08/2012",
+      "_ts": 1345431628000
+    },
+    {
+      "nome": "THAMIRES NOLETO KLEIN",
+      "empresa": "4BTS",
+      "admissao": "02/12/2024",
+      "_ts": 1733108428000
+    },
+    {
+      "nome": "THIAGO ABRAHÃO",
+      "empresa": "CSC",
+      "admissao": "01/03/2000",
+      "_ts": 951879628000
+    },
+    {
+      "nome": "THIAGO DE LIMA SCHAEFER",
+      "empresa": "Pallas",
+      "admissao": "02/09/2024",
+      "_ts": 1725246028000
+    },
+    {
+      "nome": "THIAGO GOULART BOUÇA",
+      "empresa": "4BTS",
+      "admissao": "17/06/2019",
+      "_ts": 1560740428000
+    },
+    {
+      "nome": "VANDERSON RAMOS DOS SANTOS",
+      "empresa": "Pallas",
+      "admissao": "02/01/2008",
+      "_ts": 1199239228000
+    },
+    {
+      "nome": "VITOR FERREIRA DAMASCENO",
+      "empresa": "Pallas",
+      "admissao": "23/02/2026",
+      "_ts": 1771815628000
+    },
+    {
+      "nome": "VITOR HUGO NASCIMENTO RODRIGUES",
+      "empresa": "Pallas",
+      "admissao": "04/06/2018",
+      "_ts": 1528081228000
+    },
+    {
+      "nome": "VITORIA MARIA FERNANDES DA SILVA",
+      "empresa": "Pallas",
+      "admissao": "",
+      "_ts": 0
+    },
+    {
+      "nome": "WAGNER VIANA ALVES",
+      "empresa": "Pallas",
+      "admissao": "01/01/2021",
+      "_ts": 1609470028000
+    },
+    {
+      "nome": "WALLACE DOS SANTOS CAMARGO",
+      "empresa": "Pop Tur",
+      "admissao": "01/12/2021",
+      "_ts": 1638327628000
+    },
+    {
+      "nome": "WALTER ALVES MARTINS",
+      "empresa": "Pop Tur",
+      "admissao": "15/10/2025",
+      "_ts": 1760497228000
+    },
+    {
+      "nome": "WALTER LUIZ DE SOUZA NERY",
+      "empresa": "Pallas",
+      "admissao": "13/04/2026",
+      "_ts": 1776049228000
+    },
+    {
+      "nome": "WALTON DE BARROS LEITE",
+      "empresa": "Pallas",
+      "admissao": "13/10/2025",
+      "_ts": 1760324428000
+    }
+  ],
+  "saidas": [
+    {
+      "nome": "ADHARA CORREIA PAES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ADRIANA AMORIM CUNHA MARIANI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ADRIANA FERREIRA DA SILVA",
+      "empresa": "4BTS",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "AIDE ALVES CELIO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ALESSANDRA APARECIDA DE ALMEIDA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ALESSANDRA BERTELLI MARTINES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "02/10/2024",
+      "motivo": "",
+      "_ts": 1727838000000
+    },
+    {
+      "nome": "ALESSANDRO PALUMBO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ALEXANDRA MORELATO DE CARVALHO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ALEXANDRE CARLOS DE ALEXANDRIA PEREIRA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ALEXANDRO DE CAMPOS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "15/08/2024",
+      "motivo": "",
+      "_ts": 1723690800000
+    },
+    {
+      "nome": "ALINE BENEDETTE GRECCO LOURENCO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "AMANDA DA SILVA NUNES",
+      "empresa": "POPTUR",
+      "desligamento": "19/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1771470000000
+    },
+    {
+      "nome": "AMANDA GOMES FELIX",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "AMIR HENRIQUE ZEIN LOPES DA SILVA",
+      "empresa": "4BTS",
+      "desligamento": "16/08/2024",
+      "motivo": "PEDIDO DE DEMISSÃO",
+      "_ts": 1723777200000
+    },
+    {
+      "nome": "ANA GOMEZ BASAS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ANA MARIA GOMES DA SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ANA PAULA FERREIRA DE ALMEIDA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ANDREA CRISTINA LESSA PANSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "13/08/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1755054000000
+    },
+    {
+      "nome": "ANDREA GOMES FERREIRA",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "ANDREA SILVEIRA DE SOUSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ANDREIA PASSOS MACEDO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ANTONIA LUCIANA RODRIGUES DE SOUSA",
+      "empresa": "CSC",
+      "desligamento": "22/07/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1753153200000
+    },
+    {
+      "nome": "APARECIDA TORRES CARDOSO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ARTHUR DEFENDI E BORGHI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "BARBARA ARAGONI MORAES MARCHESANI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "BARBARA DA SILVA ANTONINO",
+      "empresa": "PALLAS",
+      "desligamento": "13/03/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1741834800000
+    },
+    {
+      "nome": "BEATRIZ CRISTINA ARNAO VALIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "BIANCA MOTTA ROSENTHAL",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "BRUNO ALVES BAPTISTA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "BRUNO GUIMARAES VIEIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "12/05/2025",
+      "motivo": "",
+      "_ts": 1747018800000
+    },
+    {
+      "nome": "BRUNO MALTA BARRETO VIANNA E SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "BRUNO MARTIN ALVES DA SILVA",
+      "empresa": "4BTS",
+      "desligamento": "09/12/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1765249200000
+    },
+    {
+      "nome": "BRUNO VIEIRA CASTRO",
+      "empresa": "4BTS",
+      "desligamento": "31/01/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1769828400000
+    },
+    {
+      "nome": "CAIO VOLPE DA FONSECA",
+      "empresa": "CSC",
+      "desligamento": "06/01/2025",
+      "motivo": "",
+      "_ts": 1736132400000
+    },
+    {
+      "nome": "CAMILA QUEIROZ DE SOUZA MORAES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CAMILA SANTOS DE FARIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CAROLINA MARIA PEREZ BEHREND",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "CAROLINA RODRIGUES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CAUA FROES DA CRUZ GOMES",
+      "empresa": "CSC",
+      "desligamento": "06/02/2025",
+      "motivo": "",
+      "_ts": 1738810800000
+    },
+    {
+      "nome": "CECILIA LOPES DE OLIVEIRA CARDENAS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CECÍLIA SANTOS NOGUEIRA",
+      "empresa": "NEST TRAVEL",
+      "desligamento": "26/02/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1740538800000
+    },
+    {
+      "nome": "CELSO ANTONIO BARRETO VIANNA E SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "CELSO BARROZO DA SILVA",
+      "empresa": "POPTUR",
+      "desligamento": "19/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1771470000000
+    },
+    {
+      "nome": "CESAR BARRETO VIANNA E SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "CÉSAR EUSTÁQUIO TEIXEIRA",
+      "empresa": "CSC",
+      "desligamento": "11/02/2025",
+      "motivo": "",
+      "_ts": 1739242800000
+    },
+    {
+      "nome": "CLAUDIA ABRAHAO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CLAUDIA TRIVELLI SALMAZI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CLAUDIA YNGAUNIS KOCH",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "CRISTIANE SIMOES GARRETT BURLAMAQUI",
+      "empresa": "4BTS",
+      "desligamento": "07/08/2024",
+      "motivo": "",
+      "_ts": 1722999600000
+    },
+    {
+      "nome": "DAFNEY KARLINE MINDERS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "DANIEL FERNANDES PINTO",
+      "empresa": "GA INTERNACIONAL",
+      "desligamento": "01/04/2026",
+      "motivo": "",
+      "_ts": 1775012400000
+    },
+    {
+      "nome": "DANIELA MARCOUIZOS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "19/09/2025",
+      "motivo": "",
+      "_ts": 1758250800000
+    },
+    {
+      "nome": "DANIELLE RIBEIRO ALVES DA ROCHA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "DAVI MARINHO DE JESUS",
+      "empresa": "PALLAS",
+      "desligamento": "03/11/2025",
+      "motivo": "",
+      "_ts": 1762138800000
+    },
+    {
+      "nome": "DAYANE DA SILVA VIEIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "DEBORA CARVALHO PIGATTO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "DENISE FERRARI PIMENTEL",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "DIEGO PANIZA BURACK",
+      "empresa": "4BTS",
+      "desligamento": "27/08/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1756263600000
+    },
+    {
+      "nome": "DIOGO LAGO OBADIA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "EDCLEITON ROCHA MONTEIRO DE AZEVEDO",
+      "empresa": "PALLAS",
+      "desligamento": "09/12/2024",
+      "motivo": "",
+      "_ts": 1733713200000
+    },
+    {
+      "nome": "EDILSON AUGUSTO DA SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "EDIVALDO PAULO SANTOS SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "30/05/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1748574000000
+    },
+    {
+      "nome": "EDUARDO PATRICIO ADAO",
+      "empresa": "CSC",
+      "desligamento": "06/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1770346800000
+    },
+    {
+      "nome": "ERICA PINHEIRO ESTEVES AZEVEDO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ERIK XAVIER DOS SANTOS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "FABIANA CANDELORO GAIOLLI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "FABIANO NASCIMENTO BARBOSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "FABIANO RODRIGO MARTINS BONIFACIO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "FELIPE NUNES OLIVEIRA",
+      "empresa": "PALLAS",
+      "desligamento": "18/06/2025",
+      "motivo": "Pedido de Demissão com aviso prévio",
+      "_ts": 1750215600000
+    },
+    {
+      "nome": "FELIPE PASCHOAL LEMES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "05/06/2025",
+      "motivo": "",
+      "_ts": 1749092400000
+    },
+    {
+      "nome": "FERNANDA DE ANDRADE RAMO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "30/05/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1748574000000
+    },
+    {
+      "nome": "FERNANDA WANESSA MESSIAS DE OLIVEIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "FILIPPO SIMÕES FERRARI",
+      "empresa": "GROWTH",
+      "desligamento": "09/07/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1752030000000
+    },
+    {
+      "nome": "FLAVIO MENEZES ANDRADE",
+      "empresa": "PALLAS",
+      "desligamento": "26/09/2025",
+      "motivo": "",
+      "_ts": 1758855600000
+    },
+    {
+      "nome": "FLERIKLES PEREIRA SAMPAIO",
+      "empresa": "CSC",
+      "desligamento": "11/10/2025",
+      "motivo": "",
+      "_ts": 1760151600000
+    },
+    {
+      "nome": "FRANCISCA JEANNE DA SILVA BICHON",
+      "empresa": "PALLAS",
+      "desligamento": "01/10/2025",
+      "motivo": "",
+      "_ts": 1759287600000
+    },
+    {
+      "nome": "GABRIELA ABRAHÃO BARBOSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "GABRIELA NASCIMENTO TEIXEIRA",
+      "empresa": "PALLAS",
+      "desligamento": "30/12/1969",
+      "motivo": "",
+      "_ts": -162000000
+    },
+    {
+      "nome": "GEORGIOS PETINERIS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "GEOVANE LUCCA COLLETTI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "GILMAR LUIS DOS SANTOS SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "GIOVANA JABUR ABRAHÃO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "GIOVANNA FERREIRA MALDONADO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "GISLEI DA SILVA CRUZ",
+      "empresa": "4BTS",
+      "desligamento": "02/01/2025",
+      "motivo": "",
+      "_ts": 1735786800000
+    },
+    {
+      "nome": "GIZELDA VINA NASCIMENTO SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "09/06/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1749438000000
+    },
+    {
+      "nome": "GUILHERME AUGUSTO PESSOA RIBEIRO",
+      "empresa": "4BTS",
+      "desligamento": "28/02/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1740711600000
+    },
+    {
+      "nome": "GUILHERME BENTO SILVA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "GUILHERME SILVA MELO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "GUSTAVO ABRAHAO BARBOSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "HUGO DOS SANTOS PEREIRA",
+      "empresa": "POPTUR",
+      "desligamento": "19/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1771470000000
+    },
+    {
+      "nome": "IRISNEIDE MARIANO DA SILVA",
+      "empresa": "PALLAS",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ISABEL CRISTINA MENESES FONSECA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ISABEL CRISTINA SANCHES BERZIN",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "ISRAEL EMERENCIANO TAVARES",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "JACQUELINE DE ALMEIDA MARQUES MENDES",
+      "empresa": "MOMÊ",
+      "desligamento": "16/01/2025",
+      "motivo": "",
+      "_ts": 1736996400000
+    },
+    {
+      "nome": "JAKELINE LIMA DA PAZ",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "JANSER STODUTO SARDINHA SOARES",
+      "empresa": "NEST TRAVEL",
+      "desligamento": "22/09/2025",
+      "motivo": "",
+      "_ts": 1758510000000
+    },
+    {
+      "nome": "JOANA GODINHO LEÃO",
+      "empresa": "NEST TRAVEL",
+      "desligamento": "21/10/2024",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1729479600000
+    },
+    {
+      "nome": "JOAO JULIO FERREIRA DE ALMEIDA",
+      "empresa": "GROWTH",
+      "desligamento": "09/07/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1752030000000
+    },
+    {
+      "nome": "JORGE LUCIANO FROES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "JOSE BIZERRA LINS",
+      "empresa": "POPTUR",
+      "desligamento": "31/08/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1756609200000
+    },
+    {
+      "nome": "JULIA COELHO VITAL DE AZEVEDO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "31/07/2024",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1722394800000
+    },
+    {
+      "nome": "JULIA RUGGERI RIBEIRO DA COSTA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "JULIO CEZAR JUNIOR",
+      "empresa": "PALLAS",
+      "desligamento": "01/06/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1748746800000
+    },
+    {
+      "nome": "KARINA AGUIAR BASAGLIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "KARINA LUCIA DOS SANTOS MONTANARI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "22/09/2025",
+      "motivo": "",
+      "_ts": 1758510000000
+    },
+    {
+      "nome": "KAROLINA POMARO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "KATHLEEN NEVES SANTOS",
+      "empresa": "STELLA BARROS",
+      "desligamento": "17/07/2024",
+      "motivo": "",
+      "_ts": 1721185200000
+    },
+    {
+      "nome": "KELLY DOS SANTOS MOREIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LAERCIO MATHEUS OLSEN",
+      "empresa": "CSC",
+      "desligamento": "01/08/2025",
+      "motivo": "",
+      "_ts": 1754017200000
+    },
+    {
+      "nome": "LARISSA RIBEIRO SIMOES GONCALVES",
+      "empresa": "PALLAS",
+      "desligamento": "16/06/2025",
+      "motivo": "",
+      "_ts": 1750042800000
+    },
+    {
+      "nome": "LAURO FERNANDO PRINCE FERREIRA",
+      "empresa": "CSC",
+      "desligamento": "15/07/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1752548400000
+    },
+    {
+      "nome": "LEONARD DOS SANTOS DO VALE",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "LEONARDO FAVERO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LIDIANE NASCIMENTO DOS SANTOS",
+      "empresa": "CSC",
+      "desligamento": "07/06/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1749265200000
+    },
+    {
+      "nome": "LIGIA MIURA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LILIANE FERNANDES MOREIRA",
+      "empresa": "TORCIDA BRASIL",
+      "desligamento": "15/10/2025",
+      "motivo": "",
+      "_ts": 1760497200000
+    },
+    {
+      "nome": "LORELLA TORRES HENRIQUES",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "LUANA AMORIM DUARTE",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LUCA SILVA DA ROCHA CORREA",
+      "empresa": "STELLA BARROS",
+      "desligamento": "11/05/2026",
+      "motivo": "",
+      "_ts": 1778468400000
+    },
+    {
+      "nome": "LUCA SILVA DA ROCHA CORREA",
+      "empresa": "4BTS",
+      "desligamento": "22/10/2024",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1729566000000
+    },
+    {
+      "nome": "LUCAS DA SILVA ALVES",
+      "empresa": "4BTS",
+      "desligamento": "08/04/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1744081200000
+    },
+    {
+      "nome": "LUCIANA ASSUNÇÃO DE FREITAS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LUIGI TREVISAN",
+      "empresa": "PALLAS",
+      "desligamento": "01/07/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1751338800000
+    },
+    {
+      "nome": "LUIS ABRAHÃO NETO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LUISA JABUR ABRAHAO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "LUIZ ALBERTO COLIMERIO",
+      "empresa": "PALLAS",
+      "desligamento": "31/12/1969",
+      "motivo": "",
+      "_ts": -75600000
+    },
+    {
+      "nome": "MARCELLO ARION LASSEN CORDEIRO",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "MARCELO HIROSHI YAMAKI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARCELO PACHECO DE MELLO",
+      "empresa": "PALLAS",
+      "desligamento": "19/12/2024",
+      "motivo": "Pedido de Demissão com aviso prévio",
+      "_ts": 1734577200000
+    },
+    {
+      "nome": "MARCO TULIO CUNHA CAMPOS",
+      "empresa": "4BTS",
+      "desligamento": "31/07/2024",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1722394800000
+    },
+    {
+      "nome": "MARIA ALICE CABRAL MAIA",
+      "empresa": "Growth",
+      "desligamento": "31/03/2025",
+      "motivo": "",
+      "_ts": 1743390000000
+    },
+    {
+      "nome": "MARIA CLARA FARIAS DE OLIVEIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARIA DA PENHA ALVES",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "MARIA IZABEL LEAL DE BARROS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARIANA ALVES BANOV",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARIANA DE CASTRO SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARIANA PINTO RIBEIRO",
+      "empresa": "4BTS",
+      "desligamento": "28/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1772247600000
+    },
+    {
+      "nome": "MARILIA DE OLIVEIRA FARIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MARISA DE SOUZA ARAUJO TEIXEIRA",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "MATEUS HENRIQUE CARDOSO COSTA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MATHEUS VILLELA DE MACEDO MUNCH",
+      "empresa": "CSC",
+      "desligamento": "17/03/2025",
+      "motivo": "",
+      "_ts": 1742180400000
+    },
+    {
+      "nome": "MAX EUGENIO PEREIRA MARQUES",
+      "empresa": "TOP SERVICE",
+      "desligamento": "14/02/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1739502000000
+    },
+    {
+      "nome": "MAYRA MARTINS ALVES",
+      "empresa": "4BTS",
+      "desligamento": "10/12/2025",
+      "motivo": "",
+      "_ts": 1765335600000
+    },
+    {
+      "nome": "MICHAEL RAMOS DE SANTANA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "MONICA RODRIGUES SANTOS LIMA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "NATALIA BORGHI EGERLAND",
+      "empresa": "TOP SERVICE",
+      "desligamento": "30/04/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1745982000000
+    },
+    {
+      "nome": "NATHALIA KODATO VELOSO E SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "NATHALIA MENDES DA SILVA",
+      "empresa": "4BTS",
+      "desligamento": "18/11/2025",
+      "motivo": "",
+      "_ts": 1763434800000
+    },
+    {
+      "nome": "NICHOLAS DE SOUZA CAMPAGNOLI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "08/10/2025",
+      "motivo": "",
+      "_ts": 1759892400000
+    },
+    {
+      "nome": "NUBIA OLIVEIRA DA SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "PAOLA CAROLINA DE MARTINO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "PATRICIA DA CONCEIÇÃO LEONARDO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "21/02/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1740106800000
+    },
+    {
+      "nome": "PAULA AMORIM DA SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "PAULA CRISTINA TONI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "PAULA KATE KANNO NERY",
+      "empresa": "TOP SERVICE",
+      "desligamento": "31/07/2024",
+      "motivo": "Pedido de demissão",
+      "_ts": 1722394800000
+    },
+    {
+      "nome": "PAULA LIMA FERREIRA DA SILVA",
+      "empresa": "4BTS",
+      "desligamento": "13/05/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1747105200000
+    },
+    {
+      "nome": "PAULO CEZAR BASTOS CASTELLO BRANCO",
+      "empresa": "TORCIDA BRASIL",
+      "desligamento": "13/10/2025",
+      "motivo": "",
+      "_ts": 1760324400000
+    },
+    {
+      "nome": "PAULO MURILO ALMEIDA RAINHO BRAGA SILVA",
+      "empresa": "NEST TRAVEL",
+      "desligamento": "30/08/2025",
+      "motivo": "",
+      "_ts": 1756522800000
+    },
+    {
+      "nome": "PAULO ROBERTO GOMES MOREIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "08/10/2025",
+      "motivo": "",
+      "_ts": 1759892400000
+    },
+    {
+      "nome": "PEDRO HENRIQUE SILVA DA PAIXÃO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RAFAEL ARAUJO DA SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RAFAEL ARRUDA DA SILVA SEIXAS",
+      "empresa": "PALLAS",
+      "desligamento": "05/02/2026",
+      "motivo": "",
+      "_ts": 1770260400000
+    },
+    {
+      "nome": "RAFAEL ARRUDA DA SILVA SEIXAS",
+      "empresa": "PALLAS",
+      "desligamento": "05/02/2026",
+      "motivo": "",
+      "_ts": 1770260400000
+    },
+    {
+      "nome": "RAFAEL CARVALHO",
+      "empresa": "CLUBE DE FÉRIAS",
+      "desligamento": "20/08/2025",
+      "motivo": "",
+      "_ts": 1755658800000
+    },
+    {
+      "nome": "RAFAEL DUARTE BERNARDI",
+      "empresa": "NEST TRAVEL",
+      "desligamento": "30/04/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1745982000000
+    },
+    {
+      "nome": "RAFAEL GOMES MINGONI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RAFAEL GUIMARAES ANEAS",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RAFAELA PEREIRA LEMOS",
+      "empresa": "CSC",
+      "desligamento": "10/07/2024",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1720580400000
+    },
+    {
+      "nome": "RAQUEL AMARO CONSTANTE DA SILVA",
+      "empresa": "STELLA BARROS",
+      "desligamento": "31/07/2025",
+      "motivo": "",
+      "_ts": 1753930800000
+    },
+    {
+      "nome": "RAQUEL DE MAGALHAES MONTEIRO",
+      "empresa": "GROWTH",
+      "desligamento": "09/07/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1752030000000
+    },
+    {
+      "nome": "RENAN PERES GUERRA",
+      "empresa": "4BTS",
+      "desligamento": "19/02/2026",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1771470000000
+    },
+    {
+      "nome": "RENATA BARROS LEUZINGER CARDOSO DA SILVA",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "RENATA DE SOUZA LIMA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RENE GUIMARAES CAMARGO",
+      "empresa": "MOMÊ",
+      "desligamento": "31/12/2024",
+      "motivo": "",
+      "_ts": 1735614000000
+    },
+    {
+      "nome": "RICARDO SILVA AFFONSO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ROBERTA GRIECO MOTTA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "11/06/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1749610800000
+    },
+    {
+      "nome": "RODRIGO ABRAHÃO BARBOSA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "RODRIGO COSTA REAIS DE SOUSA",
+      "empresa": "4BTS",
+      "desligamento": "11/08/2025",
+      "motivo": "",
+      "_ts": 1754881200000
+    },
+    {
+      "nome": "RODRIGO MAGALHAES AMORIM",
+      "empresa": "4BTS",
+      "desligamento": "11/07/2024",
+      "motivo": "",
+      "_ts": 1720666800000
+    },
+    {
+      "nome": "RONALDO SANTOS SILVA",
+      "empresa": "4BTS",
+      "desligamento": "01/01/2025",
+      "motivo": "",
+      "_ts": 1735700400000
+    },
+    {
+      "nome": "ROSANI DA SILVA CARAMURU",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "ROSEMARIE FELIX SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "SAVIO RIAN DE OLIVEIRA SOUZA",
+      "empresa": "CSC",
+      "desligamento": "30/04/2026",
+      "motivo": "",
+      "_ts": 1777518000000
+    },
+    {
+      "nome": "SHEILA RODRIGUES MAGGIONI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "SHEILA VALERIA ALVES DE ARRUDA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "SILVIA BEATRIZ DEL REY",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "SIMONE ALVES NAUE",
+      "empresa": "PALLAS",
+      "desligamento": "05/03/2026",
+      "motivo": "",
+      "_ts": 1772679600000
+    },
+    {
+      "nome": "SOLAMITE DE LA SALETE ANSELMO TABORDA DE ARAUJO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "15/05/2025",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1747278000000
+    },
+    {
+      "nome": "STELA HAENEL VILLELA ROSA LEAL",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "TAISA DOS SANTOS LIMA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "10/02/2025",
+      "motivo": "",
+      "_ts": 1739156400000
+    },
+    {
+      "nome": "TATIANA DA SILVA GARCIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "15/05/2025",
+      "motivo": "Pedido de Demissão sem aviso prévio",
+      "_ts": 1747278000000
+    },
+    {
+      "nome": "TAYLAN DE ARAUJO MERNICK",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "THAILA CAROLINE DE ARAUJO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "THAIRA OLIVEIRA DA COSTA",
+      "empresa": "4BTS",
+      "desligamento": "20/12/2024",
+      "motivo": "Desligamento sem justa causa",
+      "_ts": 1734663600000
+    },
+    {
+      "nome": "THAIS ALVES GRASSO",
+      "empresa": "PALLAS",
+      "desligamento": "28/08/2025",
+      "motivo": "",
+      "_ts": 1756350000000
+    },
+    {
+      "nome": "THAIS BOUCHARDET GUIMARÂES DE SOUZA",
+      "empresa": "PALLAS",
+      "desligamento": "26/03/2025",
+      "motivo": "",
+      "_ts": 1742958000000
+    },
+    {
+      "nome": "THAIS CRISTINE ARJONAS PARAÍSO",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "THAIS DIEGUES MENDONÇA SAPIA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "THAIS FELIX SILVA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "TIAGO SILVA DE LIMA",
+      "empresa": "PALLAS",
+      "desligamento": "26/11/2024",
+      "motivo": "",
+      "_ts": 1732590000000
+    },
+    {
+      "nome": "VANESSA MARTINS DE CARVALHO",
+      "empresa": "GRAY LINE",
+      "desligamento": "01/12/2025",
+      "motivo": "",
+      "_ts": 1764558000000
+    },
+    {
+      "nome": "VANESSA SALVADOR FERREIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "VANIA REBECHI",
+      "empresa": "CSC",
+      "desligamento": "25/05/1957",
+      "motivo": "",
+      "_ts": -397774800000
+    },
+    {
+      "nome": "VITOR RANIELE TAVARES RIBEIRO",
+      "empresa": "PALLAS",
+      "desligamento": "07/10/2025",
+      "motivo": "",
+      "_ts": 1759806000000
+    },
+    {
+      "nome": "WILLIAM RAFAEL MARCONI",
+      "empresa": "TOP SERVICE",
+      "desligamento": "01/01/2026",
+      "motivo": "",
+      "_ts": 1767236400000
+    },
+    {
+      "nome": "WILLIAN DA SILVA LIMA",
+      "empresa": "4BTS",
+      "desligamento": "08/04/2025",
+      "motivo": "",
+      "_ts": 1744081200000
+    },
+    {
+      "nome": "WILLIAN DA SILVA LIMA",
+      "empresa": "PALLAS",
+      "desligamento": "14/05/2026",
+      "motivo": "",
+      "_ts": 1778727600000
+    },
+    {
+      "nome": "YASMIN ALVES DE LIMA FERREIRA",
+      "empresa": "TOP SERVICE",
+      "desligamento": "07/01/2025",
+      "motivo": "",
+      "_ts": 1736218800000
+    }
+  ],
+  "atualizadoEm": "21/05/2026, 16:07:37"
+}
