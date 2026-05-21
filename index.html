@@ -85,8 +85,43 @@ body {
   background: transparent; border: 1px solid var(--border2);
   border-radius: var(--radius-sm); color: var(--text2); padding: 5px 10px;
   font-size: 11px; cursor: pointer; font-family: 'Inter', sans-serif; transition: all .2s;
+  display: flex; align-items: center; gap: 5px;
 }
 .admin-btn:hover { color: var(--text1); background: var(--bg3); }
+.admin-btn.unlocked { color: var(--green); border-color: var(--green-mid); background: var(--green-dim); }
+.admin-btn.unlocked:hover { background: var(--green-mid); }
+
+/* ── PASSWORD MODAL ── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal-box {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.18); animation: fadeIn .2s ease;
+}
+.modal-box h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: .3rem; }
+.modal-box p { font-size: 12px; color: var(--text3); margin-bottom: 1.2rem; }
+.modal-input-wrap { position: relative; margin-bottom: 1rem; }
+.modal-input-wrap input {
+  width: 100%; padding: 10px 40px 10px 12px; background: var(--bg3);
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text1);
+  outline: none; transition: border-color .15s;
+}
+.modal-input-wrap input:focus { border-color: var(--blue); }
+.modal-input-wrap input.error { border-color: var(--red); }
+.modal-toggle-pw {
+  position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: var(--text3); padding: 2px;
+}
+.modal-toggle-pw:hover { color: var(--text2); }
+.modal-err { font-size: 12px; color: var(--red); margin-bottom: .8rem; display: none; }
+.modal-btn-row { display: flex; gap: 8px; }
+.modal-btn-row .btn { flex: 1; justify-content: center; }
 
 /* ── MAIN ── */
 .main { max-width: 1200px; margin: 0 auto; padding: 2rem; }
@@ -361,11 +396,30 @@ tr.saida:hover td { background: var(--red-dim); }
   </div>
   <div class="header-right">
     <div class="sync-pill"><span class="sync-dot" id="sync-dot"></span><span id="sync-label">—</span></div>
-    <button class="admin-btn" onclick="toggleAdmin()">⚙ configurações</button>
+    <button class="admin-btn" id="lock-btn" onclick="handleLockBtn()"><svg id="lock-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="lock-label">Upload</span></button>
   </div>
 </header>
 
 <div class="main">
+
+  <!-- PASSWORD MODAL -->
+  <div class="modal-overlay" id="pw-modal" onclick="modalClickOutside(event)">
+    <div class="modal-box">
+      <h3>🔒 Área restrita</h3>
+      <p>Digite a senha para habilitar o upload de planilhas.</p>
+      <div class="modal-input-wrap">
+        <input type="password" id="pw-input" placeholder="Senha" onkeydown="if(event.key==='Enter')checkPassword()" autocomplete="off">
+        <button class="modal-toggle-pw" onclick="togglePwVis()" tabindex="-1">
+          <svg id="pw-eye" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="modal-err" id="pw-err">Senha incorreta. Tente novamente.</div>
+      <div class="modal-btn-row">
+        <button class="btn btn-blue" onclick="checkPassword()">Entrar</button>
+        <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- ADMIN PANEL -->
   <div id="admin-panel" class="admin-panel hidden">
@@ -392,15 +446,7 @@ tr.saida:hover td { background: var(--red-dim); }
     </div>
   </div>
 
-  <!-- AVISO: não configurado -->
-  <div class="notice" id="notice-cfg">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    <p>
-      <strong>Para habilitar o upload de planilhas, informe seu token.</strong>
-      Clique em <a onclick="toggleAdmin()">⚙ configurações</a> e insira o Personal Access Token do GitHub.
-      Visitantes comuns <strong>não precisam configurar nada</strong> — os dados carregam automaticamente.
-    </p>
-  </div>
+
 
   <!-- UPLOAD -->
   <div id="upload-section" class="upload-section hidden">
@@ -551,6 +597,58 @@ const REPO = {
 let cfg = { token: '' };
 
 // ── CONFIG ────────────────────────────────────────────
+// ── SENHA DE UPLOAD ─────────────────────────────────
+// 🔑 ALTERE A SENHA ABAIXO:
+const UPLOAD_PASSWORD = 'aguia2026';
+
+let uploadUnlocked = false;
+
+function handleLockBtn(){
+  if(uploadUnlocked){ lockUpload(); }
+  else { openModal(); }
+}
+
+function openModal(){
+  document.getElementById('pw-modal').classList.add('open');
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-input').classList.remove('error');
+  document.getElementById('pw-err').style.display='none';
+  setTimeout(()=>document.getElementById('pw-input').focus(), 100);
+}
+
+function closeModal(){
+  document.getElementById('pw-modal').classList.remove('open');
+}
+
+function modalClickOutside(e){
+  if(e.target===document.getElementById('pw-modal')) closeModal();
+}
+
+function togglePwVis(){
+  const inp = document.getElementById('pw-input');
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+
+function checkPassword(){
+  const val = document.getElementById('pw-input').value;
+  if(val === UPLOAD_PASSWORD){
+    uploadUnlocked = true;
+    closeModal();
+    updateUI();
+    toast('Acesso liberado! Você pode fazer upload.','ok');
+  } else {
+    document.getElementById('pw-input').classList.add('error');
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function lockUpload(){
+  uploadUnlocked = false;
+  updateUI();
+  toast('Upload bloqueado.','');
+}
+
 function loadCfg(){
   try{ const saved = JSON.parse(localStorage.getItem('aguia_cfg_v2')||'{}');
     cfg.token = saved.token || ''; }catch(e){}
@@ -564,16 +662,30 @@ function saveConfig(){
 function populateCfgForm(){
   sv('cfg-token', cfg.token);
 }
-// Token necessário apenas para upload
 function cfgOk(){ return !!cfg.token; }
 
 // ── UI STATE ──────────────────────────────────────────
 function updateUI(){
-  const ok = cfgOk();
-  document.getElementById('notice-cfg').classList.toggle('hidden', ok);
-  document.getElementById('upload-section').classList.toggle('hidden', !ok);
+  const canUpload = uploadUnlocked && cfgOk();
+  document.getElementById('upload-section').classList.toggle('hidden', !canUpload);
+  // Update lock button appearance
+  const btn = document.getElementById('lock-btn');
+  const icon = document.getElementById('lock-icon');
+  const label = document.getElementById('lock-label');
+  if(uploadUnlocked){
+    btn.classList.add('unlocked');
+    label.textContent = 'Upload ativo';
+    icon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 8.93-2.15"/>';
+  } else {
+    btn.classList.remove('unlocked');
+    label.textContent = 'Upload';
+    icon.innerHTML = '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>';
+  }
+  // Show admin panel only when unlocked
+  if(!uploadUnlocked){
+    document.getElementById('admin-panel').classList.add('hidden');
+  }
 }
-// Leitura pública — sempre disponível, independe de token
 function repoReady(){ return !!(REPO.owner && REPO.repo); }
 
 // ── DRAG AND DROP ─────────────────────────────────────
@@ -593,23 +705,44 @@ function ghH(){ return {'Authorization':'token '+cfg.token,'Content-Type':'appli
 function ghHpub(){ return {'Accept':'application/vnd.github+json'}; }
 
 async function getSha(){
+  // Sempre busca o SHA mais recente via API (com cache-busting)
   try{
-    const r=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}?ref=${REPO.branch}`,{headers:ghH()});
+    const r=await fetch(
+      `https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}?ref=${REPO.branch}&t=${Date.now()}`,
+      {headers:ghH(), cache:'no-store'}
+    );
     if(!r.ok) return null;
-    return (await r.json()).sha||null;
+    const json=await r.json();
+    return json.sha||null;
   }catch(e){return null;}
 }
 
 async function push(payload){
   setSpin('Salvando...');
   try{
+    // Busca SHA atualizado antes de qualquer tentativa
     const sha=await getSha();
     const content=btoa(unescape(encodeURIComponent(JSON.stringify(payload,null,2))));
     const body={message:'update dados '+new Date().toISOString().slice(0,10),content,branch:REPO.branch};
     if(sha) body.sha=sha;
     const r=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}`,
       {method:'PUT',headers:ghH(),body:JSON.stringify(body)});
-    if(!r.ok){const e=await r.json();setErr('Erro');toast('GitHub: '+(e.message||r.status),'err');return false;}
+    if(!r.ok){
+      const e=await r.json();
+      // Se ainda der conflito de SHA, tenta mais uma vez com SHA fresquíssimo
+      if(e.message && e.message.includes('does not match')){
+        const sha2=await getSha();
+        if(sha2){
+          body.sha=sha2;
+          const r2=await fetch(`https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${REPO.path}`,
+            {method:'PUT',headers:ghH(),body:JSON.stringify(body)});
+          if(r2.ok){ setOk('Sincronizado'); return true; }
+          const e2=await r2.json();
+          setErr('Erro'); toast('GitHub: '+(e2.message||r2.status),'err'); return false;
+        }
+      }
+      setErr('Erro'); toast('GitHub: '+(e.message||r.status),'err'); return false;
+    }
     setOk('Sincronizado'); return true;
   }catch(e){setErr('Erro rede');toast('Erro de rede: '+e.message,'err');return false;}
 }
@@ -993,6 +1126,7 @@ function renderBars(rowsE, rowsS){
 
 // ── UI ────────────────────────────────────────────────
 function toggleAdmin(){
+  if(!uploadUnlocked){ openModal(); return; }
   const p=document.getElementById('admin-panel');
   p.classList.toggle('hidden');
   if(!p.classList.contains('hidden')) populateCfgForm();
@@ -1025,7 +1159,6 @@ function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').
 // ── INIT ──────────────────────────────────────────────
 loadCfg();
 updateUI();
-// Leitura pública — sempre carrega ao abrir, em qualquer computador
 pull();
 if(!cfgOk()) document.getElementById('sync-label').textContent='Somente leitura';
 </script>
