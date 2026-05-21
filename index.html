@@ -4,47 +4,45 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RH Movimentações — Entradas e Saídas</title>
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #f8fafc; }
-    input, select, button, textarea { font-family: inherit; }
+    body { background: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+    input, select, button { font-family: inherit; }
+    #loading { display:flex; align-items:center; justify-content:center; height:100vh; font-size:16px; color:#6b7280; }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root"><div id="loading">⏳ Carregando sistema...</div></div>
 
-  <script type="text/babel">
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.10/babel.min.js"></script>
+
+  <script>
+    // Storage shim usando localStorage
+    window.storage = {
+      _prefix: 'rh_v1_',
+      async get(key, shared) {
+        const v = localStorage.getItem(this._prefix + key);
+        if (v === null) throw new Error('Key not found');
+        return { key, value: v, shared: !!shared };
+      },
+      async set(key, value, shared) {
+        localStorage.setItem(this._prefix + key, value);
+        return { key, value, shared: !!shared };
+      },
+      async delete(key, shared) {
+        localStorage.removeItem(this._prefix + key);
+        return { key, deleted: true };
+      }
+    };
+  </script>
+
+  <script type="text/babel" data-presets="react">
     const { useState, useEffect, useCallback, useRef } = React;
     const { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } = Recharts;
-    const XLSX = window.XLSX;
-
-    // Artifact Storage shim — usa localStorage para persistência no GitHub Pages
-    if (!window.storage) {
-      window.storage = {
-        _store: JSON.parse(localStorage.getItem('rh_storage') || '{}'),
-        _save() { localStorage.setItem('rh_storage', JSON.stringify(this._store)); },
-        async get(key) {
-          const v = this._store[key];
-          if (v === undefined) throw new Error('Key not found: ' + key);
-          return { key, value: v };
-        },
-        async set(key, value) {
-          this._store[key] = value;
-          this._save();
-          return { key, value };
-        },
-        async delete(key) {
-          delete this._store[key];
-          this._save();
-          return { key, deleted: true };
-        }
-      };
-    }
 
   BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip,
   ResponsiveContainer, Cell, PieChart, Pie
@@ -813,8 +811,9 @@ function App() {
 }
 
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(React.createElement(App));
   </script>
 </body>
 </html>
