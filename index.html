@@ -1,333 +1,986 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>RH Movimentações — Entradas e Saídas</title>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Segoe UI',Arial,sans-serif;background:#f8fafc;color:#111827}
-    input,select,button{font-family:inherit}
-    table{border-collapse:collapse;width:100%}
-    th{padding:10px 14px;text-align:left;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid #e5e7eb;background:#f9fafb}
-    td{padding:10px 14px;font-size:13px;color:#374151;border-bottom:1px solid #f3f4f6}
-    tr:hover td{background:#f9fafb}
-    .badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600}
-    .badge-green{background:#d1fae5;color:#065f46}
-    .badge-red{background:#fee2e2;color:#991b1b}
-    .badge-amber{background:#fef3c7;color:#92400e}
-    .badge-blue{background:#dbeafe;color:#1e40af}
-    .badge-gray{background:#f3f4f6;color:#374151}
-    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px}
-    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 20px}
-    .btn{padding:8px 16px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;font-size:13px;font-weight:500}
-    .btn:hover{background:#f9fafb}
-    .btn-primary{background:#2563eb;color:#fff;border-color:#2563eb}
-    .btn-primary:hover{background:#1d4ed8}
-    input[type=text],input[type=search],select{padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;outline:none}
-    input:focus,select:focus{border-color:#2563eb}
-    #toast{position:fixed;top:20px;right:20px;z-index:999;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;display:none;max-width:420px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Colaboradores — RH</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a2744;--accent:#3d7fff;--accent-h:#2d6aee;
+  --success:#16a34a;--success-bg:#dcfce7;
+  --warning:#d97706;--warning-bg:#fef3c7;
+  --danger:#dc2626;--danger-bg:#fee2e2;
+  --info:#0369a1;--info-bg:#e0f2fe;
+  --surface:#fff;--surface-2:#f8f9fc;--surface-3:#f1f3f8;
+  --border:#e2e6f0;--border-s:#c5cde3;
+  --text-1:#111827;--text-2:#4b5563;--text-3:#9ca3af;
+  --radius:10px;--shadow:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 16px rgba(0,0,0,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--surface-2);color:var(--text-1);min-height:100vh;font-size:14px}
+.app-header{background:var(--primary);color:#fff;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.header-brand{display:flex;align-items:center;gap:10px}
+.header-brand h1{font-size:16px;font-weight:600}
+.header-brand span{font-size:12px;opacity:.55;margin-left:6px}
+#sync-status{font-size:12px;background:rgba(255,255,255,.12);border-radius:20px;padding:3px 12px;display:flex;align-items:center;gap:6px}
+#sync-dot{width:7px;height:7px;border-radius:50%;background:#9ca3af}
+#sync-dot.ok{background:#4ade80}
+#sync-dot.err{background:#f87171}
+#sync-dot.loading{background:#fbbf24;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.app-body{display:grid;grid-template-columns:250px 1fr;min-height:calc(100vh - 60px)}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:1.5rem 0}
+.sidebar-label{font-size:10px;font-weight:600;color:var(--text-3);letter-spacing:.08em;text-transform:uppercase;padding:0 1.2rem;margin-bottom:.4rem;margin-top:1rem}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 1.2rem;cursor:pointer;font-size:14px;color:var(--text-2);transition:all .15s;border-left:3px solid transparent}
+.nav-item:hover{background:var(--surface-3);color:var(--text-1)}
+.nav-item.active{background:#eef2ff;color:var(--accent);border-left-color:var(--accent);font-weight:500}
+.nav-badge{margin-left:auto;font-size:11px;background:var(--surface-3);border-radius:20px;padding:1px 7px;color:var(--text-2)}
+.nav-badge.red{background:var(--danger-bg);color:var(--danger)}
+.main{padding:2rem;overflow:auto}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-header{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.card-title{font-size:14px;font-weight:600;color:var(--text-1);display:flex;align-items:center;gap:8px}
+.card-body{padding:1.4rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;box-shadow:var(--shadow)}
+.stat-label{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-bottom:6px}
+.stat-value{font-size:28px;font-weight:600;line-height:1;font-family:'DM Mono',monospace}
+.stat-sub{font-size:12px;color:var(--text-3);margin-top:4px}
+.stat-card.blue .stat-value{color:var(--accent)}
+.stat-card.green .stat-value{color:var(--success)}
+.stat-card.red .stat-value{color:var(--danger)}
+.stat-card.amber .stat-value{color:var(--warning)}
+.upload-zone{border:2px dashed var(--border-s);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface-2)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);background:#f0f4ff}
+.upload-zone h3{font-size:15px;font-weight:500;margin-bottom:4px}
+.upload-zone p{font-size:13px;color:var(--text-3)}
+#file-input{display:none}
+.config-panel{background:var(--surface-3);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1.2rem}
+label{display:block;font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:4px}
+input[type=text],input[type=password]{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text-1);outline:none}
+input:focus{border-color:var(--accent)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.field-row.full{grid-template-columns:1fr}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;font-family:'DM Sans',sans-serif}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-outline{background:transparent;border-color:var(--border-s);color:var(--text-2)}
+.btn-outline:hover{background:var(--surface-3)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:9px 12px;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;background:var(--surface-2);border-bottom:1px solid var(--border);position:sticky;top:0;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text-1);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface-2)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.badge-green{background:var(--success-bg);color:var(--success)}
+.badge-red{background:var(--danger-bg);color:var(--danger)}
+.badge-amber{background:var(--warning-bg);color:var(--warning)}
+.badge-blue{background:var(--info-bg);color:var(--info)}
+.badge-gray{background:var(--surface-3);color:var(--text-2)}
+.filter-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-bar input,.filter-bar select{padding:6px 10px;border:1px solid var(--border);border-radius:7px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text-1);outline:none}
+.filter-bar input:focus,.filter-bar select:focus{border-color:var(--accent)}
+.filter-bar input{min-width:200px}
+.progress-bar{height:4px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .4s ease}
+#toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:8px}
+.toast{background:var(--text-1);color:#fff;padding:10px 16px;border-radius:8px;font-size:13px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);animation:slideIn .3s ease;max-width:360px}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+.toast.info{background:var(--info)}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.tabs{display:flex;border-bottom:1px solid var(--border);gap:0}
+.tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab:hover:not(.active){color:var(--text-2)}
+.empty-state{text-align:center;padding:2.5rem;color:var(--text-3)}
+.empty-state p{font-size:14px}
+.history-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.history-item:last-child{border-bottom:none}
+.history-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.history-meta{flex:1}
+.history-meta strong{font-size:13px;font-weight:500}
+.history-meta p{font-size:12px;color:var(--text-3);margin-top:2px}
+.view{display:none}
+.view.active{display:block}
+tr.row-new td{background:#f0fdf4}
+tr.row-exit td{background:#fff5f5}
+tr.row-changed td{background:#fffbeb}
+.section-title{font-size:20px;font-weight:600;margin-bottom:.3rem}
+.section-sub{font-size:13px;color:var(--text-3);margin-bottom:1.5rem}
+.chip{display:inline-block;background:var(--surface-3);border-radius:20px;padding:2px 8px;font-size:11px;color:var(--text-2)}
+.log-entry{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-2);padding:4px 0;border-bottom:1px solid var(--border)}
+.log-entry:last-child{border-bottom:none}
+.log-entry .ts{color:var(--text-3);margin-right:8px}
+.log-entry.ok .ts{color:var(--success)}
+.log-entry.warn .ts{color:var(--warning)}
+.log-entry.err .ts{color:var(--danger)}
+.alert{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:1rem;display:flex;align-items:flex-start;gap:8px}
+.alert-warning{background:var(--warning-bg);color:#92400e;border:1px solid #fcd34d}
+.alert-info{background:var(--info-bg);color:#075985;border:1px solid #7dd3fc}
+.sep{height:1px;background:var(--border);margin:1rem 0}
+</style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div id="header" style="background:#1e3a5f;padding:20px 28px 0;color:#fff">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
-    <div>
-      <div style="font-size:20px;font-weight:800;letter-spacing:-.02em">RH Movimentações</div>
-      <div id="header-sub" style="font-size:12px;color:#93c5fd;margin-top:2px">Nenhuma base carregada — faça o primeiro upload</div>
+<header class="app-header">
+  <div class="header-brand">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <h1>Gestão de Colaboradores <span>PGO · GitHub Sync</span></h1>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <span id="sync-status"><span id="sync-dot"></span><span id="sync-label">Não configurado</span></span>
+    <span id="header-info" style="font-size:12px;opacity:.55"></span>
+  </div>
+</header>
+
+<div class="app-body">
+  <nav class="sidebar">
+    <div class="sidebar-label">Navegação</div>
+    <div class="nav-item active" onclick="showView('dashboard')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
     </div>
-    <div id="header-counts" style="display:flex;gap:16px;text-align:center"></div>
-  </div>
-  <div style="display:flex;gap:4px;flex-wrap:wrap" id="tabs">
-    <button class="tab-btn" data-tab="dashboard" onclick="showTab('dashboard')">📊 Dashboard</button>
-    <button class="tab-btn" data-tab="colaboradores" onclick="showTab('colaboradores')">👥 Colaboradores</button>
-    <button class="tab-btn" data-tab="movimentacoes" onclick="showTab('movimentacoes')">🔄 Movimentações</button>
-    <button class="tab-btn" data-tab="historico" onclick="showTab('historico')">📅 Histórico</button>
-    <button class="tab-btn" data-tab="upload" onclick="showTab('upload')">⬆️ Novo Upload</button>
-    <button class="tab-btn" data-tab="erros" id="tab-erros-btn">⚠️ Logs</button>
-  </div>
+    <div class="nav-item" onclick="showView('ativos')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Colaboradores Ativos
+      <span class="nav-badge" id="nav-ativos">—</span>
+    </div>
+    <div class="nav-item" onclick="showView('saidas')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Desligamentos
+      <span class="nav-badge red" id="nav-saidas">—</span>
+    </div>
+    <div class="nav-item" onclick="showView('movimentacoes')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      Movimentações
+      <span class="nav-badge" id="nav-mov">—</span>
+    </div>
+    <div class="nav-item" onclick="showView('historico')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Histórico de Cargas
+      <span class="nav-badge" id="nav-hist">—</span>
+    </div>
+    <div class="nav-item" onclick="showView('log')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Log do Sistema
+    </div>
+    <div class="sidebar-label">Ações</div>
+    <div class="nav-item" onclick="showView('upload')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Nova Planilha
+    </div>
+    <div class="nav-item" onclick="showView('config')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+      Configurar GitHub
+    </div>
+    <div class="nav-item" onclick="exportCSV()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Exportar CSV
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="section-title">Dashboard</div>
+      <div class="section-sub" id="dash-sub">Carregue uma planilha PGO para começar.</div>
+      <div id="config-alert" class="alert alert-warning" style="display:none">
+        ⚠️ GitHub não configurado — dados visíveis apenas neste navegador. <a href="#" onclick="showView('config');return false" style="color:inherit;font-weight:600">Configurar agora →</a>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card blue"><div class="stat-label">Ativos</div><div class="stat-value" id="s-ativos">—</div><div class="stat-sub">aba Base</div></div>
+        <div class="stat-card red"><div class="stat-label">Desligados</div><div class="stat-value" id="s-saidas">—</div><div class="stat-sub">aba Saídas</div></div>
+        <div class="stat-card green"><div class="stat-label">Admissões</div><div class="stat-value" id="s-adm">—</div><div class="stat-sub">última carga</div></div>
+        <div class="stat-card amber"><div class="stat-label">Alterações</div><div class="stat-value" id="s-alt">—</div><div class="stat-sub">última carga</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+        <div class="card">
+          <div class="card-header"><div class="card-title">Colaboradores por Empresa</div></div>
+          <div class="card-body" id="chart-empresa"><div class="empty-state" style="padding:1rem"><p>Sem dados</p></div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Distribuição por Nível</div></div>
+          <div class="card-body" id="chart-nivel"><div class="empty-state" style="padding:1rem"><p>Sem dados</p></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Últimas movimentações detectadas</div><button class="btn btn-outline btn-sm" onclick="showView('movimentacoes')">Ver todas →</button></div>
+        <div class="card-body" id="recent-movs"><div class="empty-state" style="padding:1rem"><p>Nenhuma movimentação.</p></div></div>
+      </div>
+    </div>
+
+    <!-- ATIVOS -->
+    <div class="view" id="view-ativos">
+      <div class="section-title">Colaboradores Ativos</div>
+      <div class="section-sub">Aba "Base" da planilha PGO — colaboradores com vínculo ativo.</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-bar">
+            <input type="text" id="search-ativos" placeholder="Buscar por nome, empresa, cargo..." oninput="filterAtivos()">
+            <select id="filter-empresa" onchange="filterAtivos()"><option value="">Todas as empresas</option></select>
+            <select id="filter-base" onchange="filterAtivos()"><option value="">Todos os níveis</option></select>
+            <select id="filter-regime" onchange="filterAtivos()"><option value="">CLT / PJ</option></select>
+          </div>
+          <span style="font-size:12px;color:var(--text-3)" id="count-ativos"></span>
+        </div>
+        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
+          <table><thead><tr>
+            <th>Nome</th><th>Empresa</th><th>Base</th><th>Especificação</th>
+            <th>Abrangência</th><th>Nível</th><th>Regime</th><th>Local</th>
+            <th>Admissão</th><th>Superior Imediato</th><th>Líder?</th>
+          </tr></thead>
+          <tbody id="tbody-ativos"><tr><td colspan="11"><div class="empty-state">Nenhum dado.</div></td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAÍDAS -->
+    <div class="view" id="view-saidas">
+      <div class="section-title">Desligamentos</div>
+      <div class="section-sub">Aba "Saídas" da planilha PGO — histórico completo de desligamentos.</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="filter-bar">
+            <input type="text" id="search-saidas" placeholder="Buscar por nome ou empresa..." oninput="filterSaidas()">
+            <select id="filter-empresa-saidas" onchange="filterSaidas()"><option value="">Todas as empresas</option></select>
+            <select id="filter-motivo" onchange="filterSaidas()"><option value="">Todos os motivos</option></select>
+          </div>
+          <span style="font-size:12px;color:var(--text-3)" id="count-saidas"></span>
+        </div>
+        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
+          <table><thead><tr>
+            <th>Nome</th><th>Empresa</th><th>Admissão</th>
+            <th>Desligamento</th><th>Motivo</th>
+          </tr></thead>
+          <tbody id="tbody-saidas"><tr><td colspan="5"><div class="empty-state">Nenhum dado.</div></td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOVIMENTAÇÕES -->
+    <div class="view" id="view-movimentacoes">
+      <div class="section-title">Movimentações</div>
+      <div class="section-sub">Admissões, desligamentos e alterações detectados automaticamente entre cargas do PGO.</div>
+      <div class="card">
+        <div class="card-header">
+          <div class="tabs" style="border:none;margin:0">
+            <div class="tab active" onclick="showMovTab('all',this)">Todas</div>
+            <div class="tab" onclick="showMovTab('new',this)">Admissões</div>
+            <div class="tab" onclick="showMovTab('exit',this)">Desligamentos</div>
+            <div class="tab" onclick="showMovTab('changed',this)">Alterações</div>
+          </div>
+        </div>
+        <div class="table-wrap" style="max-height:520px;overflow-y:auto">
+          <table><thead><tr>
+            <th>Tipo</th><th>Nome</th><th>Empresa</th><th>Base</th>
+            <th>Nível</th><th>Observação</th><th>Detectado em</th>
+          </tr></thead>
+          <tbody id="tbody-movs"><tr><td colspan="7"><div class="empty-state">Nenhuma movimentação.</div></td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTÓRICO -->
+    <div class="view" id="view-historico">
+      <div class="section-title">Histórico de Cargas</div>
+      <div class="section-sub">Registro de cada planilha PGO processada.</div>
+      <div class="card"><div class="card-body" id="historico-list"><div class="empty-state"><p>Nenhuma carga.</p></div></div></div>
+    </div>
+
+    <!-- LOG -->
+    <div class="view" id="view-log">
+      <div class="section-title">Log do Sistema</div>
+      <div class="section-sub">Registro detalhado de todas as operações.</div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">Eventos</div><button class="btn btn-outline btn-sm" onclick="clearLog()">Limpar</button></div>
+        <div class="card-body" id="log-container" style="max-height:500px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="view" id="view-upload">
+      <div class="section-title">Nova Planilha PGO</div>
+      <div class="section-sub">Carregue o arquivo <strong>PGO_2026_VF.xlsm</strong> (ou versão mais recente). O sistema lê as abas <strong>Base</strong> e <strong>Saídas</strong> automaticamente.</div>
+      <div id="upload-config-warn" class="alert alert-warning" style="display:none">
+        ⚠️ GitHub não configurado — os dados serão salvos apenas neste navegador. <a href="#" onclick="showView('config');return false" style="color:inherit;font-weight:600">Configurar agora</a>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header"><div class="card-title">Upload do arquivo</div></div>
+        <div class="card-body">
+          <div class="upload-zone" id="upload-zone"
+            onclick="document.getElementById('file-input').click()"
+            ondragover="event.preventDefault();this.classList.add('drag')"
+            ondragleave="this.classList.remove('drag')"
+            ondrop="handleDrop(event)">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 12px;display:block;color:var(--text-3)">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <h3>Arraste ou clique para selecionar</h3>
+            <p>Arquivo .xlsm ou .xlsx com abas "Base" e "Saídas"</p>
+          </div>
+          <input type="file" id="file-input" accept=".xlsm,.xlsx,.xls" onchange="handleFileSelect(event)">
+          <div id="upload-progress" style="display:none;margin-top:1rem">
+            <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-2);margin-bottom:4px">
+              <span id="progress-label">Processando...</span><span id="progress-pct">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title">O que o sistema faz ao receber a planilha</div></div>
+        <div class="card-body" style="font-size:13px;color:var(--text-2)">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+            <div>
+              <p style="font-weight:500;color:var(--text-1);margin-bottom:6px">📋 Aba "Base" (ativos)</p>
+              <ul style="list-style:none;padding-left:12px;display:flex;flex-direction:column;gap:4px">
+                <li>→ Lê todos os colaboradores ativos</li>
+                <li>→ Detecta novos nomes (admissões)</li>
+                <li>→ Detecta alterações de cargo, empresa, nível</li>
+                <li>→ Detecta nomes que saíram da aba (desligamentos)</li>
+                <li>→ Chave de identificação: <strong>Nome completo</strong></li>
+              </ul>
+            </div>
+            <div>
+              <p style="font-weight:500;color:var(--text-1);margin-bottom:6px">🚪 Aba "Saídas" (desligamentos)</p>
+              <ul style="list-style:none;padding-left:12px;display:flex;flex-direction:column;gap:4px">
+                <li>→ Lê o histórico completo de saídas</li>
+                <li>→ Registra empresa, data de admissão e desligamento</li>
+                <li>→ Registra o motivo do desligamento</li>
+                <li>→ Detecta novos desligamentos na carga</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="view" id="view-config">
+      <div class="section-title">Configurar GitHub</div>
+      <div class="section-sub">Configure uma vez. Os dados ficam no repositório e todos os usuários veem sempre a versão mais recente.</div>
+      <div class="alert alert-info" style="margin-bottom:1.2rem">
+        ℹ️ Esta configuração fica salva neste navegador. Usuários que só consultam os dados não precisam configurar nada.
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <div class="card-header"><div class="card-title">Dados do repositório</div></div>
+        <div class="card-body">
+          <div class="field-row">
+            <div><label>Usuário ou organização GitHub</label><input type="text" id="cfg-owner" placeholder="ex: grupo-aguia"></div>
+            <div><label>Nome do repositório</label><input type="text" id="cfg-repo" placeholder="ex: rh-pgo"></div>
+          </div>
+          <div class="field-row">
+            <div><label>Branch</label><input type="text" id="cfg-branch" placeholder="main" value="main"></div>
+            <div><label>Caminho do arquivo de dados</label><input type="text" id="cfg-path" placeholder="data/pgo.json" value="data/pgo.json"></div>
+          </div>
+          <div class="field-row full" style="margin-top:4px">
+            <div><label>GitHub Personal Access Token</label><input type="password" id="cfg-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"></div>
+          </div>
+          <div class="alert alert-warning" style="margin-top:10px;font-size:12px">
+            ⚠️ O token fica salvo apenas neste navegador. Use escopo mínimo: apenas <code>repo</code>.
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn btn-primary" onclick="saveConfig()">💾 Salvar configuração</button>
+        <button class="btn btn-outline" onclick="testConnection()">🔌 Testar conexão</button>
+        <span id="test-result" style="font-size:13px;color:var(--text-3)"></span>
+      </div>
+    </div>
+
+  </main>
 </div>
 
-<style>
-.tab-btn{padding:8px 14px;border:none;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;cursor:pointer;transition:all .1s;background:transparent;color:#93c5fd}
-.tab-btn.active{background:#fff;color:#1e3a5f}
-</style>
-
-<div id="content" style="padding:28px"></div>
-<div id="toast"></div>
+<div id="toast-container"></div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────────
-var state = { base: null, hist: [], logs: [], diff: null, diffPeriodo: '', currentTab: 'dashboard', page: 0, busca: '', filtroStatus: 'Todos', filtroArea: 'Todas' };
+// ══════════════════════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════════════════════
+const LS = { ATIVOS:'pgo_ativos_v1', SAIDAS:'pgo_saidas_v1', MOVS:'pgo_movs_v1', HIST:'pgo_hist_v1', LOGS:'pgo_logs_v1', CFG:'pgo_cfg_v1' };
 
-// ── Storage ────────────────────────────────────────────────────────────────
-var ST = {
-  get: function(k){ var v=localStorage.getItem('rh2_'+k); return v?JSON.parse(v):null; },
-  set: function(k,v){ localStorage.setItem('rh2_'+k,JSON.stringify(v)); }
-};
+let state = { ativos:[], saidas:[], movimentacoes:[], historico:[], logs:[] };
+let cfg = { owner:'', repo:'', branch:'main', path:'data/pgo.json', token:'' };
+let currentMovFilter = 'all';
 
-// ── Helpers ────────────────────────────────────────────────────────────────
-function parseDate(v){
-  if(!v) return null;
-  if(typeof v==='number'){ var d=new Date(Math.round((v-25569)*86400*1000)); return isNaN(d)?null:d.toISOString().slice(0,10); }
-  var s=String(v).trim();
-  var m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if(m) return m[3]+'-'+m[2]+'-'+m[1];
-  if(/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10);
-  return null;
-}
-function fmtDate(iso){ if(!iso) return '—'; var p=iso.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function now(){ return new Date().toISOString(); }
-function periodoAtual(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'); }
-
-function showToast(msg,type){
-  var t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.display='block';
-  t.style.background=type==='error'?'#fef2f2':'#f0fdf4';
-  t.style.border='1px solid '+(type==='error'?'#fca5a5':'#86efac');
-  t.style.color=type==='error'?'#991b1b':'#166534';
-  setTimeout(function(){ t.style.display='none'; },4000);
+// ══════════════════════════════════════════════════════
+// PERSISTÊNCIA LOCAL
+// ══════════════════════════════════════════════════════
+function saveLocal() {
+  try {
+    localStorage.setItem(LS.ATIVOS, JSON.stringify(state.ativos));
+    localStorage.setItem(LS.SAIDAS, JSON.stringify(state.saidas));
+    localStorage.setItem(LS.MOVS, JSON.stringify(state.movimentacoes));
+    localStorage.setItem(LS.HIST, JSON.stringify(state.historico));
+    localStorage.setItem(LS.LOGS, JSON.stringify(state.logs.slice(-300)));
+  } catch(e) { addLog('err','Erro localStorage: '+e.message); }
 }
 
-// ── Parse planilha ─────────────────────────────────────────────────────────
-function parsePlanilha(wb){
-  var ws=wb.Sheets[wb.SheetNames[0]];
-  var rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
-  var headerIdx=rows.findIndex(function(r){ return r.some(function(c){ return String(c).trim()==='Nome completo'; }); });
-  if(headerIdx===-1) throw new Error("Cabeçalho 'Nome completo' não encontrado.");
-  var headers=rows[headerIdx].map(function(h){ return String(h).trim(); });
-  function col(n){ return headers.indexOf(n); }
-  var iN=col('Nome completo'),iE=col('Email'),iC=col('Cargo'),iA=col('Área'),iNv=col('Nível');
-  var iAd=col('Data de admissão'),iSt=col('Status'),iMo=col('Motivo do Status');
-  var iIn=col('Data de Inativação'),iGE=col('E-mails dos gestores'),iGN=col('Nome dos gestores');
-  var colaboradores=[],erros=[],emails=new Set();
-  for(var i=headerIdx+1;i<rows.length;i++){
-    var r=rows[i];
-    var nome=String(r[iN]||'').trim(), email=String(r[iE]||'').trim().toLowerCase();
-    if(!nome||!email) continue;
-    if(emails.has(email)){ erros.push({linha:i+1,email:email,motivo:'Email duplicado'}); continue; }
-    emails.add(email);
-    var status=String(r[iSt]||'').trim();
-    colaboradores.push({
-      id:email,nome:nome,email:email,
-      cargo:String(r[iC]||'').trim()||null,
-      area:String(r[iA]||'').trim()||null,
-      nivel:String(r[iNv]||'').trim()||null,
-      admissao:parseDate(r[iAd]),
-      status:status||'Ativo',
-      motivo:String(r[iMo]||'').trim()||null,
-      inativacao:parseDate(r[iIn]),
-      gestorNome:String(r[iGN]||'').trim()||null
-    });
+function loadLocal() {
+  try {
+    state.ativos = JSON.parse(localStorage.getItem(LS.ATIVOS)||'[]');
+    state.saidas = JSON.parse(localStorage.getItem(LS.SAIDAS)||'[]');
+    state.movimentacoes = JSON.parse(localStorage.getItem(LS.MOVS)||'[]');
+    state.historico = JSON.parse(localStorage.getItem(LS.HIST)||'[]');
+    state.logs = JSON.parse(localStorage.getItem(LS.LOGS)||'[]');
+    const c = JSON.parse(localStorage.getItem(LS.CFG)||'{}');
+    cfg = Object.assign({owner:'',repo:'',branch:'main',path:'data/pgo.json',token:''},c);
+  } catch(e) { console.warn(e); }
+}
+
+// ══════════════════════════════════════════════════════
+// GITHUB API
+// ══════════════════════════════════════════════════════
+function githubConfigured() { return !!(cfg.owner && cfg.repo && cfg.token); }
+
+async function ghHeaders() {
+  return { 'Authorization':'token '+cfg.token, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' };
+}
+
+async function getFileSha() {
+  try {
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`, { headers: await ghHeaders() });
+    if (!r.ok) return null;
+    return (await r.json()).sha || null;
+  } catch(e) { return null; }
+}
+
+async function pushToGitHub(payload) {
+  if (!githubConfigured()) { addLog('warn','GitHub não configurado. Salvo apenas localmente.'); return false; }
+  setSyncLoading('Sincronizando...');
+  try {
+    const sha = await getFileSha();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+    const body = { message:`chore: atualizar PGO ${new Date().toISOString().slice(0,10)}`, content, branch: cfg.branch };
+    if (sha) body.sha = sha;
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`,
+      { method:'PUT', headers: await ghHeaders(), body: JSON.stringify(body) });
+    if (!r.ok) {
+      const err = await r.json();
+      addLog('err','GitHub push falhou: '+(err.message||r.status));
+      setSyncError('Falha'); toast('Falha ao sincronizar: '+(err.message||r.status),'error'); return false;
+    }
+    addLog('ok','GitHub sincronizado com sucesso.');
+    setSyncOk('Sincronizado'); return true;
+  } catch(e) { addLog('err','Erro GitHub: '+e.message); setSyncError('Erro de rede'); return false; }
+}
+
+async function pullFromGitHub() {
+  if (!githubConfigured()) return;
+  setSyncLoading('Buscando dados...');
+  addLog('ok','Buscando dados do GitHub...');
+  try {
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}?ref=${cfg.branch}`, { headers: await ghHeaders() });
+    if (r.status === 404) { addLog('warn','Arquivo não encontrado no GitHub. Aguardando primeira carga.'); setSyncOk('Pronto'); return; }
+    if (!r.ok) { addLog('err','Erro ao buscar: '+r.status); setSyncError('Erro'); return; }
+    const file = await r.json();
+    const json = JSON.parse(decodeURIComponent(escape(atob(file.content.replace(/\n/g,'')))));
+    if (json.ativos !== undefined) {
+      state.ativos = json.ativos || [];
+      state.saidas = json.saidas || [];
+      state.movimentacoes = json.movimentacoes || [];
+      state.historico = json.historico || [];
+      saveLocal(); refreshAll();
+      addLog('ok',`Dados carregados do GitHub: ${state.ativos.length} ativos, ${state.saidas.length} saídas.`);
+      setSyncOk('Sincronizado');
+      toast('Dados atualizados do GitHub!','success');
+    }
+  } catch(e) { addLog('err','Falha ao buscar dados: '+e.message); setSyncError('Erro'); }
+}
+
+async function testConnection() {
+  const el = document.getElementById('test-result');
+  el.textContent='Testando...'; el.style.color='var(--warning)';
+  if (!cfg.owner||!cfg.repo||!cfg.token){el.textContent='✕ Preencha todos os campos.';el.style.color='var(--danger)';return;}
+  try {
+    const r = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:await ghHeaders()});
+    if(r.ok){const d=await r.json();el.textContent='✓ Conectado: '+d.full_name;el.style.color='var(--success)';addLog('ok','Conexão OK: '+d.full_name);}
+    else{el.textContent='✕ Erro '+r.status;el.style.color='var(--danger)';}
+  } catch(e){el.textContent='✕ Erro de rede';el.style.color='var(--danger)';}
+}
+
+function saveConfig() {
+  cfg.owner=document.getElementById('cfg-owner').value.trim();
+  cfg.repo=document.getElementById('cfg-repo').value.trim();
+  cfg.branch=document.getElementById('cfg-branch').value.trim()||'main';
+  cfg.path=document.getElementById('cfg-path').value.trim()||'data/pgo.json';
+  cfg.token=document.getElementById('cfg-token').value.trim();
+  localStorage.setItem(LS.CFG, JSON.stringify(cfg));
+  toast('Configuração salva!','success');
+  addLog('ok','Configuração GitHub salva: '+cfg.owner+'/'+cfg.repo);
+  updateSyncStatus(); showView('dashboard');
+}
+
+function setSyncOk(m){document.getElementById('sync-dot').className='ok';document.getElementById('sync-label').textContent=m;}
+function setSyncError(m){document.getElementById('sync-dot').className='err';document.getElementById('sync-label').textContent=m;}
+function setSyncLoading(m){document.getElementById('sync-dot').className='loading';document.getElementById('sync-label').textContent=m;}
+function updateSyncStatus(){
+  if(!githubConfigured()){
+    document.getElementById('sync-dot').className='';
+    document.getElementById('sync-label').textContent='Não configurado';
+    document.getElementById('config-alert').style.display='flex';
+    document.getElementById('upload-config-warn').style.display='flex';
+  } else {
+    setSyncOk('Configurado');
+    document.getElementById('config-alert').style.display='none';
+    document.getElementById('upload-config-warn').style.display='none';
   }
-  return {colaboradores:colaboradores,erros:erros};
 }
 
-function calcDiff(ant,novo){
-  var mapA={};
-  (ant||[]).forEach(function(c){ mapA[c.id]=c; });
-  var admissoes=[],desligamentos=[],alteracoes=[];
-  novo.forEach(function(c){
-    if(!mapA[c.id]){ admissoes.push(c); return; }
-    var a=mapA[c.id];
-    if(a.status!==c.status&&c.status==='Inativo'){ desligamentos.push(Object.assign({},c,{statusAnterior:a.status})); return; }
-    if(a.status==='Inativo'&&c.status==='Ativo'){ admissoes.push(Object.assign({},c,{reativacao:true})); return; }
-    var changed=[];
-    ['cargo','area','nivel','gestorNome'].forEach(function(k){ if(a[k]!==c[k]) changed.push({campo:k,de:a[k],para:c[k]}); });
-    if(changed.length) alteracoes.push(Object.assign({},c,{mudancas:changed}));
+// ══════════════════════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════════════════════
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.getAttribute('onclick')&&n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active');
   });
-  return {admissoes:admissoes,desligamentos:desligamentos,alteracoes:alteracoes};
+  if(id==='config') populateConfigForm();
 }
 
-// ── Upload handler ─────────────────────────────────────────────────────────
-function handleFile(file){
-  if(!file) return;
-  if(!file.name.match(/\.xlsx?$/i)){ alert('Por favor, envie um arquivo .xlsx'); return; }
-  document.getElementById('upload-status').textContent='⏳ Processando...';
-  var reader=new FileReader();
-  reader.onload=function(e){
+function populateConfigForm(){
+  document.getElementById('cfg-owner').value=cfg.owner||'';
+  document.getElementById('cfg-repo').value=cfg.repo||'';
+  document.getElementById('cfg-branch').value=cfg.branch||'main';
+  document.getElementById('cfg-path').value=cfg.path||'data/pgo.json';
+  document.getElementById('cfg-token').value=cfg.token||'';
+}
+
+// ══════════════════════════════════════════════════════
+// LOG E TOAST
+// ══════════════════════════════════════════════════════
+function addLog(type,msg){
+  state.logs.push({type,msg,ts:new Date().toLocaleTimeString('pt-BR')});
+  renderLog();
+}
+function renderLog(){
+  const c=document.getElementById('log-container');
+  if(!state.logs.length){c.innerHTML='<div class="empty-state"><p>Nenhum evento.</p></div>';return;}
+  c.innerHTML=[...state.logs].reverse().map(l=>`<div class="log-entry ${l.type}"><span class="ts">[${l.ts}]</span>${esc(l.msg)}</div>`).join('');
+}
+function clearLog(){state.logs=[];saveLocal();renderLog();}
+function toast(msg,type='info',dur=4000){
+  const el=document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML=(type==='success'?'✓ ':type==='error'?'✕ ':'ℹ ')+esc(msg);
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(()=>el.remove(),dur);
+}
+
+// ══════════════════════════════════════════════════════
+// PROCESSAMENTO DA PLANILHA PGO
+// ══════════════════════════════════════════════════════
+function handleDrop(e){
+  e.preventDefault();document.getElementById('upload-zone').classList.remove('drag');
+  if(e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]);
+}
+function handleFileSelect(e){if(e.target.files[0]) processFile(e.target.files[0]);}
+
+function setProgress(pct,label){
+  document.getElementById('upload-progress').style.display='block';
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+  document.getElementById('progress-label').textContent=label;
+}
+
+// Encontra a linha de header na aba (procura por texto conhecido)
+function findHeaderRow(rawRows, knownValue) {
+  for(let i=0;i<Math.min(rawRows.length,15);i++){
+    if(rawRows[i].some(c=>String(c).trim()===knownValue)) return i;
+  }
+  return -1;
+}
+
+async function processFile(file) {
+  if(!file.name.match(/\.(xlsm|xlsx|xls)$/i)){toast('Formato inválido. Use .xlsm ou .xlsx','error');return;}
+  addLog('ok','Iniciando processamento: '+file.name);
+  setProgress(10,'Lendo arquivo...');
+  const reader=new FileReader();
+  reader.onload=async function(e){
     try{
-      var wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:false});
-      var parsed=parsePlanilha(wb);
-      var colab=parsed.colaboradores, erros=parsed.erros;
-      if(!colab.length) throw new Error('Nenhum colaborador encontrado.');
-      var ativos=colab.filter(function(c){ return c.status==='Ativo'; }).length;
-      var periodo=periodoAtual();
-      var d=state.base?calcDiff(state.base.colaboradores,colab):{admissoes:[],desligamentos:[],alteracoes:[]};
-      state.diff=d; state.diffPeriodo=periodo;
-      var novaBase={colaboradores:colab,uploadedAt:now(),totalAtivos:ativos,totalInativos:colab.length-ativos,arquivo:file.name};
-      var snap={periodo:periodo,uploadedAt:now(),arquivo:file.name,admissoes:d.admissoes.length,desligamentos:d.desligamentos.length,alteracoes:d.alteracoes.length,totalAtivos:ativos};
-      state.hist=[snap].concat(state.hist.filter(function(h){ return h.periodo!==periodo; })).slice(0,24);
-      state.logs=erros.map(function(e){ return Object.assign({},e,{uploadedAt:now()}); }).concat(state.logs).slice(0,100);
-      state.base=novaBase;
-      ST.set('base',novaBase); ST.set('hist',state.hist); ST.set('logs',state.logs);
-      updateHeader();
-      showToast('✅ '+colab.length+' colaboradores processados — '+d.admissoes.length+' admissões, '+d.desligamentos.length+' desligamentos');
-      showTab('movimentacoes');
+      setProgress(25,'Parseando planilha...');
+      const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:true});
+
+      // ── Verificar abas obrigatórias ──
+      const sheetNames = wb.SheetNames.map(s=>s.trim());
+      const baseSheetName = sheetNames.find(s=>s==='Base')||sheetNames.find(s=>s.toLowerCase()==='base');
+      const saidasSheetName = sheetNames.find(s=>s==='Saídas')||sheetNames.find(s=>s.toLowerCase().includes('sa'+'ída'));
+      if(!baseSheetName){toast('Aba "Base" não encontrada na planilha.','error');addLog('err','Aba Base não encontrada. Abas: '+sheetNames.join(', '));return;}
+      if(!saidasSheetName){toast('Aba "Saídas" não encontrada na planilha.','error');addLog('err','Aba Saídas não encontrada.');return;}
+
+      setProgress(40,'Lendo aba Base...');
+
+      // ── ABA BASE ──
+      const wsBase=wb.Sheets[baseSheetName];
+      const rawBase=XLSX.utils.sheet_to_json(wsBase,{header:1,defval:''});
+      const hRowBase=findHeaderRow(rawBase,'Nome');
+      if(hRowBase<0){toast('Coluna "Nome" não encontrada na aba Base.','error');return;}
+      const hdBase=rawBase[hRowBase].map(h=>String(h).trim());
+      const dataBase=rawBase.slice(hRowBase+1).filter(r=>r.some(c=>c!==''));
+
+      const iNome=hdBase.indexOf('Nome');
+      const iBase=hdBase.indexOf('Base');
+      const iEspec=hdBase.indexOf('Especificação');
+      const iAbrang=hdBase.indexOf('Abrangência');
+      const iEmp=hdBase.indexOf('Empresa');
+      const iCRD=hdBase.indexOf('CRD');
+      const iAdm=hdBase.indexOf('Admissão');
+      const iRegime=hdBase.findIndex(h=>h.startsWith('Regime'));
+      const iTipo=hdBase.indexOf('Tipo de Contrato');
+      const iLocal=hdBase.indexOf('Local');
+      const iNivel=hdBase.indexOf('Nivel');
+      const iFaixa=hdBase.indexOf('Faixa');
+      const iSalario=hdBase.indexOf('Salário Atual');
+      const iSuperior=hdBase.indexOf('Superior Imediato');
+      const iLider=hdBase.indexOf('Líder?');
+
+      if(iNome<0){toast('Coluna "Nome" não encontrada.','error');return;}
+
+      const novoAtivos=[];
+      const seenNomes=new Set();
+      let dups=0;
+
+      dataBase.forEach(row=>{
+        const nome=String(row[iNome]||'').trim();
+        if(!nome) return;
+        if(seenNomes.has(nome)){dups++;addLog('warn','Nome duplicado ignorado: '+nome);return;}
+        seenNomes.add(nome);
+        const admRaw=row[iAdm];
+        let admissao='';
+        if(admRaw instanceof Date) admissao=admRaw.toLocaleDateString('pt-BR');
+        else if(admRaw) admissao=String(admRaw).slice(0,10);
+        novoAtivos.push({
+          nome, empresa:String(row[iEmp]||'').trim(),
+          base:String(row[iBase]||'').trim(), especificacao:String(row[iEspec]||'').trim(),
+          abrangencia:String(row[iAbrang]||'').trim(), crd:String(row[iCRD]||'').trim(),
+          admissao, regime:String(row[iRegime]||'').trim(), tipo:String(row[iTipo]||'').trim(),
+          local:String(row[iLocal]||'').trim(), nivel:String(row[iNivel]||'').trim(),
+          faixa:String(row[iFaixa]||'').trim(), salario:row[iSalario]||'',
+          superior:String(row[iSuperior]||'').trim(), lider:String(row[iLider]||'').trim(),
+        });
+      });
+
+      setProgress(60,'Lendo aba Saídas...');
+
+      // ── ABA SAÍDAS ──
+      const wsSaidas=wb.Sheets[saidasSheetName];
+      const rawSaidas=XLSX.utils.sheet_to_json(wsSaidas,{header:1,defval:''});
+      const hRowSaidas=findHeaderRow(rawSaidas,'Nome completo');
+      const novoSaidas=[];
+      if(hRowSaidas>=0){
+        const hdS=rawSaidas[hRowSaidas].map(h=>String(h).trim());
+        const dataSaidas=rawSaidas.slice(hRowSaidas+1).filter(r=>r.some(c=>c!==''));
+        const iSNome=hdS.indexOf('Nome completo');
+        const iSEmp=hdS.indexOf('Empresa');
+        const iSAdm=hdS.indexOf('Data de admissão');
+        const iSDesl=hdS.indexOf('Data de desligamento');
+        const iSMot=hdS.indexOf('Motivo');
+        dataSaidas.forEach(row=>{
+          const nome=String(row[iSNome]||'').trim();
+          if(!nome) return;
+          novoSaidas.push({
+            nome, empresa:String(row[iSEmp]||'').trim(),
+            admissao:String(row[iSAdm]||'').trim(),
+            desligamento:String(row[iSDesl]||'').trim(),
+            motivo:String(row[iSMot]||'').trim(),
+          });
+        });
+        addLog('ok','Aba Saídas: '+novoSaidas.length+' registros lidos.');
+      } else {
+        addLog('warn','Header da aba Saídas não encontrado.');
+      }
+
+      setProgress(75,'Detectando movimentações...');
+
+      // ── DETECÇÃO DE MOVIMENTAÇÕES ──
+      const oldAtivoMap={};
+      state.ativos.forEach(c=>{oldAtivoMap[c.nome]=c;});
+      const oldSaidasSet=new Set(state.saidas.map(s=>s.nome+'|'+s.desligamento));
+      const now=new Date().toLocaleString('pt-BR');
+      const newMovs=[];
+
+      // Admissões: nomes novos na Base
+      novoAtivos.forEach(c=>{
+        if(!oldAtivoMap[c.nome]){
+          newMovs.push({tipo:'new',nome:c.nome,empresa:c.empresa,base:c.base,nivel:c.nivel,obs:'Novo na aba Base',detectadoEm:now});
+          addLog('ok','Admissão detectada: '+c.nome);
+        } else {
+          const old=oldAtivoMap[c.nome];
+          const mudancas=[];
+          if(old.base!==c.base) mudancas.push('Cargo: '+old.base+'→'+c.base);
+          if(old.empresa!==c.empresa) mudancas.push('Empresa: '+old.empresa+'→'+c.empresa);
+          if(old.nivel!==c.nivel) mudancas.push('Nível: '+old.nivel+'→'+c.nivel);
+          if(old.regime!==c.regime) mudancas.push('Regime: '+old.regime+'→'+c.regime);
+          if(mudancas.length>0){
+            newMovs.push({tipo:'changed',nome:c.nome,empresa:c.empresa,base:c.base,nivel:c.nivel,obs:mudancas.join(' | '),detectadoEm:now});
+            addLog('ok','Alteração: '+c.nome+' — '+mudancas.join('; '));
+          }
+        }
+      });
+
+      // Saídas da Base (estava ativo, sumiu)
+      const novoAtivoSet=new Set(novoAtivos.map(c=>c.nome));
+      Object.keys(oldAtivoMap).forEach(nome=>{
+        if(!novoAtivoSet.has(nome)){
+          newMovs.push({tipo:'exit',nome,empresa:oldAtivoMap[nome].empresa,base:oldAtivoMap[nome].base,nivel:oldAtivoMap[nome].nivel,obs:'Saiu da aba Base',detectadoEm:now});
+          addLog('warn','Saída da Base: '+nome);
+        }
+      });
+
+      // Novos registros em Saídas
+      novoSaidas.forEach(s=>{
+        const key=s.nome+'|'+s.desligamento;
+        if(!oldSaidasSet.has(key)){
+          newMovs.push({tipo:'exit',nome:s.nome,empresa:s.empresa,base:'—',nivel:'—',obs:'Desligamento em '+s.desligamento+(s.motivo?' ('+s.motivo+')':''),detectadoEm:now});
+          if(novoAtivoSet.has(s.nome)) addLog('warn','Na aba Saídas mas ainda na Base: '+s.nome);
+          else addLog('warn','Novo desligamento: '+s.nome+' em '+s.desligamento);
+        }
+      });
+
+      setProgress(88,'Salvando...');
+      state.ativos=novoAtivos;
+      state.saidas=novoSaidas;
+      state.movimentacoes=[...newMovs,...state.movimentacoes];
+
+      const hist={
+        arquivo:file.name, data:now,
+        totalAtivos:novoAtivos.length, totalSaidas:novoSaidas.length,
+        admissoes:newMovs.filter(m=>m.tipo==='new').length,
+        desligamentos:newMovs.filter(m=>m.tipo==='exit').length,
+        alteracoes:newMovs.filter(m=>m.tipo==='changed').length,
+        duplicatas:dups
+      };
+      state.historico.unshift(hist);
+      saveLocal();
+
+      setProgress(93,'Sincronizando com GitHub...');
+      const payload={ativos:state.ativos,saidas:state.saidas,movimentacoes:state.movimentacoes,historico:state.historico,ultimaAtualizacao:now};
+      const synced=await pushToGitHub(payload);
+
+      setProgress(100,'Concluído!');
+      setTimeout(()=>document.getElementById('upload-progress').style.display='none',2500);
+      addLog('ok',`Carga concluída: ${novoAtivos.length} ativos | ${novoSaidas.length} saídas | ${hist.admissoes} adm. | ${hist.desligamentos} desl. | ${hist.alteracoes} alt.`);
+      toast(`Processado! ${newMovs.length} movimentação(ões).${synced?' Salvo no GitHub.':' Apenas local.'}`, synced?'success':'info');
+      refreshAll();
+      showView('dashboard');
     } catch(err){
-      showToast('❌ Erro: '+err.message,'error');
-      document.getElementById('upload-status').textContent='';
+      addLog('err','Erro no processamento: '+err.message+' | '+err.stack);
+      toast('Erro ao processar: '+err.message,'error');
+      document.getElementById('upload-progress').style.display='none';
     }
   };
   reader.readAsArrayBuffer(file);
+  document.getElementById('file-input').value='';
 }
 
-// ── Header ─────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
+function refreshAll(){
+  renderStats(); renderAtivos(); renderSaidas(); renderMovTable(); renderHistorico(); renderLog(); renderCharts(); updateNav(); updateHeader();
+}
+
 function updateHeader(){
-  var b=state.base;
-  if(b){
-    document.getElementById('header-sub').textContent='Última atualização: '+new Date(b.uploadedAt).toLocaleString('pt-BR')+' — '+b.arquivo;
-    document.getElementById('header-counts').innerHTML='<div><div style="font-size:22px;font-weight:700">'+b.totalAtivos+'</div><div style="font-size:11px;color:#93c5fd">Ativos</div></div><div><div style="font-size:22px;font-weight:700">'+b.totalInativos+'</div><div style="font-size:11px;color:#93c5fd">Inativos</div></div>';
-  }
-  if(state.logs.length) document.getElementById('tab-erros-btn').textContent='⚠️ Logs ('+state.logs.length+')';
+  const h=state.historico[0];
+  document.getElementById('header-info').textContent=state.ativos.length?state.ativos.length+' ativos · '+state.saidas.length+' desligados':'';
+  document.getElementById('dash-sub').textContent=h?`Atualizado em ${h.data} — ${h.arquivo}`:'Carregue o arquivo PGO para começar.';
 }
 
-// ── Tab rendering ──────────────────────────────────────────────────────────
-function showTab(tab){
-  state.currentTab=tab;
-  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.toggle('active',b.dataset.tab===tab); });
-  document.getElementById('tab-erros-btn').dataset.tab='erros';
-  document.getElementById('tab-erros-btn').onclick=function(){ showTab('erros'); };
-  var c=document.getElementById('content');
-  if(tab==='dashboard') c.innerHTML=renderDashboard();
-  else if(tab==='colaboradores') c.innerHTML=renderColaboradores();
-  else if(tab==='movimentacoes') c.innerHTML=renderMovimentacoes();
-  else if(tab==='historico') c.innerHTML=renderHistorico();
-  else if(tab==='upload') c.innerHTML=renderUpload();
-  else if(tab==='erros') c.innerHTML=renderErros();
-  attachEvents(tab);
+function updateNav(){
+  document.getElementById('nav-ativos').textContent=state.ativos.length||'—';
+  document.getElementById('nav-saidas').textContent=state.saidas.length||'—';
+  document.getElementById('nav-mov').textContent=state.movimentacoes.length||'—';
+  document.getElementById('nav-hist').textContent=state.historico.length||'—';
 }
 
-// ── Dashboard ──────────────────────────────────────────────────────────────
-function renderDashboard(){
-  if(!state.base) return '<div style="text-align:center;padding:60px 0"><div style="font-size:48px;margin-bottom:16px">📂</div><div style="font-size:18px;font-weight:600;color:#374151;margin-bottom:8px">Nenhuma base carregada</div><div style="color:#9ca3af;margin-bottom:24px">Faça o upload da planilha do ImpulseUP para começar</div><button class="btn btn-primary" onclick="showTab(\'upload\')">Fazer primeiro upload →</button></div>';
-  var b=state.base, colab=b.colaboradores;
-  var ativos=colab.filter(function(c){ return c.status==='Ativo'; });
-  var adm2026=ativos.filter(function(c){ return c.admissao&&c.admissao.startsWith('2026'); }).length;
-  var areaCounts={};
-  ativos.forEach(function(c){ if(c.area) areaCounts[c.area]=(areaCounts[c.area]||0)+1; });
-  var areas=Object.entries(areaCounts).sort(function(a,b){ return b[1]-a[1]; }).slice(0,10);
-  var maxArea=areas.length?areas[0][1]:1;
-  var COLORS=['#2563eb','#16a34a','#d97706','#dc2626','#7c3aed','#0891b2','#db2777','#65a30d','#ea580c','#0369a1'];
-  var barsHtml=areas.map(function(a,i){
-    var pct=Math.round(a[1]/maxArea*100);
-    return '<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:110px;font-size:12px;color:#374151;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(a[0])+'</div><div style="flex:1;background:#f3f4f6;border-radius:4px;height:20px"><div style="width:'+pct+'%;background:'+COLORS[i%COLORS.length]+';height:20px;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px"><span style="font-size:11px;color:#fff;font-weight:600">'+a[1]+'</span></div></div></div>';
-  }).join('');
-  var pctAtivo=Math.round(ativos.length/colab.length*100);
-  return '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-bottom:28px">'+
-    statCard('Total','#2563eb',colab.length,'')+
-    statCard('Ativos','#16a34a',ativos.length,pctAtivo+'% do total')+
-    statCard('Inativos','#dc2626',colab.length-ativos.length,'')+
-    statCard('Admitidos 2026','#7c3aed',adm2026,'')+
-    statCard('Períodos','#0891b2',state.hist.length,'no histórico')+
-  '</div>'+
-  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">'+
-    '<div class="card"><div style="font-weight:700;font-size:14px;margin-bottom:16px;color:#374151">Colaboradores por área (ativos)</div>'+barsHtml+'</div>'+
-    '<div class="card"><div style="font-weight:700;font-size:14px;margin-bottom:16px;color:#374151">Status geral</div>'+
-      '<div style="display:flex;flex-direction:column;gap:16px;padding-top:8px">'+
-        '<div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px">Ativos</span><span style="font-size:13px;font-weight:700">'+ativos.length+'</span></div><div style="background:#f3f4f6;border-radius:4px;height:12px"><div style="width:'+pctAtivo+'%;background:#16a34a;height:12px;border-radius:4px"></div></div></div>'+
-        '<div><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:13px">Inativos</span><span style="font-size:13px;font-weight:700">'+(colab.length-ativos.length)+'</span></div><div style="background:#f3f4f6;border-radius:4px;height:12px"><div style="width:'+(100-pctAtivo)+'%;background:#dc2626;height:12px;border-radius:4px"></div></div></div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
+function renderStats(){
+  const h=state.historico[0];
+  document.getElementById('s-ativos').textContent=state.ativos.length||'—';
+  document.getElementById('s-saidas').textContent=state.saidas.length||'—';
+  document.getElementById('s-adm').textContent=h?h.admissoes:'—';
+  document.getElementById('s-alt').textContent=h?h.alteracoes:'—';
 }
 
-function statCard(label,color,value,sub){
-  return '<div class="stat-card" style="border-top:3px solid '+color+'"><div style="font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">'+label+'</div><div style="font-size:32px;font-weight:700;color:#111827;line-height:1">'+value+'</div>'+(sub?'<div style="font-size:12px;color:#9ca3af;margin-top:4px">'+sub+'</div>':'')+'</div>';
+function renderCharts(){
+  if(!state.ativos.length) return;
+  // Por empresa
+  const empMap={};state.ativos.forEach(c=>{if(c.empresa)empMap[c.empresa]=(empMap[c.empresa]||0)+1;});
+  const topEmp=Object.entries(empMap).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxE=topEmp[0]?.[1]||1;
+  document.getElementById('chart-empresa').innerHTML=topEmp.map(([emp,n])=>`
+    <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+    <span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px">${esc(emp)}</span>
+    <span style="font-family:'DM Mono',monospace;font-weight:500">${n}</span></div>
+    <div style="height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden">
+    <div style="width:${Math.round(n/maxE*100)}%;height:100%;background:#3d7fff;border-radius:4px"></div></div></div>`).join('');
+  // Por nível
+  const nivMap={};state.ativos.forEach(c=>{if(c.nivel)nivMap[c.nivel]=(nivMap[c.nivel]||0)+1;});
+  const niveis=Object.entries(nivMap).sort((a,b)=>a[0].localeCompare(b[0]));
+  const maxN=niveis[0]?.[1]||1;
+  const colors=['#3d7fff','#16a34a','#d97706','#dc2626','#9333ea','#0891b2'];
+  document.getElementById('chart-nivel').innerHTML=niveis.map(([nv,n],i)=>`
+    <div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+    <span>Nível ${esc(nv)}</span><span style="font-family:'DM Mono',monospace;font-weight:500">${n}</span></div>
+    <div style="height:8px;background:var(--surface-3);border-radius:4px;overflow:hidden">
+    <div style="width:${Math.round(n/maxN*100)}%;height:100%;background:${colors[i%colors.length]};border-radius:4px"></div></div></div>`).join('');
+  // Últimas movimentações
+  const rm=state.movimentacoes.slice(0,6);
+  document.getElementById('recent-movs').innerHTML=rm.length?rm.map(m=>`
+    <div class="history-item">
+    <div class="history-dot" style="background:${m.tipo==='new'?'#16a34a':m.tipo==='exit'?'#dc2626':'#d97706'}"></div>
+    <div class="history-meta"><strong>${esc(m.nome)}</strong><p>${movLabel(m.tipo)} · ${esc(m.empresa||'—')} · ${esc(m.obs||'—')}</p></div>
+    <span class="badge ${m.tipo==='new'?'badge-green':m.tipo==='exit'?'badge-red':'badge-amber'}">${movLabel(m.tipo)}</span></div>`).join('')
+    :'<div class="empty-state" style="padding:1rem"><p>Nenhuma movimentação.</p></div>';
 }
 
-// ── Colaboradores ──────────────────────────────────────────────────────────
-function renderColaboradores(){
-  if(!state.base) return '<div style="text-align:center;color:#9ca3af;padding:60px">Carregue uma planilha primeiro</div>';
-  var colab=state.base.colaboradores;
-  var q=state.busca.toLowerCase();
-  var filtered=colab.filter(function(c){
-    var mb=!q||c.nome.toLowerCase().includes(q)||c.email.toLowerCase().includes(q)||(c.cargo||'').toLowerCase().includes(q);
-    var ms=state.filtroStatus==='Todos'||c.status===state.filtroStatus;
-    var ma=state.filtroArea==='Todas'||c.area===state.filtroArea;
-    return mb&&ms&&ma;
-  });
-  var ps=15, pages=Math.ceil(filtered.length/ps), page=Math.min(state.page,pages-1)||0;
-  var slice=filtered.slice(page*ps,(page+1)*ps);
-  var areas=['Todas'].concat(Array.from(new Set(colab.map(function(c){ return c.area; }).filter(Boolean))).sort());
-  var areasOpts=areas.map(function(a){ return '<option'+(a===state.filtroArea?' selected':'')+'>'+esc(a)+'</option>'; }).join('');
-  var rows=slice.map(function(c){
-    return '<tr><td><span style="font-weight:500">'+esc(c.nome)+'</span></td><td style="color:#6b7280;font-size:12px">'+esc(c.email)+'</td><td>'+esc(c.cargo||'—')+'</td><td>'+esc(c.area||'—')+'</td><td>'+fmtDate(c.admissao)+'</td><td><span class="badge badge-'+(c.status==='Ativo'?'green':'red')+'">'+c.status+'</span></td><td style="font-size:12px;color:#6b7280">'+esc(c.gestorNome?c.gestorNome.split(',')[0]:'—')+'</td></tr>';
-  }).join('');
-  if(!slice.length) rows='<tr><td colspan="7" style="text-align:center;color:#9ca3af;padding:32px">Nenhum resultado</td></tr>';
-  var pagination='';
-  if(pages>1) pagination='<div style="display:flex;justify-content:center;gap:6px;margin-top:16px"><button class="btn" onclick="changePage(-1)" '+(page===0?'disabled':'')+'>← Anterior</button><span style="align-self:center;font-size:13px;color:#6b7280">Página '+(page+1)+' de '+pages+'</span><button class="btn" onclick="changePage(1)" '+(page===pages-1?'disabled':'')+'>Próxima →</button></div>';
-  return '<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap"><input type="search" id="busca-input" placeholder="🔍 Buscar nome, email ou cargo..." value="'+esc(state.busca)+'" style="flex:1;min-width:220px" oninput="updateBusca(this.value)"><select onchange="updateFiltroStatus(this.value)"><option'+(state.filtroStatus==='Todos'?' selected':'')+'>Todos</option><option'+(state.filtroStatus==='Ativo'?' selected':'')+'>Ativo</option><option'+(state.filtroStatus==='Inativo'?' selected':'')+'>Inativo</option></select><select onchange="updateFiltroArea(this.value)" style="max-width:200px">'+areasOpts+'</select><span style="align-self:center;font-size:12px;color:#9ca3af">'+filtered.length+' resultado(s)</span></div><div style="overflow-x:auto;border-radius:12px;border:1px solid #e5e7eb"><table><thead><tr><th>Nome</th><th>Email</th><th>Cargo</th><th>Área</th><th>Admissão</th><th>Status</th><th>Gestor</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+pagination;
+function renderAtivos(){
+  const emps=new Set(state.ativos.map(c=>c.empresa).filter(Boolean));
+  const bases=new Set(state.ativos.map(c=>c.nivel).filter(Boolean));
+  const regimes=new Set(state.ativos.map(c=>c.regime).filter(Boolean));
+  const popSel=(id,vals,prefix)=>{
+    const s=document.getElementById(id);const ov=s.value;
+    s.innerHTML=`<option value="">${prefix}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+    if(ov)s.value=ov;
+  };
+  popSel('filter-empresa',emps,'Todas as empresas');
+  popSel('filter-base',bases,'Todos os níveis');
+  popSel('filter-regime',regimes,'CLT / PJ');
+  filterAtivos();
 }
 
-function updateBusca(v){ state.busca=v; state.page=0; showTab('colaboradores'); }
-function updateFiltroStatus(v){ state.filtroStatus=v; state.page=0; showTab('colaboradores'); }
-function updateFiltroArea(v){ state.filtroArea=v; state.page=0; showTab('colaboradores'); }
-function changePage(d){ state.page+=d; showTab('colaboradores'); }
-
-// ── Movimentações ──────────────────────────────────────────────────────────
-function renderMovimentacoes(){
-  if(!state.diff) return '<div style="text-align:center;padding:60px"><div style="font-size:36px;margin-bottom:12px">🔄</div><div style="color:#9ca3af">As movimentações aparecerão aqui após o próximo upload</div></div>';
-  var d=state.diff, total=d.admissoes.length+d.desligamentos.length+d.alteracoes.length;
-  if(!total) return '<div style="padding:24px;background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;text-align:center"><div style="font-size:24px;margin-bottom:8px">✅</div><div style="font-weight:600;color:#166534">Nenhuma movimentação detectada</div></div>';
-  var html='<div style="font-weight:700;font-size:16px;color:#111827;margin-bottom:20px">Movimentações — '+state.diffPeriodo+' <span style="font-size:13px;font-weight:400;color:#6b7280">'+total+' no total</span></div>';
-  function section(title,items,color,fn){
-    if(!items.length) return '';
-    return '<div style="margin-bottom:24px"><div style="font-weight:700;font-size:14px;color:'+color+';margin-bottom:10px;display:flex;align-items:center;gap:8px">'+title+' <span style="background:'+color+';color:#fff;border-radius:99px;padding:1px 8px;font-size:12px">'+items.length+'</span></div><div style="display:flex;flex-direction:column;gap:8px">'+items.map(fn).join('')+'</div></div>';
-  }
-  html+=section('🟢 Admissões / reativações',d.admissoes,'#16a34a',function(c){
-    return '<div style="padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e5e7eb;font-size:13px"><span style="font-weight:600">'+esc(c.nome)+'</span> <span style="color:#6b7280">'+esc(c.email)+'</span>'+(c.reativacao?' <span class="badge badge-blue">Reativação</span>':'')+' <span style="float:right;color:#9ca3af">'+esc(c.cargo||'')+(c.area?' · '+c.area:'')+'</span></div>';
-  });
-  html+=section('🔴 Desligamentos',d.desligamentos,'#dc2626',function(c){
-    return '<div style="padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e5e7eb;font-size:13px"><span style="font-weight:600">'+esc(c.nome)+'</span> <span style="color:#6b7280">'+esc(c.email)+'</span>'+(c.motivo?' <span style="color:#dc2626;font-size:12px">— '+esc(c.motivo)+'</span>':'')+' <span style="float:right;color:#9ca3af">'+fmtDate(c.inativacao)+'</span></div>';
-  });
-  html+=section('🟡 Alterações cadastrais',d.alteracoes,'#d97706',function(c){
-    var mudancas=c.mudancas.map(function(m){ return '<div style="font-size:12px;color:#6b7280;padding-left:12px"><span style="font-weight:500">'+esc(m.campo)+'</span>: <span style="color:#ef4444;text-decoration:line-through">'+esc(m.de||'—')+'</span> → <span style="color:#16a34a">'+esc(m.para||'—')+'</span></div>'; }).join('');
-    return '<div style="padding:10px 14px;background:#fff;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;display:flex;flex-direction:column;gap:4px"><div><span style="font-weight:600">'+esc(c.nome)+'</span> <span style="color:#6b7280">'+esc(c.email)+'</span></div>'+mudancas+'</div>';
-  });
-  return html;
+function filterAtivos(){
+  const q=(document.getElementById('search-ativos').value||'').toLowerCase();
+  const emp=document.getElementById('filter-empresa').value;
+  const base=document.getElementById('filter-base').value;
+  const reg=document.getElementById('filter-regime').value;
+  const rows=state.ativos.filter(c=>
+    (!q||c.nome.toLowerCase().includes(q)||c.empresa.toLowerCase().includes(q)||(c.base||'').toLowerCase().includes(q)||(c.especificacao||'').toLowerCase().includes(q))&&
+    (!emp||c.empresa===emp)&&(!base||c.nivel===base)&&(!reg||c.regime===reg));
+  document.getElementById('count-ativos').textContent=rows.length+' de '+state.ativos.length;
+  const tb=document.getElementById('tbody-ativos');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="11"><div class="empty-state"><p>Nenhum resultado.</p></div></td></tr>';return;}
+  tb.innerHTML=rows.map(c=>`<tr>
+    <td style="font-weight:500">${esc(c.nome)}</td>
+    <td><span class="chip">${esc(c.empresa)}</span></td>
+    <td>${esc(c.base)}</td>
+    <td style="color:var(--text-2)">${esc(c.especificacao)}</td>
+    <td><span class="chip">${esc(c.abrangencia)}</span></td>
+    <td><span class="badge badge-blue">Nível ${esc(c.nivel)}</span></td>
+    <td><span class="badge ${c.regime==='CLT'?'badge-green':'badge-gray'}">${esc(c.regime)}</span></td>
+    <td>${esc(c.local)}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(c.admissao)}</td>
+    <td style="font-size:12px;color:var(--text-2)">${esc(c.superior)}</td>
+    <td><span class="badge ${c.lider==='Líder'?'badge-amber':'badge-gray'}">${esc(c.lider)}</span></td>
+  </tr>`).join('');
 }
 
-// ── Histórico ──────────────────────────────────────────────────────────────
+function renderSaidas(){
+  const emps=new Set(state.saidas.map(s=>s.empresa).filter(Boolean));
+  const motivos=new Set(state.saidas.map(s=>s.motivo).filter(Boolean));
+  const popSel=(id,vals,prefix)=>{
+    const s=document.getElementById(id);const ov=s.value;
+    s.innerHTML=`<option value="">${prefix}</option>`+[...vals].sort().map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join('');
+    if(ov)s.value=ov;
+  };
+  popSel('filter-empresa-saidas',emps,'Todas as empresas');
+  popSel('filter-motivo',motivos,'Todos os motivos');
+  filterSaidas();
+}
+
+function filterSaidas(){
+  const q=(document.getElementById('search-saidas').value||'').toLowerCase();
+  const emp=document.getElementById('filter-empresa-saidas').value;
+  const mot=document.getElementById('filter-motivo').value;
+  const rows=state.saidas.filter(s=>
+    (!q||s.nome.toLowerCase().includes(q)||s.empresa.toLowerCase().includes(q))&&
+    (!emp||s.empresa===emp)&&(!mot||s.motivo===mot));
+  document.getElementById('count-saidas').textContent=rows.length+' de '+state.saidas.length;
+  const tb=document.getElementById('tbody-saidas');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="5"><div class="empty-state"><p>Nenhum resultado.</p></div></td></tr>';return;}
+  tb.innerHTML=rows.map(s=>`<tr>
+    <td style="font-weight:500">${esc(s.nome)}</td>
+    <td><span class="chip">${esc(s.empresa)}</span></td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(s.admissao)}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px">${esc(s.desligamento)}</td>
+    <td>${s.motivo?`<span class="badge badge-red">${esc(s.motivo)}</span>`:'<span style="color:var(--text-3)">—</span>'}</td>
+  </tr>`).join('');
+}
+
+function renderMovTable(){
+  const rows=currentMovFilter==='all'?state.movimentacoes:state.movimentacoes.filter(m=>m.tipo===currentMovFilter);
+  const tb=document.getElementById('tbody-movs');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="7"><div class="empty-state"><p>Nenhuma movimentação.</p></div></td></tr>';return;}
+  tb.innerHTML=rows.map(m=>`<tr class="row-${m.tipo}">
+    <td><span class="badge ${m.tipo==='new'?'badge-green':m.tipo==='exit'?'badge-red':'badge-amber'}">${movLabel(m.tipo)}</span></td>
+    <td style="font-weight:500">${esc(m.nome)}</td>
+    <td><span class="chip">${esc(m.empresa||'—')}</span></td>
+    <td>${esc(m.base||'—')}</td>
+    <td>${m.nivel&&m.nivel!=='—'?`<span class="badge badge-blue">Nível ${esc(m.nivel)}</span>`:'—'}</td>
+    <td style="font-size:12px;color:var(--text-2)">${esc(m.obs||'—')}</td>
+    <td style="font-size:12px;color:var(--text-3)">${esc(m.detectadoEm||'—')}</td>
+  </tr>`).join('');
+}
+
+function showMovTab(f,el){
+  currentMovFilter=f;
+  document.querySelectorAll('#view-movimentacoes .tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMovTable();
+}
+
 function renderHistorico(){
-  if(!state.hist.length) return '<div style="text-align:center;color:#9ca3af;padding:32px">Nenhum histórico ainda</div>';
-  var sorted=[].concat(state.hist).sort(function(a,b){ return b.periodo.localeCompare(a.periodo); });
-  var cards=sorted.map(function(h){
-    return '<div class="card" style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-weight:700;color:#111827">'+h.periodo.slice(5)+'/'+h.periodo.slice(0,4)+'</span><span style="font-size:12px;color:#9ca3af">'+new Date(h.uploadedAt).toLocaleDateString('pt-BR')+'</span></div><div style="display:flex;gap:10px;flex-wrap:wrap"><span class="badge badge-green">+'+h.admissoes+' admissões</span><span class="badge badge-red">-'+h.desligamentos+' desligamentos</span><span class="badge badge-amber">'+h.alteracoes+' alterações</span><span class="badge badge-blue">'+h.totalAtivos+' ativos</span></div></div>';
-  }).join('');
-  return cards;
+  const c=document.getElementById('historico-list');
+  if(!state.historico.length){c.innerHTML='<div class="empty-state"><p>Nenhuma carga.</p></div>';return;}
+  c.innerHTML=state.historico.map((h,i)=>`
+    <div class="history-item">
+      <div class="history-dot" style="background:${i===0?'#3d7fff':'#9ca3af'}"></div>
+      <div class="history-meta">
+        <strong>${esc(h.arquivo)}</strong>
+        <p>${h.data} · <span style="color:var(--success)">${h.admissoes} adm.</span> · <span style="color:var(--danger)">${h.desligamentos} desl.</span> · <span style="color:var(--warning)">${h.alteracoes} alt.</span>${h.duplicatas?` · <span style="color:var(--text-3)">${h.duplicatas} dups</span>`:''}</p>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:13px;font-weight:500;font-family:'DM Mono',monospace">${h.totalAtivos} ativos</div>
+        <div style="font-size:11px;color:var(--text-3)">${h.totalSaidas} desligados</div>
+      </div>
+    </div>`).join('');
 }
 
-// ── Upload ─────────────────────────────────────────────────────────────────
-function renderUpload(){
-  return '<div style="max-width:560px;margin:0 auto"><div style="font-weight:700;font-size:18px;color:#111827;margin-bottom:6px">Novo upload mensal</div><div style="font-size:13px;color:#6b7280;margin-bottom:24px">Exporte a planilha atualizada do ImpulseUP e faça o upload abaixo.</div><div id="drop-zone" style="border:2px dashed #d1d5db;border-radius:16px;padding:40px 24px;text-align:center;cursor:pointer;background:#fafafa" onclick="document.getElementById(\'file-input\').click()" ondragover="event.preventDefault();this.style.borderColor=\'#2563eb\';this.style.background=\'#eff6ff\'" ondragleave="this.style.borderColor=\'#d1d5db\';this.style.background=\'#fafafa\'" ondrop="event.preventDefault();this.style.borderColor=\'#d1d5db\';this.style.background=\'#fafafa\';handleFile(event.dataTransfer.files[0])"><input type="file" id="file-input" accept=".xlsx,.xls" style="display:none" onchange="handleFile(this.files[0])"><div style="font-size:40px;margin-bottom:12px">📊</div><div style="font-weight:600;color:#111827;margin-bottom:4px">Arraste o arquivo .xlsx aqui</div><div style="font-size:13px;color:#9ca3af">ou clique para selecionar — exportação do ImpulseUP</div></div><div id="upload-status" style="margin-top:12px;font-size:13px;color:#2563eb;text-align:center"></div><div style="margin-top:20px;padding:16px;background:#fffbeb;border-radius:10px;border:1px solid #fde68a;font-size:13px;color:#92400e"><strong>📋 Como exportar do ImpulseUP:</strong><br>Configurações → Usuários → Exportar usuários → Baixar .xlsx</div></div>';
+// ══════════════════════════════════════════════════════
+// EXPORTAR CSV
+// ══════════════════════════════════════════════════════
+function exportCSV(){
+  if(!state.ativos.length){toast('Sem dados para exportar','error');return;}
+  const h=['Nome','Empresa','Base','Especificação','Abrangência','Nível','Faixa','Regime','Local','Admissão','Superior Imediato','Líder?'];
+  const rows=state.ativos.map(c=>[c.nome,c.empresa,c.base,c.especificacao,c.abrangencia,c.nivel,c.faixa,c.regime,c.local,c.admissao,c.superior,c.lider]);
+  const csv=[h,...rows].map(r=>r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));
+  a.download='pgo_ativos_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();toast('CSV exportado!','success');
 }
 
-// ── Erros ──────────────────────────────────────────────────────────────────
-function renderErros(){
-  if(!state.logs.length) return '<div style="text-align:center;color:#9ca3af;padding:40px">✅ Nenhum erro registrado</div>';
-  var rows=state.logs.map(function(l){ return '<tr><td>'+(l.linha||'—')+'</td><td style="color:#6b7280;font-size:12px">'+esc(l.email)+'</td><td><span class="badge badge-amber">'+esc(l.motivo)+'</span></td><td style="font-size:12px;color:#9ca3af">'+new Date(l.uploadedAt).toLocaleString('pt-BR')+'</td></tr>'; }).join('');
-  return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><div style="font-weight:700;font-size:16px">Log de erros</div><button class="btn" onclick="clearLogs()">Limpar</button></div><div style="overflow-x:auto;border-radius:12px;border:1px solid #e5e7eb"><table><thead><tr><th>Linha</th><th>Email</th><th>Motivo</th><th>Data</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
-}
+// ══════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function movLabel(t){return t==='new'?'Admissão':t==='exit'?'Desligamento':'Alteração';}
 
-function clearLogs(){ state.logs=[]; ST.set('logs',[]); showTab('erros'); }
-function attachEvents(tab){}
-
-// ── Init ──────────────────────────────────────────────────────────────────
-(function init(){
-  var b=ST.get('base'), h=ST.get('hist'), l=ST.get('logs');
-  if(b) state.base=b;
-  if(h) state.hist=h;
-  if(l) state.logs=l;
-  updateHeader();
-  showTab('dashboard');
-  document.querySelector('[data-tab="dashboard"]').classList.add('active');
-})();
+// ══════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════
+loadLocal();
+refreshAll();
+updateSyncStatus();
+if(githubConfigured()) pullFromGitHub();
+else addLog('warn','GitHub não configurado. Acesse "Configurar GitHub" para ativar a sincronização.');
 </script>
 </body>
 </html>
