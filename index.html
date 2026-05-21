@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RH Movimentações — Entradas e Saídas</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f8fafc; }
+    input, select, button, textarea { font-family: inherit; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+    const { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie } = Recharts;
+    const XLSX = window.XLSX;
+
+    // Artifact Storage shim — usa localStorage para persistência no GitHub Pages
+    if (!window.storage) {
+      window.storage = {
+        _store: JSON.parse(localStorage.getItem('rh_storage') || '{}'),
+        _save() { localStorage.setItem('rh_storage', JSON.stringify(this._store)); },
+        async get(key) {
+          const v = this._store[key];
+          if (v === undefined) throw new Error('Key not found: ' + key);
+          return { key, value: v };
+        },
+        async set(key, value) {
+          this._store[key] = value;
+          this._save();
+          return { key, value };
+        },
+        async delete(key) {
+          delete this._store[key];
+          this._save();
+          return { key, deleted: true };
+        }
+      };
+    }
+
+  BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, Cell, PieChart, Pie
+} from "recharts";
+
+// ─── Storage keys ───────────────────────────────────────────────────────────
+const KEY_BASE    = "rh-impulseup-base";
+const KEY_HIST    = "rh-impulseup-historico";
+const KEY_LOG     = "rh-impulseup-logs";
+const SHARED      = true;
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function parseDate(v) {
+  if (!v) return null;
+  if (typeof v === "number") {
+    const d = new Date(Math.round((v - 25569) * 86400 * 1000));
+    return isNaN(d) ? null : d.toISOString().slice(0, 10);
+  }
+  const s = String(v).trim();
+  const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+  return null;
+}
+
+function fmtDate(iso) {
+  if (!iso) return "—";
+  const [y, m, d] = iso.split("-");
+  return `${d}/${m}/${y}`;
+}
+
+function now() { return new Date().toISOString(); }
+
+function periodoAtual() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function parsePlanilha(wb) {
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "" });
+
+  // Find header row (row containing "Nome completo")
+  let headerIdx = rows.findIndex(r => r.some(c => String(c).trim() === "Nome completo"));
+  if (headerIdx === -1) throw new Error("Cabeçalho 'Nome completo' não encontrado na planilha.");
+
+  const headers = rows[headerIdx].map(h => String(h).trim());
+  const col = (name) => headers.indexOf(name);
+
+  const iNome    = col("Nome completo");
+  const iEmail   = col("Email");
+  const iCargo   = col("Cargo");
+  const iArea    = col("Área");
+  const iNivel   = col("Nível");
+  const iAdm     = col("Data de admissão");
+  const iStatus  = col("Status");
+  const iMotivo  = col("Motivo do Status");
+  const iInativ  = col("Data de Inativação");
+  const iGestE   = col("E-mails dos gestores");
+  const iGestN   = col("Nome dos gestores");
+  const iCadastro= col("Data de cadastro");
+
+  const colaboradores = [];
+  const erros = [];
+  const emails = new Set();
+
+  for (let i = headerIdx + 1; i < rows.length; i++) {
+    const r = rows[i];
+    const nome  = String(r[iNome]  || "").trim();
+    const email = String(r[iEmail] || "").trim().toLowerCase();
+    if (!nome || !email) continue;
+
+    if (emails.has(email)) {
+      erros.push({ linha: i + 1, email, motivo: "Email duplicado — linha ignorada" });
+      continue;
+    }
+    emails.add(email);
+
+    const status = String(r[iStatus] || "").trim();
+    if (!["Ativo", "Inativo", ""].includes(status) && status) {
+      erros.push({ linha: i + 1, email, motivo: `Status inválido: "${status}"` });
+    }
+
+    colaboradores.push({
+      id: email,
+      nome,
+      email,
+      cargo:   String(r[iCargo]  || "").trim() || null,
+      area:    String(r[iArea]   || "").trim() || null,
+      nivel:   String(r[iNivel]  || "").trim() || null,
+      admissao: parseDate(r[iAdm]),
+      status:   status || "Ativo",
+      motivo:   String(r[iMotivo] || "").trim() || null,
+      inativacao: parseDate(r[iInativ]),
+      gestorEmail: String(r[iGestE] || "").trim() || null,
+      gestorNome:  String(r[iGestN] || "").trim() || null,
+      cadastro:    parseDate(r[iCadastro]),
+    });
+  }
+
+  return { colaboradores, erros };
+}
+
+function calcDiff(anterior, novo) {
+  const mapAnt = Object.fromEntries((anterior || []).map(c => [c.id, c]));
+  const mapNov = Object.fromEntries(novo.map(c => [c.id, c]));
+
+  const admissoes   = [];
+  const desligamentos = [];
+  const alteracoes  = [];
+
+  for (const c of novo) {
+    if (!mapAnt[c.id]) {
+      admissoes.push(c);
+    } else {
+      const ant = mapAnt[c.id];
+      const changed = [];
+      if (ant.status !== c.status && c.status === "Inativo") {
+        desligamentos.push({ ...c, statusAnterior: ant.status });
+        continue;
+      }
+      ["cargo","area","nivel","status","gestorEmail"].forEach(k => {
+        if (ant[k] !== c[k]) changed.push({ campo: k, de: ant[k], para: c[k] });
+      });
+      if (changed.length) alteracoes.push({ ...c, mudancas: changed });
+    }
+  }
+
+  // Reativações: estava inativo, agora ativo
+  for (const c of novo) {
+    const ant = mapAnt[c.id];
+    if (ant && ant.status === "Inativo" && c.status === "Ativo") {
+      admissoes.push({ ...c, reativacao: true });
+    }
+  }
+
+  return { admissoes, desligamentos, alteracoes };
+}
+
+// ─── Components ──────────────────────────────────────────────────────────────
+
+function Badge({ children, color = "gray" }) {
+  const colors = {
+    green:  { bg: "#d1fae5", text: "#065f46" },
+    red:    { bg: "#fee2e2", text: "#991b1b" },
+    amber:  { bg: "#fef3c7", text: "#92400e" },
+    blue:   { bg: "#dbeafe", text: "#1e40af" },
+    gray:   { bg: "#f3f4f6", text: "#374151" },
+    purple: { bg: "#ede9fe", text: "#5b21b6" },
+  };
+  const c = colors[color] || colors.gray;
+  return (
+    <span style={{
+      background: c.bg, color: c.text,
+      padding: "2px 8px", borderRadius: 99, fontSize: 11, fontWeight: 600,
+      whiteSpace: "nowrap",
+    }}>{children}</span>
+  );
+}
+
+function StatCard({ label, value, sub, color = "#1d4ed8" }) {
+  return (
+    <div style={{
+      background: "#fff", border: "1px solid #e5e7eb",
+      borderRadius: 12, padding: "18px 20px",
+      borderTop: `3px solid ${color}`,
+    }}>
+      <div style={{ fontSize: 12, color: "#6b7280", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: 32, fontWeight: 700, color: "#111827", lineHeight: 1 }}>{value}</div>
+      {sub && <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>{sub}</div>}
+    </div>
+  );
+}
+
+function UploadZone({ onFile, loading }) {
+  const [drag, setDrag] = useState(false);
+  const inputRef = useRef();
+
+  const handleFile = (f) => {
+    if (!f) return;
+    if (!f.name.match(/\.xlsx?$/i)) { alert("Por favor, envie um arquivo .xlsx"); return; }
+    onFile(f);
+  };
+
+  return (
+    <div
+      onDragOver={e => { e.preventDefault(); setDrag(true); }}
+      onDragLeave={() => setDrag(false)}
+      onDrop={e => { e.preventDefault(); setDrag(false); handleFile(e.dataTransfer.files[0]); }}
+      onClick={() => inputRef.current.click()}
+      style={{
+        border: `2px dashed ${drag ? "#2563eb" : "#d1d5db"}`,
+        borderRadius: 16, padding: "40px 24px",
+        textAlign: "center", cursor: "pointer",
+        background: drag ? "#eff6ff" : "#fafafa",
+        transition: "all 0.15s",
+      }}
+    >
+      <input ref={inputRef} type="file" accept=".xlsx,.xls" style={{ display: "none" }}
+        onChange={e => handleFile(e.target.files[0])} />
+      <div style={{ fontSize: 40, marginBottom: 12 }}>📊</div>
+      {loading
+        ? <div style={{ color: "#2563eb", fontWeight: 600 }}>Processando planilha...</div>
+        : <>
+            <div style={{ fontWeight: 600, color: "#111827", marginBottom: 4 }}>Arraste o arquivo .xlsx aqui</div>
+            <div style={{ fontSize: 13, color: "#9ca3af" }}>ou clique para selecionar — exportação do ImpulseUP</div>
+          </>
+      }
+    </div>
+  );
+}
+
+function TabelaColaboradores({ data, pageSize = 15 }) {
+  const [busca, setBusca] = useState("");
+  const [filtroStatus, setFiltroStatus] = useState("Todos");
+  const [filtroArea, setFiltroArea] = useState("Todas");
+  const [page, setPage] = useState(0);
+
+  const areas = ["Todas", ...Array.from(new Set(data.map(c => c.area).filter(Boolean))).sort()];
+
+  const filtered = data.filter(c => {
+    const q = busca.toLowerCase();
+    const matchBusca = !q || c.nome.toLowerCase().includes(q) || c.email.toLowerCase().includes(q) || (c.cargo||"").toLowerCase().includes(q);
+    const matchStatus = filtroStatus === "Todos" || c.status === filtroStatus;
+    const matchArea = filtroArea === "Todas" || c.area === filtroArea;
+    return matchBusca && matchStatus && matchArea;
+  });
+
+  const pages = Math.ceil(filtered.length / pageSize);
+  const slice = filtered.slice(page * pageSize, (page + 1) * pageSize);
+
+  useEffect(() => setPage(0), [busca, filtroStatus, filtroArea]);
+
+  const thStyle = { padding: "10px 14px", textAlign: "left", fontWeight: 600, fontSize: 12,
+    color: "#6b7280", textTransform: "uppercase", letterSpacing: "0.04em",
+    borderBottom: "1px solid #e5e7eb", background: "#f9fafb" };
+  const tdStyle = { padding: "10px 14px", fontSize: 13, color: "#374151", borderBottom: "1px solid #f3f4f6" };
+
+  return (
+    <div>
+      <div style={{ display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
+        <input placeholder="🔍  Buscar por nome, email ou cargo..."
+          value={busca} onChange={e => setBusca(e.target.value)}
+          style={{ flex: 1, minWidth: 220, padding: "8px 12px", borderRadius: 8,
+            border: "1px solid #d1d5db", fontSize: 13, outline: "none" }} />
+        <select value={filtroStatus} onChange={e => setFiltroStatus(e.target.value)}
+          style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13 }}>
+          <option>Todos</option><option>Ativo</option><option>Inativo</option>
+        </select>
+        <select value={filtroArea} onChange={e => setFiltroArea(e.target.value)}
+          style={{ padding: "8px 12px", borderRadius: 8, border: "1px solid #d1d5db", fontSize: 13, maxWidth: 200 }}>
+          {areas.map(a => <option key={a}>{a}</option>)}
+        </select>
+        <span style={{ alignSelf: "center", fontSize: 12, color: "#9ca3af" }}>{filtered.length} resultado(s)</span>
+      </div>
+
+      <div style={{ overflowX: "auto", borderRadius: 12, border: "1px solid #e5e7eb" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              {["Nome","Email","Cargo","Área","Admissão","Status","Gestor"].map(h =>
+                <th key={h} style={thStyle}>{h}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {slice.map(c => (
+              <tr key={c.id} style={{ transition: "background 0.1s" }}
+                onMouseEnter={e => e.currentTarget.style.background="#f9fafb"}
+                onMouseLeave={e => e.currentTarget.style.background=""}>
+                <td style={tdStyle}><span style={{ fontWeight: 500 }}>{c.nome}</span></td>
+                <td style={{ ...tdStyle, color: "#6b7280", fontSize: 12 }}>{c.email}</td>
+                <td style={tdStyle}>{c.cargo || "—"}</td>
+                <td style={tdStyle}>{c.area || "—"}</td>
+                <td style={tdStyle}>{fmtDate(c.admissao)}</td>
+                <td style={tdStyle}>
+                  <Badge color={c.status === "Ativo" ? "green" : "red"}>{c.status}</Badge>
+                </td>
+                <td style={{ ...tdStyle, fontSize: 12, color: "#6b7280", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {c.gestorNome ? c.gestorNome.split(",")[0] : "—"}
+                </td>
+              </tr>
+            ))}
+            {slice.length === 0 && (
+              <tr><td colSpan={7} style={{ ...tdStyle, textAlign: "center", color: "#9ca3af", padding: 32 }}>Nenhum resultado encontrado</td></tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {pages > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: 6, marginTop: 16 }}>
+          <button onClick={() => setPage(p => Math.max(0, p-1))} disabled={page === 0}
+            style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #d1d5db",
+              background: page === 0 ? "#f9fafb" : "#fff", cursor: page === 0 ? "default" : "pointer", fontSize: 13 }}>
+            ← Anterior
+          </button>
+          <span style={{ alignSelf: "center", fontSize: 13, color: "#6b7280" }}>
+            Página {page + 1} de {pages}
+          </span>
+          <button onClick={() => setPage(p => Math.min(pages-1, p+1))} disabled={page === pages-1}
+            style={{ padding: "6px 14px", borderRadius: 8, border: "1px solid #d1d5db",
+              background: page === pages-1 ? "#f9fafb" : "#fff", cursor: page === pages-1 ? "default" : "pointer", fontSize: 13 }}>
+            Próxima →
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MovimentacoesCard({ diff, periodo }) {
+  if (!diff) return null;
+  const { admissoes, desligamentos, alteracoes } = diff;
+  const total = admissoes.length + desligamentos.length + alteracoes.length;
+
+  if (total === 0) return (
+    <div style={{ padding: 24, background: "#f0fdf4", borderRadius: 12, border: "1px solid #bbf7d0", textAlign: "center" }}>
+      <div style={{ fontSize: 24, marginBottom: 8 }}>✅</div>
+      <div style={{ fontWeight: 600, color: "#166534" }}>Nenhuma movimentação detectada neste período</div>
+      <div style={{ fontSize: 13, color: "#4ade80", marginTop: 4 }}>A base está idêntica ao upload anterior</div>
+    </div>
+  );
+
+  const Section = ({ title, items, color, renderItem }) => items.length === 0 ? null : (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ fontWeight: 700, fontSize: 14, color, marginBottom: 10,
+        display: "flex", alignItems: "center", gap: 8 }}>
+        {title}
+        <span style={{ background: color, color: "#fff", borderRadius: 99, padding: "1px 8px", fontSize: 12 }}>{items.length}</span>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {items.map((c, i) => renderItem(c, i))}
+      </div>
+    </div>
+  );
+
+  const rowStyle = { padding: "10px 14px", background: "#fff", borderRadius: 8,
+    border: "1px solid #e5e7eb", fontSize: 13 };
+
+  return (
+    <div>
+      <div style={{ fontWeight: 700, fontSize: 16, color: "#111827", marginBottom: 20 }}>
+        Movimentações detectadas — {periodo}
+        <span style={{ marginLeft: 8, fontSize: 13, fontWeight: 400, color: "#6b7280" }}>{total} no total</span>
+      </div>
+
+      <Section title="🟢 Novas admissões / reativações" items={admissoes} color="#16a34a"
+        renderItem={(c, i) => (
+          <div key={i} style={rowStyle}>
+            <span style={{ fontWeight: 600 }}>{c.nome}</span>
+            <span style={{ color: "#6b7280", marginLeft: 8 }}>{c.email}</span>
+            {c.reativacao && <Badge color="blue" style={{ marginLeft: 8 }}>Reativação</Badge>}
+            <span style={{ float: "right", color: "#9ca3af" }}>{c.cargo} · {c.area}</span>
+          </div>
+        )} />
+
+      <Section title="🔴 Desligamentos" items={desligamentos} color="#dc2626"
+        renderItem={(c, i) => (
+          <div key={i} style={rowStyle}>
+            <span style={{ fontWeight: 600 }}>{c.nome}</span>
+            <span style={{ color: "#6b7280", marginLeft: 8 }}>{c.email}</span>
+            {c.motivo && <span style={{ marginLeft: 8, color: "#dc2626", fontSize: 12 }}>— {c.motivo}</span>}
+            <span style={{ float: "right", color: "#9ca3af" }}>{fmtDate(c.inativacao)}</span>
+          </div>
+        )} />
+
+      <Section title="🟡 Alterações cadastrais" items={alteracoes} color="#d97706"
+        renderItem={(c, i) => (
+          <div key={i} style={{ ...rowStyle, display: "flex", flexDirection: "column", gap: 4 }}>
+            <div><span style={{ fontWeight: 600 }}>{c.nome}</span><span style={{ color: "#6b7280", marginLeft: 8 }}>{c.email}</span></div>
+            {c.mudancas.map((m, j) => (
+              <div key={j} style={{ fontSize: 12, color: "#6b7280", paddingLeft: 12 }}>
+                <span style={{ fontWeight: 500, textTransform: "capitalize" }}>{m.campo}</span>:
+                <span style={{ color: "#ef4444", textDecoration: "line-through", margin: "0 6px" }}>{m.de || "—"}</span>
+                <span style={{ color: "#16a34a" }}>→ {m.para || "—"}</span>
+              </div>
+            ))}
+          </div>
+        )} />
+    </div>
+  );
+}
+
+function HistoricoTimeline({ historico }) {
+  if (!historico || historico.length === 0) return (
+    <div style={{ textAlign: "center", color: "#9ca3af", padding: 32 }}>Nenhum histórico registrado ainda</div>
+  );
+
+  const sorted = [...historico].sort((a, b) => b.periodo.localeCompare(a.periodo));
+  const chartData = [...historico].sort((a, b) => a.periodo.localeCompare(b.periodo)).map(h => ({
+    mes: h.periodo.slice(5) + "/" + h.periodo.slice(0, 4),
+    admissoes: h.admissoes,
+    desligamentos: h.desligamentos,
+    alteracoes: h.alteracoes,
+  }));
+
+  return (
+    <div>
+      {historico.length > 1 && (
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ fontWeight: 600, marginBottom: 16, color: "#374151" }}>Evolução mensal</div>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={chartData} barCategoryGap="30%">
+              <XAxis dataKey="mes" tick={{ fontSize: 11 }} />
+              <YAxis tick={{ fontSize: 11 }} />
+              <Tooltip />
+              <Bar dataKey="admissoes" name="Admissões" fill="#16a34a" radius={[4,4,0,0]} />
+              <Bar dataKey="desligamentos" name="Desligamentos" fill="#dc2626" radius={[4,4,0,0]} />
+              <Bar dataKey="alteracoes" name="Alterações" fill="#d97706" radius={[4,4,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        {sorted.map((h, i) => (
+          <div key={i} style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: "16px 20px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <span style={{ fontWeight: 700, color: "#111827" }}>
+                {h.periodo.slice(5)}/{h.periodo.slice(0,4)}
+              </span>
+              <span style={{ fontSize: 12, color: "#9ca3af" }}>
+                Processado em {new Date(h.uploadedAt).toLocaleDateString("pt-BR")}
+              </span>
+            </div>
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <Badge color="green">+{h.admissoes} admissões</Badge>
+              <Badge color="red">-{h.desligamentos} desligamentos</Badge>
+              <Badge color="amber">{h.alteracoes} alterações</Badge>
+              <Badge color="blue">{h.totalAtivos} ativos</Badge>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Main App ─────────────────────────────────────────────────────────────────
+function App() {
+  const [tab, setTab] = useState("dashboard");
+  const [base, setBase]   = useState(null);   // { colaboradores, uploadedAt, totalAtivos, totalInativos }
+  const [hist, setHist]   = useState([]);     // array de snapshots mensais
+  const [logs, setLogs]   = useState([]);
+  const [diff, setDiff]   = useState(null);
+  const [diffPeriodo, setDiffPeriodo] = useState("");
+  const [loading, setLoading]   = useState(false);
+  const [storageLoading, setStorageLoading] = useState(true);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, type = "success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 4000);
+  };
+
+  // Load from storage on mount
+  useEffect(() => {
+    (async () => {
+      try {
+        const [b, h, l] = await Promise.all([
+          window.storage.get(KEY_BASE, SHARED).catch(() => null),
+          window.storage.get(KEY_HIST, SHARED).catch(() => null),
+          window.storage.get(KEY_LOG,  SHARED).catch(() => null),
+        ]);
+        if (b) setBase(JSON.parse(b.value));
+        if (h) setHist(JSON.parse(h.value));
+        if (l) setLogs(JSON.parse(l.value));
+      } catch (e) {
+        console.error("Storage load error", e);
+      } finally {
+        setStorageLoading(false);
+      }
+    })();
+  }, []);
+
+  const handleFile = useCallback(async (file) => {
+    setLoading(true);
+    try {
+      const ab = await file.arrayBuffer();
+      const wb = XLSX.read(ab, { type: "array", cellDates: false });
+      const { colaboradores, erros } = parsePlanilha(wb);
+
+      if (colaboradores.length === 0) throw new Error("Nenhum colaborador encontrado na planilha.");
+
+      const ativos   = colaboradores.filter(c => c.status === "Ativo").length;
+      const inativos = colaboradores.filter(c => c.status === "Inativo").length;
+      const periodo  = periodoAtual();
+
+      // Calc diff
+      const d = base ? calcDiff(base.colaboradores, colaboradores) : { admissoes: [], desligamentos: [], alteracoes: [] };
+      setDiff(d);
+      setDiffPeriodo(periodo);
+
+      // New base
+      const novaBase = { colaboradores, uploadedAt: now(), totalAtivos: ativos, totalInativos: inativos, arquivo: file.name };
+
+      // Update history
+      const novoSnap = {
+        periodo, uploadedAt: now(), arquivo: file.name,
+        admissoes: d.admissoes.length, desligamentos: d.desligamentos.length,
+        alteracoes: d.alteracoes.length, totalAtivos: ativos,
+      };
+      const novoHist = [novoSnap, ...hist.filter(h => h.periodo !== periodo)].slice(0, 24);
+
+      // New logs
+      const novoLogs = [...erros.map(e => ({ ...e, uploadedAt: now() })), ...logs].slice(0, 100);
+
+      // Save to storage
+      await Promise.all([
+        window.storage.set(KEY_BASE, JSON.stringify(novaBase), SHARED),
+        window.storage.set(KEY_HIST, JSON.stringify(novoHist), SHARED),
+        window.storage.set(KEY_LOG,  JSON.stringify(novoLogs), SHARED),
+      ]);
+
+      setBase(novaBase);
+      setHist(novoHist);
+      setLogs(novoLogs);
+
+      showToast(`✅ ${colaboradores.length} colaboradores processados — ${d.admissoes.length} admissões, ${d.desligamentos.length} desligamentos`);
+      setTab("movimentacoes");
+    } catch (e) {
+      showToast(`❌ Erro: ${e.message}`, "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [base, hist, logs]);
+
+  // ── Dashboard metrics ──
+  const colaboradores = base?.colaboradores || [];
+  const ativos   = colaboradores.filter(c => c.status === "Ativo");
+  const inativos = colaboradores.filter(c => c.status === "Inativo");
+
+  const porArea = Object.entries(
+    ativos.reduce((acc, c) => { if (c.area) acc[c.area] = (acc[c.area]||0)+1; return acc; }, {})
+  ).sort((a,b)=>b[1]-a[1]).slice(0,10).map(([area,total])=>({area,total}));
+
+  const adm2026 = ativos.filter(c => c.admissao && c.admissao.startsWith("2026")).length;
+
+  const COLORS = ["#2563eb","#16a34a","#d97706","#dc2626","#7c3aed","#0891b2","#db2777","#65a30d","#ea580c","#0369a1"];
+
+  const tabs = [
+    { id:"dashboard",    label:"📊 Dashboard" },
+    { id:"colaboradores",label:"👥 Colaboradores" },
+    { id:"movimentacoes",label:"🔄 Movimentações" },
+    { id:"historico",    label:"📅 Histórico" },
+    { id:"upload",       label:"⬆️ Novo Upload" },
+    { id:"erros",        label:`⚠️ Logs${logs.length ? ` (${logs.length})` : ""}` },
+  ];
+
+  if (storageLoading) return (
+    <div style={{ minHeight: 300, display:"flex", alignItems:"center", justifyContent:"center", color:"#6b7280" }}>
+      <div>⏳ Carregando dados...</div>
+    </div>
+  );
+
+  return (
+    <div style={{ fontFamily:"'Segoe UI',system-ui,sans-serif", background:"#f8fafc", minHeight:"100vh", padding:"0 0 40px" }}>
+
+      {/* Header */}
+      <div style={{ background:"#1e3a5f", padding:"20px 28px 0", color:"#fff" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:16 }}>
+          <div>
+            <div style={{ fontSize:20, fontWeight:800, letterSpacing:"-0.02em" }}>
+              RH Movimentações
+            </div>
+            <div style={{ fontSize:12, color:"#93c5fd", marginTop:2 }}>
+              {base
+                ? `Última atualização: ${new Date(base.uploadedAt).toLocaleString("pt-BR")} — ${base.arquivo}`
+                : "Nenhuma base carregada — faça o primeiro upload"}
+            </div>
+          </div>
+          {base && (
+            <div style={{ display:"flex", gap:16, textAlign:"center" }}>
+              <div><div style={{ fontSize:22, fontWeight:700 }}>{ativos.length}</div><div style={{ fontSize:11, color:"#93c5fd" }}>Ativos</div></div>
+              <div><div style={{ fontSize:22, fontWeight:700 }}>{inativos.length}</div><div style={{ fontSize:11, color:"#93c5fd" }}>Inativos</div></div>
+            </div>
+          )}
+        </div>
+
+        {/* Tabs */}
+        <div style={{ display:"flex", gap:4, flexWrap:"wrap" }}>
+          {tabs.map(t => (
+            <button key={t.id} onClick={() => setTab(t.id)}
+              style={{
+                padding:"8px 14px", border:"none", borderRadius:"8px 8px 0 0",
+                fontSize:13, fontWeight:600, cursor:"pointer", transition:"all 0.1s",
+                background: tab===t.id ? "#fff" : "transparent",
+                color: tab===t.id ? "#1e3a5f" : "#93c5fd",
+              }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Toast */}
+      {toast && (
+        <div style={{
+          position:"fixed", top:20, right:20, zIndex:1000,
+          background: toast.type==="error" ? "#fef2f2" : "#f0fdf4",
+          border: `1px solid ${toast.type==="error" ? "#fca5a5" : "#86efac"}`,
+          color: toast.type==="error" ? "#991b1b" : "#166534",
+          padding:"12px 18px", borderRadius:10, fontSize:13, fontWeight:500,
+          boxShadow:"0 4px 12px rgba(0,0,0,0.1)", maxWidth:420,
+        }}>
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Content */}
+      <div style={{ padding:"28px 28px 0" }}>
+
+        {/* ── DASHBOARD ── */}
+        {tab==="dashboard" && (
+          !base ? (
+            <div style={{ textAlign:"center", padding:"60px 0" }}>
+              <div style={{ fontSize:48, marginBottom:16 }}>📂</div>
+              <div style={{ fontSize:18, fontWeight:600, color:"#374151", marginBottom:8 }}>Nenhuma base carregada</div>
+              <div style={{ color:"#9ca3af", marginBottom:24 }}>Faça o upload da planilha do ImpulseUP para começar</div>
+              <button onClick={()=>setTab("upload")} style={{ padding:"10px 24px", background:"#2563eb", color:"#fff", border:"none", borderRadius:8, fontWeight:600, cursor:"pointer" }}>
+                Fazer primeiro upload →
+              </button>
+            </div>
+          ) : (
+            <div>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(160px,1fr))", gap:16, marginBottom:28 }}>
+                <StatCard label="Total colaboradores" value={colaboradores.length} color="#2563eb" />
+                <StatCard label="Ativos" value={ativos.length} sub={`${Math.round(ativos.length/colaboradores.length*100)}% do total`} color="#16a34a" />
+                <StatCard label="Inativos" value={inativos.length} color="#dc2626" />
+                <StatCard label="Admitidos em 2026" value={adm2026} color="#7c3aed" />
+                <StatCard label="Períodos no histórico" value={hist.length} color="#0891b2" />
+              </div>
+
+              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20, marginBottom:28 }}>
+                <div style={{ background:"#fff", border:"1px solid #e5e7eb", borderRadius:12, padding:20 }}>
+                  <div style={{ fontWeight:700, fontSize:14, marginBottom:16, color:"#374151" }}>Colaboradores por área (ativos)</div>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <BarChart data={porArea} layout="vertical" barCategoryGap="20%">
+                      <XAxis type="number" tick={{ fontSize:11 }} />
+                      <YAxis type="category" dataKey="area" tick={{ fontSize:11 }} width={100} />
+                      <Tooltip />
+                      <Bar dataKey="total" name="Colaboradores" radius={[0,4,4,0]}>
+                        {porArea.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div style={{ background:"#fff", border:"1px solid #e5e7eb", borderRadius:12, padding:20 }}>
+                  <div style={{ fontWeight:700, fontSize:14, marginBottom:16, color:"#374151" }}>Status geral</div>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <PieChart>
+                      <Pie data={[{name:"Ativos",value:ativos.length},{name:"Inativos",value:inativos.length}]}
+                        cx="50%" cy="50%" outerRadius={80} dataKey="value" label={({name,value})=>`${name}: ${value}`} labelLine>
+                        <Cell fill="#16a34a" /><Cell fill="#dc2626" />
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {hist.length > 1 && (
+                <div style={{ background:"#fff", border:"1px solid #e5e7eb", borderRadius:12, padding:20 }}>
+                  <div style={{ fontWeight:700, fontSize:14, marginBottom:16, color:"#374151" }}>Evolução de headcount (ativos)</div>
+                  <ResponsiveContainer width="100%" height={180}>
+                    <LineChart data={[...hist].sort((a,b)=>a.periodo.localeCompare(b.periodo)).map(h=>({
+                      mes: h.periodo.slice(5)+"/"+h.periodo.slice(0,4),
+                      ativos: h.totalAtivos,
+                    }))}>
+                      <XAxis dataKey="mes" tick={{ fontSize:11 }} />
+                      <YAxis tick={{ fontSize:11 }} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="ativos" stroke="#2563eb" strokeWidth={2} dot={{ r:4 }} name="Ativos" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+            </div>
+          )
+        )}
+
+        {/* ── COLABORADORES ── */}
+        {tab==="colaboradores" && (
+          !base
+            ? <div style={{ textAlign:"center", color:"#9ca3af", padding:60 }}>Carregue uma planilha primeiro</div>
+            : <TabelaColaboradores data={colaboradores} />
+        )}
+
+        {/* ── MOVIMENTAÇÕES ── */}
+        {tab==="movimentacoes" && (
+          !diff
+            ? <div style={{ textAlign:"center", padding:60 }}>
+                <div style={{ fontSize:36, marginBottom:12 }}>🔄</div>
+                <div style={{ color:"#9ca3af" }}>As movimentações aparecerão aqui após o próximo upload</div>
+              </div>
+            : <MovimentacoesCard diff={diff} periodo={diffPeriodo} />
+        )}
+
+        {/* ── HISTÓRICO ── */}
+        {tab==="historico" && <HistoricoTimeline historico={hist} />}
+
+        {/* ── UPLOAD ── */}
+        {tab==="upload" && (
+          <div style={{ maxWidth:560, margin:"0 auto" }}>
+            <div style={{ fontWeight:700, fontSize:18, color:"#111827", marginBottom:6 }}>Novo upload mensal</div>
+            <div style={{ fontSize:13, color:"#6b7280", marginBottom:24 }}>
+              Exporte a planilha atualizada do ImpulseUP e faça o upload abaixo. O sistema irá processar automaticamente as movimentações do período.
+            </div>
+            <UploadZone onFile={handleFile} loading={loading} />
+            <div style={{ marginTop:20, padding:16, background:"#fffbeb", borderRadius:10, border:"1px solid #fde68a", fontSize:13, color:"#92400e" }}>
+              <strong>📋 Como exportar do ImpulseUP:</strong><br/>
+              Configurações → Usuários → Exportar usuários → Baixar .xlsx
+            </div>
+          </div>
+        )}
+
+        {/* ── LOGS / ERROS ── */}
+        {tab==="erros" && (
+          <div>
+            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
+              <div style={{ fontWeight:700, fontSize:16, color:"#374151" }}>Log de erros e inconsistências</div>
+              {logs.length > 0 && (
+                <button onClick={async()=>{ await window.storage.set(KEY_LOG,"[]",SHARED); setLogs([]); }}
+                  style={{ padding:"6px 14px", background:"#fff", border:"1px solid #d1d5db", borderRadius:8, fontSize:12, cursor:"pointer", color:"#6b7280" }}>
+                  Limpar log
+                </button>
+              )}
+            </div>
+            {logs.length === 0
+              ? <div style={{ textAlign:"center", color:"#9ca3af", padding:40 }}>✅ Nenhum erro registrado</div>
+              : (
+                <div style={{ overflowX:"auto", borderRadius:12, border:"1px solid #e5e7eb" }}>
+                  <table style={{ width:"100%", borderCollapse:"collapse" }}>
+                    <thead>
+                      <tr>
+                        {["Linha","Email","Motivo","Data"].map(h=>
+                          <th key={h} style={{ padding:"10px 14px", textAlign:"left", fontWeight:600, fontSize:12,
+                            color:"#6b7280", textTransform:"uppercase", borderBottom:"1px solid #e5e7eb", background:"#f9fafb" }}>{h}</th>
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {logs.map((l,i)=>(
+                        <tr key={i}>
+                          <td style={{ padding:"10px 14px", fontSize:13, borderBottom:"1px solid #f3f4f6" }}>{l.linha || "—"}</td>
+                          <td style={{ padding:"10px 14px", fontSize:13, borderBottom:"1px solid #f3f4f6", color:"#6b7280" }}>{l.email}</td>
+                          <td style={{ padding:"10px 14px", fontSize:13, borderBottom:"1px solid #f3f4f6" }}>
+                            <Badge color="amber">{l.motivo}</Badge>
+                          </td>
+                          <td style={{ padding:"10px 14px", fontSize:12, borderBottom:"1px solid #f3f4f6", color:"#9ca3af" }}>
+                            {new Date(l.uploadedAt).toLocaleString("pt-BR")}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )
+            }
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
